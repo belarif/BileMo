@@ -29,7 +29,7 @@ class UserFixtures extends Fixture
             ['email' => 'exemple@gmail.com', 'password' => 'user2'],
         ];
 
-        foreach ($users as $addUser){
+        foreach ($users as $addUser) {
             $user = new User();
 
             $user->setEmail($addUser['email']);
