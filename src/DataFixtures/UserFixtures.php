@@ -26,12 +26,12 @@ class UserFixtures extends Fixture
 
         $users = [
             ['email' => 'b.ocine@live.fr', 'password' => 'user1'],
-            ['email' => 'exemple@gmail.com', 'password' => 'user2']
+            ['email' => 'exemple@gmail.com', 'password' => 'user2'],
         ];
 
-        $user = new User();
-
         foreach ($users as $addUser){
+            $user = new User();
+
             $user->setEmail($addUser['email']);
             $user->setPassword($this->hasher->hashPassword($user,$addUser['password']));
             $user->setRoles([self::ROLE_USER]);
