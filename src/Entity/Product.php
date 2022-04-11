@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use DateTime;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,9 +36,15 @@ class Product
      */
     private $createdAt;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Color::class)
+     */
+    private $colors;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
+        $this->colors = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -79,4 +87,29 @@ class Product
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Color>
+     */
+    public function getColors(): Collection
+    {
+        return $this->colors;
+    }
+
+    public function addColor(Color $color): self
+    {
+        if (!$this->colors->contains($color)) {
+            $this->colors[] = $color;
+        }
+
+        return $this;
+    }
+
+    public function removeColor(Color $color): self
+    {
+        $this->colors->removeElement($color);
+
+        return $this;
+    }
 }
+
