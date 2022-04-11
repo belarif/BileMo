@@ -9,9 +9,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/product", name="app_product")
+     * @Route("/products", name="api_create_product")
      */
-    public function index(): Response
+    public function createProduct(): Response
     {
         return $this->json([
             'message' => 'Welcome to your new controller!',
