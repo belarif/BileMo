@@ -58,6 +58,12 @@ class Product
      */
     private $images;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Brand::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $brand;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -180,6 +186,18 @@ class Product
                 $image->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBrand(): ?Brand
+    {
+        return $this->brand;
+    }
+
+    public function setBrand(?Brand $brand): self
+    {
+        $this->brand = $brand;
 
         return $this;
     }
