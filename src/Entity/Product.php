@@ -41,6 +41,12 @@ class Product
      */
     private $colors;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Country::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $country;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -108,6 +114,18 @@ class Product
     public function removeColor(Color $color): self
     {
         $this->colors->removeElement($color);
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): self
+    {
+        $this->country = $country;
 
         return $this;
     }
