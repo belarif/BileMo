@@ -47,6 +47,12 @@ class Product
      */
     private $country;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Memory::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $memory;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -126,6 +132,18 @@ class Product
     public function setCountry(?Country $country): self
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    public function getMemory(): ?Memory
+    {
+        return $this->memory;
+    }
+
+    public function setMemory(?Memory $memory): self
+    {
+        $this->memory = $memory;
 
         return $this;
     }
