@@ -20,7 +20,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/api/products", name="api_create_product", methods={"POST"})
+     * @Route("/products", name="api_create_product", methods={"POST"})
      */
     public function createProduct(Request $request, SerializerInterface $serializer)
     {
