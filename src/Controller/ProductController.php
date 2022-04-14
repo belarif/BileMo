@@ -32,6 +32,6 @@ class ProductController extends AbstractController
         $this->em->persist($product);
         $this->em->flush();
 
-        return new JsonResponse('','201');
+        return new JsonResponse('le produit a été créé avec succès','201');
     }
 }
