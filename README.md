@@ -14,5 +14,16 @@
 ### Lancement de l'application
                 php -S localhost:8000 -t public/
 ## Les ressources
-1. Connexion et obtention du token : GET http://localhost:8000/api/login
-2. Creation d'un produit : POST http://localhost:8000/api/products
+### Connexion et obtention du token : 
+La ressource : 
+                
+                GET http://localhost:8000/api/login
+
+Depuis le body d'envoi de requete de Postman, utilisez le format json suivant:
+                {
+                    "username":"b.ocine@live.fr",
+                    "password":"user1"
+                }
+
+### Creation d'un produit : 
+                POST http://localhost:8000/api/products

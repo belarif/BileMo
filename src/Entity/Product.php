@@ -38,18 +38,19 @@ class Product
 
     /**
      * @ORM\ManyToMany(targetEntity=Color::class)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $colors;
 
     /**
      * @ORM\ManyToOne(targetEntity=Country::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $country;
 
     /**
      * @ORM\ManyToOne(targetEntity=Memory::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $memory;
 
@@ -60,7 +61,7 @@ class Product
 
     /**
      * @ORM\ManyToOne(targetEntity=Brand::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $brand;
 
