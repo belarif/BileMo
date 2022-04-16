@@ -7,6 +7,7 @@ use App\Repository\BrandRepository;
 use App\Repository\CountryRepository;
 use App\Repository\MemoryRepository;
 use App\Repository\ProductRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,12 +27,15 @@ class ProductController extends AbstractController
 
     private $countryRepository;
 
+    private $userRepository;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductRepository $productRepository,
         BrandRepository $brandRepository,
         MemoryRepository $memoryRepository,
-        CountryRepository $countryRepository
+        CountryRepository $countryRepository,
+        UserRepository $userRepository
     )
     {
         $this->em = $entityManager;
@@ -39,6 +43,7 @@ class ProductController extends AbstractController
         $this->brandRepository = $brandRepository;
         $this->memoryRepository = $memoryRepository;
         $this->countryRepository = $countryRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -63,11 +68,15 @@ class ProductController extends AbstractController
         $countryId = $objectData["country"]["id"];
         $country = $this->countryRepository->findOneBy(['id' => $countryId]);
 
+        $userId = $objectData["user"]["id"];
+        $user = $this->userRepository->findOneBy(['id' => $userId]);
+
         $product = $serializer->deserialize($jsonData,Product::class,'json');
 
         $product->setBrand($brand);
         $product->setMemory($memory);
         $product->setCountry($country);
+        $product->setUser($user);
 
         $this->productRepository->add($product);
 
