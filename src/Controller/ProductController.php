@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Repository\BrandRepository;
+use App\Repository\MemoryRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,11 +21,19 @@ class ProductController extends AbstractController
 
     private $brandRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, ProductRepository $productRepository, BrandRepository $brandRepository)
+    private $memoryRepository;
+
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        ProductRepository $productRepository,
+        BrandRepository $brandRepository,
+        MemoryRepository $memoryRepository
+    )
     {
         $this->em = $entityManager;
         $this->productRepository = $productRepository;
         $this->brandRepository = $brandRepository;
+        $this->memoryRepository = $memoryRepository;
     }
 
     /**
@@ -43,8 +52,12 @@ class ProductController extends AbstractController
         $brandId = $objectData["brand"]["id"];
         $brand = $this->brandRepository->findOneBy(['id' => $brandId]);
 
+        $memoryId = $objectData["memory"]["id"];
+        $memory = $this->memoryRepository->findOneBy(['id' => $memoryId]);
+
         $product = $serializer->deserialize($jsonData,Product::class,'json');
         $product->setBrand($brand);
+        $product->setMemory($memory);
 
         $this->productRepository->add($product);
 
