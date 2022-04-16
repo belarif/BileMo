@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Repository\BrandRepository;
+use App\Repository\CountryRepository;
 use App\Repository\MemoryRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,17 +24,21 @@ class ProductController extends AbstractController
 
     private $memoryRepository;
 
+    private $countryRepository;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductRepository $productRepository,
         BrandRepository $brandRepository,
-        MemoryRepository $memoryRepository
+        MemoryRepository $memoryRepository,
+        CountryRepository $countryRepository
     )
     {
         $this->em = $entityManager;
         $this->productRepository = $productRepository;
         $this->brandRepository = $brandRepository;
         $this->memoryRepository = $memoryRepository;
+        $this->countryRepository = $countryRepository;
     }
 
     /**
@@ -55,9 +60,14 @@ class ProductController extends AbstractController
         $memoryId = $objectData["memory"]["id"];
         $memory = $this->memoryRepository->findOneBy(['id' => $memoryId]);
 
+        $countryId = $objectData["country"]["id"];
+        $country = $this->countryRepository->findOneBy(['id' => $countryId]);
+
         $product = $serializer->deserialize($jsonData,Product::class,'json');
+
         $product->setBrand($brand);
         $product->setMemory($memory);
+        $product->setCountry($country);
 
         $this->productRepository->add($product);
 
