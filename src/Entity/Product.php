@@ -65,10 +65,16 @@ class Product
      */
     private $user;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Color::class, inversedBy="products")
+     */
+    private $colors;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
         $this->images = new ArrayCollection();
+        $this->colors = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -181,6 +187,30 @@ class Product
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Color>
+     */
+    public function getColors(): Collection
+    {
+        return $this->colors;
+    }
+
+    public function addColor(Color $color): self
+    {
+        if (!$this->colors->contains($color)) {
+            $this->colors[] = $color;
+        }
+
+        return $this;
+    }
+
+    public function removeColor(Color $color): self
+    {
+        $this->colors->removeElement($color);
 
         return $this;
     }
