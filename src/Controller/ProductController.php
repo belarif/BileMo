@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Repository\BrandRepository;
+use App\Repository\ColorRepository;
 use App\Repository\CountryRepository;
 use App\Repository\MemoryRepository;
 use App\Repository\ProductRepository;
@@ -29,13 +30,17 @@ class ProductController extends AbstractController
 
     private $userRepository;
 
+    private $colorRepository;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         ProductRepository $productRepository,
         BrandRepository $brandRepository,
         MemoryRepository $memoryRepository,
         CountryRepository $countryRepository,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        ColorRepository $colorRepository
+
     )
     {
         $this->em = $entityManager;
@@ -44,6 +49,7 @@ class ProductController extends AbstractController
         $this->memoryRepository = $memoryRepository;
         $this->countryRepository = $countryRepository;
         $this->userRepository = $userRepository;
+        $this->colorRepository = $colorRepository;
     }
 
     /**
@@ -72,6 +78,14 @@ class ProductController extends AbstractController
         $user = $this->userRepository->findOneBy(['id' => $userId]);
 
         $product = $serializer->deserialize($jsonData,Product::class,'json');
+
+        $colorsId = $objectData["colors"];
+
+        foreach ($colorsId as $colorId) {
+            $colorIid = $colorId["id"];
+            $color = $this->colorRepository->findOneBy(['id' => $colorIid]);
+            $product->addColor($color);
+        }
 
         $product->setBrand($brand);
         $product->setMemory($memory);
