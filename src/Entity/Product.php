@@ -37,12 +37,6 @@ class Product
     private $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Color::class)
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $colors;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Country::class)
      * @ORM\JoinColumn(nullable=true)
      */
@@ -74,7 +68,6 @@ class Product
     public function __construct()
     {
         $this->createdAt = new DateTime();
-        $this->colors = new ArrayCollection();
         $this->images = new ArrayCollection();
     }
 
@@ -117,35 +110,6 @@ class Product
         $this->createdAt = $createdAt;
 
         return $this;
-    }
-
-    /**
-     * @return Collection<int, Color>
-     */
-    public function getColors(): Collection
-    {
-        return $this->colors;
-    }
-
-    public function addColor(Color $color): self
-    {
-        if (!$this->colors->contains($color)) {
-            $this->colors[] = $color;
-        }
-
-        return $this;
-    }
-
-    public function removeColor(Color $color): self
-    {
-        $this->colors->removeElement($color);
-
-        return $this;
-    }
-
-    public function getCountry(): ?Country
-    {
-        return $this->country;
     }
 
     public function setCountry(?Country $country): self
