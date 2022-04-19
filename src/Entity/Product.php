@@ -201,7 +201,7 @@ class Product
 
     public function addColor(Color $color): self
     {
-        if (!$this->colors->contains($color)) {
+        if (!$this->colors->contains($color) && $color->getId()) {
             $this->colors[] = $color;
         }
 
