@@ -50,7 +50,7 @@ class Product
     /**
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="product", orphanRemoval=true)
      */
-    private ArrayCollection $images;
+    private $images;
 
     /**
      * @ORM\ManyToOne(targetEntity=Brand::class)
@@ -67,7 +67,7 @@ class Product
     /**
      * @ORM\ManyToMany(targetEntity=Color::class, inversedBy="products")
      */
-    private ArrayCollection $colors;
+    private $colors;
 
     public function __construct()
     {

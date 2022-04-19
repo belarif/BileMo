@@ -13,7 +13,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 
-class productManagement
+class ProductManagement
 {
     protected EntityManagerInterface $em;
 

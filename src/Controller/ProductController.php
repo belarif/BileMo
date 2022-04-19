@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\productManagement;
+use App\Service\ProductManagement;
 
 class ProductController extends AbstractController
 {
@@ -16,10 +16,12 @@ class ProductController extends AbstractController
      * @Route("/products", name="api_create_product", methods={"POST"})
      * @param Request $request
      * @param SerializerInterface $serializer
-     * @param productManagement $productManagement
+     * @param ProductManagement $productManagement
      * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function create(Request $request, SerializerInterface $serializer, productManagement $productManagement):JsonResponse
+    public function create(Request $request, SerializerInterface $serializer, ProductManagement $productManagement):JsonResponse
     {
         /**
          * @var ProductDTO $productDTO
