@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\DTO\ProductDTO;
 use App\Entity\Product;
 use App\Repository\BrandRepository;
 use App\Repository\ColorRepository;
@@ -62,35 +63,28 @@ class ProductController extends AbstractController
      */
     public function createProduct(Request $request, SerializerInterface $serializer):JsonResponse
     {
-        $jsonData = $request->getContent();
-        $objectData = json_decode($jsonData,true);
 
-        $brandId = $objectData["brand"]["id"];
-        $brand = $this->brandRepository->findOneBy(['id' => $brandId]);
+        /**
+         * @var ProductDTO $productDTO
+         */
+        $productDTO = $serializer->deserialize($request->getContent(), ProductDTO::class, 'json');
 
-        $memoryId = $objectData["memory"]["id"];
-        $memory = $this->memoryRepository->findOneBy(['id' => $memoryId]);
+        $brand = $this->brandRepository->findOneBy(['id' => $productDTO->brand->id]);
+        $memory = $this->memoryRepository->findOneBy(['id' => $productDTO->memory->id]);
+        $country = $this->countryRepository->findOneBy(['id' => $productDTO->country->id]);
+        $user = $this->userRepository->findOneBy(['id' => $productDTO->user->id]);
 
-        $countryId = $objectData["country"]["id"];
-        $country = $this->countryRepository->findOneBy(['id' => $countryId]);
-
-        $userId = $objectData["user"]["id"];
-        $user = $this->userRepository->findOneBy(['id' => $userId]);
-
-        $product = $serializer->deserialize($jsonData,Product::class,'json');
-
-        $colorsId = $objectData["colors"];
-
-        foreach ($colorsId as $colorId) {
-            $colorIid = $colorId["id"];
-            $color = $this->colorRepository->findOneBy(['id' => $colorIid]);
-            $product->addColor($color);
-        }
-
+        $product = new Product();
+        $product->setName($productDTO->name);
+        $product->setDescription($productDTO->description);
         $product->setBrand($brand);
         $product->setMemory($memory);
         $product->setCountry($country);
         $product->setUser($user);
+
+        foreach ($productDTO->getColors() as $color) {
+            $product->addColor($this->colorRepository->findOneBy(['id' => $color->id]));
+        }
 
         $this->productRepository->add($product);
 
