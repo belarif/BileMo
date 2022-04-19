@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Repository\CountryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,12 +14,12 @@ class Country
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected int $id;
 
     /**
      * @ORM\Column(type="string", length=100)
      */
-    private $name;
+    private string $name;
 
     public function getId(): ?int
     {

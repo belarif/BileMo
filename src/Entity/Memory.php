@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Repository\MemoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,12 +14,12 @@ class Memory
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected int $id;
 
     /**
      * @ORM\Column(type="string", length=80)
      */
-    private $memoryCapacity;
+    private string $memoryCapacity;
 
     public function getId(): ?int
     {
