@@ -9,14 +9,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\ProductManagement;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
- * @Route("/products", name="api_" )
+ * @Route("/products", name="api_")
  */
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/", name="create_product", methods={"POST"})
+     * @Route("", name="create_product", methods={"POST"})
      * @param Request $request
      * @param SerializerInterface $serializer
      * @param ProductManagement $productManagement
@@ -36,7 +38,21 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/{product_id}", name="show_product", methods={"GET")
+     * @Route("/{product_id}", name="show_product", methods={"GET"})
+     * @param Request $request
+     * @param SerializerInterface $serializer
+     * @param ProductManagement $productManagement
+     * @return Response
      */
+    public function show(Request $request, SerializerInterface $serializer, ProductManagement $productManagement): Response
+    {
+        $product = $productManagement->showProduct($request->get('product_id'));
+
+        $response = new Response($serializer->serialize($product,'json'));
+        $response->headers->set('content-type','application/json');
+
+        return $response;
+
+    }
 }
 

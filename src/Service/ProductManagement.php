@@ -74,4 +74,9 @@ class ProductManagement
 
         $this->productRepository->add($product);
     }
+
+    public function showProduct(int $product_id)
+    {
+        return $this->productRepository->findOneBy(['id' => $product_id]);
+    }
 }
