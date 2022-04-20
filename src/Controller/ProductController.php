@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\ProductManagement;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * @Route("/products", name="api_")
