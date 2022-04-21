@@ -11,6 +11,7 @@ use App\Repository\MemoryRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 
 class ProductManagement
@@ -85,6 +86,11 @@ class ProductManagement
     public function updateProduct($product_id, ProductDTO $productDTO)
     {
         $product = $this->productRepository->findOneBy(['id' => $product_id]);
+
+        if(!$product) {
+            throw new ORMException('Le produit d\'id: '.$product_id.' est inexistant');
+        }
+
         $brand = $this->brandRepository->findOneBy(['id' => $productDTO->brand->id]);
         $memory = $this->memoryRepository->findOneBy(['id' => $productDTO->memory->id]);
         $country = $this->countryRepository->findOneBy(['id' => $productDTO->country->id]);
