@@ -36,8 +36,24 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("", name="update_product", methods={"PUT"})
+     * @Route("/{product_id}", name="update_product", methods={"PUT"})
+     * @param Request $request
+     * @param SerializerInterface $serializer
+     * @param ProductManagement $productManagement
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
+    public function update(Request $request, SerializerInterface $serializer, ProductManagement $productManagement): JsonResponse
+    {
+        $product_id = $request->get('product_id');
 
+        $productDTO = $serializer->deserialize($request->getContent(), ProductDTO::class, 'json');
+
+        $productManagement->updateProduct($product_id, $productDTO);
+
+        return new JsonResponse('Le produit est mise à jour avec succès');
+    }
 }
+
 
