@@ -11,6 +11,7 @@ use App\Repository\MemoryRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 
 class ProductManagement
@@ -73,5 +74,21 @@ class ProductManagement
         }
 
         $this->productRepository->add($product);
+    }
+
+    /**
+     * @throws OptimisticLockException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws ORMException
+     */
+    public function deleteProduct($product_id)
+    {
+        $product = $this->productRepository->findOneBy(['id' => $product_id]);
+
+        if(!$product) {
+            throw new ORMException('Le produit d\'id: '.$product_id.' est inexsistant');
+        }
+
+        $this->productRepository->remove($product);
     }
 }
