@@ -81,14 +81,8 @@ class ProductManagement
      * @throws \Doctrine\ORM\ORMException
      * @throws ORMException
      */
-    public function deleteProduct($product_id)
+    public function deleteProduct($product)
     {
-        $product = $this->productRepository->findOneBy(['id' => $product_id]);
-
-        if(!$product) {
-            throw new ORMException('Le produit d\'id: '.$product_id.' est inexsistant');
-        }
-
         $this->productRepository->remove($product);
     }
 }
