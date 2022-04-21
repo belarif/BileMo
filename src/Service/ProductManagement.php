@@ -76,6 +76,10 @@ class ProductManagement
         $this->productRepository->add($product);
     }
 
+    public function productsList()
+    {
+        return $this->productRepository->findAll();
+    }
     /**
      * @param $product
      * @return void
