@@ -10,10 +10,13 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\ProductManagement;
 
+/**
+ * @Route("/products", name="api_")
+ */
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/products", name="api_create_product", methods={"POST"})
+     * @Route("", name="create_product", methods={"POST"})
      * @param Request $request
      * @param SerializerInterface $serializer
      * @param ProductManagement $productManagement
@@ -31,5 +34,9 @@ class ProductController extends AbstractController
 
         return new JsonResponse('le produit a été créé avec succès','201');
     }
+
+    /**
+     * @Route("/{product_id}", name="delete_product", methods={"DELETE"})
+     */
 }
 
