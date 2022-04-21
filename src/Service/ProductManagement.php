@@ -13,6 +13,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProductManagement
 {
@@ -76,9 +77,16 @@ class ProductManagement
         $this->productRepository->add($product);
     }
 
-    public function productsList()
+    public function productsList(): array
     {
-        return $this->productRepository->findAll();
+        $products = $this->productRepository->findAll();
+
+        if(!$products) {
+            throw new ORMException('aucun produit existant !');
+        }
+
+        return $products;
+
     }
     /**
      * @param $product
