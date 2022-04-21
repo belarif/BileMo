@@ -76,19 +76,4 @@ class ProductManagement
         $this->productRepository->add($product);
     }
 
-    /**
-     * @param int $product_id
-     * @return Product
-     * @throws ORMException
-     */
-    public function showProduct(int $product_id): Product
-    {
-        $product = $this->productRepository->findOneBy(['id' => $product_id]);
-
-        if(!$product) {
-            throw new ORMException('Le produit d\'id: '.$product_id.' est inexistant');
-        }
-
-        return $product;
-    }
 }
