@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\DTO\ProductDTO;
+use App\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,23 +37,22 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/{product_id}", name="update_product", methods={"PUT"})
+     * @Route("/{id}", name="update_product", methods={"PUT"})
      * @param Request $request
      * @param SerializerInterface $serializer
      * @param ProductManagement $productManagement
+     * @param Product $product
      * @return JsonResponse
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function update(Request $request, SerializerInterface $serializer, ProductManagement $productManagement): JsonResponse
+    public function update(Request $request, SerializerInterface $serializer, ProductManagement $productManagement, Product $product): JsonResponse
     {
-        $product_id = $request->get('product_id');
-
         $productDTO = $serializer->deserialize($request->getContent(), ProductDTO::class, 'json');
-
-        $productManagement->updateProduct($product_id, $productDTO);
+        $productManagement->updateProduct($productDTO,$product);
 
         return new JsonResponse('Le produit est mise à jour avec succès');
+
     }
 }
 
