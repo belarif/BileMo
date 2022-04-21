@@ -7,10 +7,10 @@ use App\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\ProductManagement;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/products", name="api_")
@@ -41,10 +41,25 @@ class ProductController extends AbstractController
      * @Route("/{id}", name="show_product", methods={"GET"})
      * @param Product $product
      * @return JsonResponse
+     * @Route("", name="products_list", methods={"GET"})
      */
     public function show(Product $product): JsonResponse
     {
         return $this->json($product,'200',['Content-Type' => 'application/json']);
+    }
+
+    /**
+     * @Route("", name="products_list", methods={"GET"})
+     */
+    public function list(ProductManagement $productManagement, SerializerInterface $serializer): Response
+    {
+        $jsonData = $serializer->serialize($productManagement->productsList(),'json');
+
+        $response = new Response($jsonData);
+        $response->headers->set('Content-Type','application/json');
+
+        return $response;
+
     }
 }
 
