@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\DTO\ProductDTO;
+use App\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,16 +39,13 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/{product_id}", name="show_product", methods={"GET"})
-     * @param Request $request
+     * @Route("/{id}", name="show_product", methods={"GET"})
+     * @param Product $product
      * @param SerializerInterface $serializer
-     * @param ProductManagement $productManagement
      * @return Response
      */
-    public function show(Request $request, SerializerInterface $serializer, ProductManagement $productManagement): Response
+    public function show(Product $product, SerializerInterface $serializer): Response
     {
-        $product = $productManagement->showProduct($request->get('product_id'));
-
         $response = new Response($serializer->serialize($product,'json'));
         $response->headers->set('content-type','application/json');
 
