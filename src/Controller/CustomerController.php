@@ -7,6 +7,7 @@ use App\Entity\DTO\CustomerDTO;
 use App\Service\CustomerManagement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -36,11 +37,29 @@ class CustomerController extends AbstractController
 
     /**
      * @Route("/{id}", name="show_customer", methods={"GET"})
+     * @param Customer $customer
+     * @param SerializerInterface $serializer
+     * @return Response
      */
-    public function show(Customer $customer, SerializerInterface $serializer)
+    public function show(Customer $customer, SerializerInterface $serializer): Response
     {
-        $response = new JsonResponse($serializer->serialize($customer,'json'));
+        $response = new Response($serializer->serialize($customer,'json'));
         $response->headers->set('Content-Type','Application/Json');
+
+        return $response;
+
+    }
+
+    /**
+     * @Route("", name="customers_list", methods={"GET"})
+     * @param CustomerManagement $customerManagement
+     * @param SerializerInterface $serializer
+     * @return Response
+     */
+    public function list(CustomerManagement $customerManagement, SerializerInterface $serializer): Response
+    {
+        $response = new Response($serializer->serialize($customerManagement->customersList(),'json'));
+        $response->headers->set('Content-Type','application/json');
 
         return $response;
 

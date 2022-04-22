@@ -33,4 +33,9 @@ class CustomerManagement
 
         $this->customerRepository->add($customer);
     }
+
+    public function customersList(): array
+    {
+        return $this->customerRepository->findAll();
+    }
 }
