@@ -55,4 +55,15 @@ class CustomerManagement
 
         $this->customerRepository->add($customer);
     }
+
+    /**
+     * @param $customer
+     * @return void
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function deletecCustomer($customer)
+    {
+        $this->customerRepository->remove($customer);
+    }
 }
