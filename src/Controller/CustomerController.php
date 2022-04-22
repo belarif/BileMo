@@ -33,4 +33,16 @@ class CustomerController extends AbstractController
 
         return new JsonResponse("Le client a été créé avec succès");
     }
+
+    /**
+     * @Route("/{id}", name="show_customer", methods={"GET"})
+     */
+    public function show(Customer $customer, SerializerInterface $serializer)
+    {
+        $response = new JsonResponse($serializer->serialize($customer,'json'));
+        $response->headers->set('Content-Type','Application/Json');
+
+        return $response;
+
+    }
 }
