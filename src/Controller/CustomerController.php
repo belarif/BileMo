@@ -64,4 +64,24 @@ class CustomerController extends AbstractController
         return $response;
 
     }
+
+    /**
+     * @Route("/{id}", name="update_customer", methods={"PUT"})
+     * @param Request $request
+     * @param SerializerInterface $serializer
+     * @param CustomerManagement $customerManagement
+     * @param Customer $customer
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function update(Request $request, SerializerInterface $serializer, CustomerManagement $customerManagement, Customer $customer): JsonResponse
+    {
+        $customerDTO = $serializer->deserialize($request->getContent(), CustomerDTO::class, 'json');
+        $customerManagement->updateCustomer($customerDTO,$customer);
+
+        return new JsonResponse('Le client est mise à jour avec succès');
+
+    }
+
 }
