@@ -3,17 +3,23 @@
 namespace App\Controller;
 
 use App\Entity\DTO\ProductDTO;
+use App\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\ProductManagement;
+use Symfony\Component\HttpFoundation\Response;
 
+
+/**
+ * @Route("/products", name="api_")
+ */
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/products", name="api_create_product", methods={"POST"})
+     * @Route("", name="create_product", methods={"POST"})
      * @param Request $request
      * @param SerializerInterface $serializer
      * @param ProductManagement $productManagement
@@ -30,6 +36,16 @@ class ProductController extends AbstractController
         $productManagement->createProduct($productDTO);
 
         return new JsonResponse('le produit a été créé avec succès','201');
+    }
+
+    /**
+     * @Route("/{id}", name="show_product", methods={"GET"})
+     * @param Product $product
+     * @return JsonResponse
+     */
+    public function show(Product $product): JsonResponse
+    {
+        return $this->json($product,'200',['Content-Type' => 'application/json']);
     }
 }
 
