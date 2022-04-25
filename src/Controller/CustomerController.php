@@ -80,8 +80,7 @@ class CustomerController extends AbstractController
         $customerDTO = $serializer->deserialize($request->getContent(), CustomerDTO::class, 'json');
         $customerManagement->updateCustomer($customerDTO,$customer);
 
-        return new JsonResponse('Le client est mise à jour avec succès');
-
+        return $this->json('Le client est mise à jour avec succès');
     }
 
 }
