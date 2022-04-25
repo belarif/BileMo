@@ -53,9 +53,10 @@ class ProductController extends AbstractController
     /**
      * @Route("", name="products_list", methods={"GET"})
      * @param ProductManagement $productManagement
-     * @return Response
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\Exception\ORMException
      */
-    public function list(ProductManagement $productManagement): Response
+    public function list(ProductManagement $productManagement): JsonResponse
     {
         return $this->json($productManagement->productsList(),'200',['Content-Type' => 'application/json']);
     }
