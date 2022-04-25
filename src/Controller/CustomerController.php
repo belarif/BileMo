@@ -38,25 +38,10 @@ class CustomerController extends AbstractController
     /**
      * @Route("/{id}", name="show_customer", methods={"GET"})
      * @param Customer $customer
-     * @param SerializerInterface $serializer
-     * @return Response
-     */
-    public function show(Customer $customer, SerializerInterface $serializer): Response
-    {
-        $response = new Response($serializer->serialize($customer,'json'));
-        $response->headers->set('Content-Type','Application/Json');
-
-        return $response;
-
-    }
-
-    /**
-     * @Route("", name="customers_list", methods={"GET"})
-     * @param CustomerManagement $customerManagement
      * @return JsonResponse
      */
-    public function list(CustomerManagement $customerManagement): JsonResponse
+    public function show(Customer $customer): JsonResponse
     {
-        return $this->json($customerManagement->customersList(),'200',['Content-Type' => 'application/json']);
+        return $this->json($customer,'200',['Content-Type' => 'application/json']);
     }
 }
