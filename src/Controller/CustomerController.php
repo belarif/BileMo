@@ -36,6 +36,16 @@ class CustomerController extends AbstractController
     }
 
     /**
+     * @Route("", name="customers_list", methods={"GET"})
+     * @param CustomerManagement $customerManagement
+     * @return JsonResponse
+     */
+    public function list(CustomerManagement $customerManagement): JsonResponse
+    {
+        return $this->json($customerManagement->customersList(),'200',['Content-Type' => 'application/json']);
+    }
+
+    /**
      * @Route("/{id}", name="show_customer", methods={"GET"})
      * @param Customer $customer
      * @return JsonResponse
