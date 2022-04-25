@@ -73,4 +73,19 @@ class CustomerController extends AbstractController
         return $this->json('Le client est mise à jour avec succès');
     }
 
+    /**
+     * @Route("/{id}", name="delete_customer", methods={"DELETE"})
+     * @param Customer $customer
+     * @param CustomerManagement $customerManagement
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function delete(Customer $customer, CustomerManagement $customerManagement): JsonResponse
+    {
+        $customerManagement->deletecCustomer($customer);
+
+        return new JsonResponse('Le client est supprimé avec succès');
+    }
+
 }
