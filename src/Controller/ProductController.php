@@ -4,10 +4,10 @@ namespace App\Controller;
 
 use App\Entity\DTO\ProductDTO;
 use App\Entity\Product;
+use Doctrine\ORM\OptimisticLockException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\ProductManagement;
@@ -42,8 +42,11 @@ class ProductController extends AbstractController
      * @param Product $product
      * @param ProductManagement $productManagement
      * @return JsonResponse
+     * @throws \Doctrine\ORM\Exception\ORMException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function delete(Product $product, ProductManagement $productManagement, Product $product): JsonResponse
+    public function delete(Product $product, ProductManagement $productManagement): JsonResponse
     {
         $productManagement->deleteProduct($product);
 
