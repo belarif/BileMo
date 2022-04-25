@@ -52,16 +52,12 @@ class ProductController extends AbstractController
 
     /**
      * @Route("", name="products_list", methods={"GET"})
+     * @param ProductManagement $productManagement
+     * @return Response
      */
-    public function list(ProductManagement $productManagement, SerializerInterface $serializer): Response
+    public function list(ProductManagement $productManagement): Response
     {
-        $jsonData = $serializer->serialize($productManagement->productsList(),'json');
-
-        $response = new Response($jsonData);
-        $response->headers->set('Content-Type','application/json');
-
-        return $response;
-
+        return $this->json($productManagement->productsList(),'200',['Content-Type' => 'application/json']);
     }
 }
 
