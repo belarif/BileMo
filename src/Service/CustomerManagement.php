@@ -38,4 +38,21 @@ class CustomerManagement
     {
         return $this->customerRepository->findAll();
     }
+
+    /**
+     * @param CustomerDTO $customerDTO
+     * @param $customer
+     * @return void
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function updateCustomer( CustomerDTO $customerDTO, $customer)
+    {
+
+        $customer->setCompany($customerDTO->company);
+        $customer->setCode($customerDTO->code);
+        $customer->setStatus($customerDTO->status);
+
+        $this->customerRepository->add($customer);
+    }
 }
