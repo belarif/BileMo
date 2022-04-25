@@ -17,8 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ProductManagement
 {
-    protected EntityManagerInterface $em;
-
     private ProductRepository $productRepository;
 
     private BrandRepository $brandRepository;
@@ -32,7 +30,6 @@ class ProductManagement
     private ColorRepository $colorRepository;
 
     public function __construct(
-        EntityManagerInterface $em,
         ProductRepository $productRepository,
         BrandRepository $brandRepository,
         MemoryRepository $memoryRepository,
@@ -41,7 +38,6 @@ class ProductManagement
         ColorRepository $colorRepository
     )
     {
-        $this->em = $em;
         $this->productRepository = $productRepository;
         $this->brandRepository = $brandRepository;
         $this->memoryRepository = $memoryRepository;
