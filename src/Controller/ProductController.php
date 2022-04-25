@@ -41,9 +41,9 @@ class ProductController extends AbstractController
     /**
      * @Route("/{id}", name="show_product", methods={"GET"})
      * @param Product $product
-     * @return Response
+     * @return JsonResponse
      */
-    public function show(Product $product): Response
+    public function show(Product $product): JsonResponse
     {
         return $this->json($product,'200',['Content-Type' => 'application/json']);
     }
