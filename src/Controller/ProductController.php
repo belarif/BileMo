@@ -38,6 +38,47 @@ class ProductController extends AbstractController
     }
 
     /**
+     * @Route("", name="products_list", methods={"GET"})
+     * @param ProductManagement $productManagement
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\Exception\ORMException
+     */
+    public function list(ProductManagement $productManagement): JsonResponse
+    {
+        return $this->json($productManagement->productsList(),'200',['Content-Type' => 'application/json']);
+    }
+
+
+    /**
+     * @Route("/{id}", name="show_product", methods={"GET"})
+     * @param Product $product
+     * @return JsonResponse
+     */
+    public function show(Product $product): JsonResponse
+    {
+        return $this->json($product,'200',['Content-Type' => 'application/json']);
+    }
+
+    /**
+     * @Route("/{id}", name="update_product", methods={"PUT"})
+     * @param Request $request
+     * @param SerializerInterface $serializer
+     * @param ProductManagement $productManagement
+     * @param Product $product
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function update(Request $request, SerializerInterface $serializer, ProductManagement $productManagement, Product $product): JsonResponse
+    {
+        $productDTO = $serializer->deserialize($request->getContent(), ProductDTO::class, 'json');
+        $productManagement->updateProduct($productDTO,$product);
+
+        return new JsonResponse('Le produit est mise à jour avec succès');
+
+    }
+
+    /**
      * @Route("/{id}", name="delete_product", methods={"DELETE"})
      * @param Product $product
      * @param ProductManagement $productManagement
@@ -53,16 +94,6 @@ class ProductController extends AbstractController
         return new JsonResponse('Le produit est supprimé avec succès');
     }
 
-    /**
-     * @Route("", name="products_list", methods={"GET"})
-     * @param ProductManagement $productManagement
-     * @return JsonResponse
-     * @throws \Doctrine\ORM\Exception\ORMException
-     */
-    public function list(ProductManagement $productManagement): JsonResponse
-    {
-        return $this->json($productManagement->productsList(),'200',['Content-Type' => 'application/json']);
-    }
 }
 
 

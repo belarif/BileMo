@@ -13,7 +13,6 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Symfony\Component\HttpFoundation\Request;
 
 class ProductManagement
 {
@@ -84,6 +83,35 @@ class ProductManagement
         return $products;
 
     }
+
+    /**
+     * @param $product
+     * @param ProductDTO $productDTO
+     * @return void
+     * @throws OptimisticLockException
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function updateProduct(ProductDTO $productDTO, $product)
+    {
+        $brand = $this->brandRepository->findOneBy(['id' => $productDTO->brand->id]);
+        $memory = $this->memoryRepository->findOneBy(['id' => $productDTO->memory->id]);
+        $country = $this->countryRepository->findOneBy(['id' => $productDTO->country->id]);
+        $user = $this->userRepository->findOneBy(['id' => $productDTO->user->id]);
+
+        $product->setName($productDTO->name);
+        $product->setDescription($productDTO->description);
+        $product->setBrand($brand);
+        $product->setMemory($memory);
+        $product->setCountry($country);
+        $product->setUser($user);
+
+        foreach ($productDTO->getColors() as $color) {
+            $product->addColor($this->colorRepository->findOneBy(['id' => $color->id]));
+        }
+
+        $this->productRepository->add($product);
+    }
+
     /**
      * @param $product
      * @return void
