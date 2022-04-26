@@ -10,9 +10,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 /**
- * @Route("/customers/{id}/users", name="api_")
+ * @Route("/customers/{customer_id}/users", name="api_")
  */
 class UserController extends AbstractController
 {
@@ -46,5 +47,19 @@ class UserController extends AbstractController
     public function list(UserManagement $userManagement, Customer $customer): JsonResponse
     {
         return $this->json($userManagement->usersList($customer),'200',['Content-Type' => 'application/json']);
+    }
+
+    /**
+     * @Route("/{user_id}", name="show_user", methods={"GET"})
+     * @Entity("customer", expr="repository.find(customer_id)")
+     * @param Request $request
+     * @param Customer $customer
+     * @param UserManagement $userManagement
+     * @return JsonResponse
+     */
+    public function show(Request $request, Customer $customer, UserManagement $userManagement): JsonResponse
+    {
+        $user = $userManagement->showUser($request->get('user_id'),$customer);
+        return $this->json($user,'200',['Content-Type' => 'application/json']);
     }
 }

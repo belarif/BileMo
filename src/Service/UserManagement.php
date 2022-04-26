@@ -45,4 +45,14 @@ class UserManagement
     {
         return $this->userRepository->findBy(['customer' => $customer->getId()]);
     }
+
+    /**
+     * @param $user_id
+     * @param $customer
+     * @return User|null
+     */
+    public function showUser($user_id, $customer): User
+    {
+        return $this->userRepository->findOneBy(['id' => $user_id, 'customer' => $customer]);
+    }
 }
