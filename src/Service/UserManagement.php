@@ -71,4 +71,15 @@ class UserManagement
 
         $this->userRepository->add($user);
     }
+
+    /**
+     * @param $user
+     * @return void
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function deleteUser($user)
+    {
+        $this->userRepository->remove($user);
+    }
 }

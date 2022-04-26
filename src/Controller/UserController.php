@@ -84,4 +84,21 @@ class UserController extends AbstractController
 
         return new JsonResponse('L\'utilisateur est mise à jour avec succès');
     }
+
+    /**
+     * @Route("/{user_id}", name="delete_user", methods={"DELETE"})
+     * @Entity("customer", expr="repository.find(customer_id)")
+     * @Entity("user", expr="repository.find(user_id)")
+     * @param User $user
+     * @param UserManagement $userManagement
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function delete(User $user, UserManagement $userManagement)
+    {
+        $userManagement->deleteUser($user);
+
+        return $this->json('L\'utilisateur a été supprimé avec succès');
+    }
 }
