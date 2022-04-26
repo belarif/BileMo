@@ -8,7 +8,7 @@ class CustomerDTO
 
     public string $code;
 
-    public $status;
+    public bool $status;
 
     public string $company;
 }

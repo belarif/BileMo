@@ -40,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class)
      */
-    private $customer;
+    private ?Customer $customer;
 
     public function getId(): ?int
     {
