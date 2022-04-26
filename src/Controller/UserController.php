@@ -36,4 +36,15 @@ class UserController extends AbstractController
 
         return $this->json('L\'utilisateur a été créé avec succès');
     }
+
+    /**
+     * @Route("", name="users_list", methods={"GET"})
+     * @param UserManagement $userManagement
+     * @param Customer $customer
+     * @return JsonResponse
+     */
+    public function list(UserManagement $userManagement, Customer $customer): JsonResponse
+    {
+        return $this->json($userManagement->usersList($customer),'200',['Content-Type' => 'application/json']);
+    }
 }
