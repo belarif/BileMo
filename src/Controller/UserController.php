@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Customer;
 use App\Entity\DTO\UserDTO;
+use App\Entity\User;
 use App\Service\UserManagement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -61,5 +62,26 @@ class UserController extends AbstractController
     {
         $user = $userManagement->showUser($request->get('user_id'),$customer);
         return $this->json($user,'200',['Content-Type' => 'application/json']);
+    }
+
+    /**
+     * @Route("/{user_id}", name="update_user", methods={"PUT"})
+     * @Entity("customer", expr="repository.find(customer_id)")
+     * @Entity("user", expr="repository.find(user_id)")
+     * @param Request $request
+     * @param SerializerInterface $serializer
+     * @param UserManagement $userManagement
+     * @param User $user
+     * @param Customer $customer
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function update(Request $request, SerializerInterface $serializer, UserManagement $userManagement, User $user, Customer $customer): JsonResponse
+    {
+        $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
+        $userManagement->updateUser($userDTO,$user,$customer);
+
+        return new JsonResponse('L\'utilisateur est mise à jour avec succès');
     }
 }

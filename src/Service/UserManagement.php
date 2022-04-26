@@ -55,4 +55,20 @@ class UserManagement
     {
         return $this->userRepository->findOneBy(['id' => $user_id, 'customer' => $customer]);
     }
+
+    /**
+     * @param UserDTO $userDTO
+     * @param $user
+     * @param $customer
+     * @return void
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function updateUser(UserDTO $userDTO, $user, $customer)
+    {
+        $user->setPassword($this->passwordHasher->hashPassword($user,$userDTO->password));
+        $user->setCustomer($customer);
+
+        $this->userRepository->add($user);
+    }
 }
