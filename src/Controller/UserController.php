@@ -45,6 +45,6 @@ class UserController extends AbstractController
      */
     public function list(UserManagement $userManagement, Customer $customer): JsonResponse
     {
-        return $this->json($userManagement->usersList($customer),'200',['Content-Type' => 'application/json']);
+        return $this->json($userManagement->usersOfCustomer($customer),'200',['Content-Type' => 'application/json']);
     }
 }
