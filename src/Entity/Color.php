@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ColorRepository;
 
 /**
  * @ORM\Entity(repositoryClass=ColorRepository::class)
