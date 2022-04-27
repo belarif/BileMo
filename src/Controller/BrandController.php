@@ -69,7 +69,7 @@ class BrandController extends AbstractController
         $brandDTO = $serializer->deserialize($request->getContent(),BrandDTO::class,'json');
         $brandManagement->updateBrand($brand,$brandDTO);
 
-        return $this->json('La marque a été modifié avec succès');
+        return $this->json('La marque a été modifié avec succès',200,['Content-Type' => 'text/plain']);
     }
 
 }
