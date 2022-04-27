@@ -31,4 +31,12 @@ class CountryManagement
 
         $this->countryRepository->add($country);
     }
+
+    /**
+     * @return array
+     */
+    public function countriesList(): array
+    {
+        return $this->countryRepository->findAll();
+    }
 }
