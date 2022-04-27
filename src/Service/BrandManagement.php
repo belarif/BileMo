@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Brand;
+use App\Entity\DTO\BrandDTO;
 use App\Repository\BrandRepository;
 
 class BrandManagement
@@ -31,5 +32,19 @@ class BrandManagement
     public function brandsList(): array
     {
         return $this->brandRepository->findAll();
+    }
+
+    /**
+     * @param $brand
+     * @param BrandDTO $brandDTO
+     * @return Void
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function updateBrand($brand, BrandDTO $brandDTO): Void
+    {
+        $brand->setName($brandDTO->name);
+
+        $this->brandRepository->add($brand);
     }
 }
