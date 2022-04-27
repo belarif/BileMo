@@ -69,4 +69,19 @@ class ColorController extends AbstractController
 
         return $this->json('La couleur a été modifié avec succès');
     }
+
+    /**
+     * @Route("/{id}", name="delete_color", methods={"DELETE"})
+     * @param Color $color
+     * @param ColorManagement $colorManagement
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function delete(Color $color, ColorManagement $colorManagement): JsonResponse
+    {
+        $colorManagement->deleteColor($color);
+
+        return $this->json('La couleur a été supprimé avec succès',200,['Content-Type' => 'text/plain']);
+    }
 }
