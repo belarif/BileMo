@@ -20,9 +20,6 @@ class UserManagement
     }
 
     /**
-     * @param UserDTO $userDTO
-     * @param $customer
-     * @return void
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -37,30 +34,17 @@ class UserManagement
         $this->userRepository->add($user);
     }
 
-    /**
-     * @param $customer
-     * @return array
-     */
     public function usersList($customer): array
     {
         return $this->userRepository->findBy(['customer' => $customer->getId()]);
     }
 
-    /**
-     * @param $user_id
-     * @param $customer
-     * @return User|null
-     */
     public function showUser($user_id, $customer): User
     {
         return $this->userRepository->findOneBy(['id' => $user_id, 'customer' => $customer]);
     }
 
     /**
-     * @param UserDTO $userDTO
-     * @param $user
-     * @param $customer
-     * @return void
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */

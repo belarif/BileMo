@@ -20,11 +20,7 @@ class UserController extends AbstractController
 {
     /**
      * @Route("", name="create_user", methods={"POST"})
-     * @param Request $request
-     * @param SerializerInterface $serializer
-     * @param UserManagement $userManagement
-     * @param Customer $customer
-     * @return JsonResponse
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -41,9 +37,6 @@ class UserController extends AbstractController
 
     /**
      * @Route("", name="users_list", methods={"GET"})
-     * @param UserManagement $userManagement
-     * @param Customer $customer
-     * @return JsonResponse
      */
     public function list(UserManagement $userManagement, Customer $customer): JsonResponse
     {
@@ -52,11 +45,8 @@ class UserController extends AbstractController
 
     /**
      * @Route("/{user_id}", name="show_user", methods={"GET"})
+     *
      * @Entity("customer", expr="repository.find(customer_id)")
-     * @param Request $request
-     * @param Customer $customer
-     * @param UserManagement $userManagement
-     * @return JsonResponse
      */
     public function show(Request $request, Customer $customer, UserManagement $userManagement): JsonResponse
     {
@@ -66,14 +56,10 @@ class UserController extends AbstractController
 
     /**
      * @Route("/{user_id}", name="update_user", methods={"PUT"})
+     *
      * @Entity("customer", expr="repository.find(customer_id)")
      * @Entity("user", expr="repository.find(user_id)")
-     * @param Request $request
-     * @param SerializerInterface $serializer
-     * @param UserManagement $userManagement
-     * @param User $user
-     * @param Customer $customer
-     * @return JsonResponse
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
