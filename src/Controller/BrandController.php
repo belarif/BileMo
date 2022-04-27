@@ -32,4 +32,15 @@ class BrandController extends AbstractController
 
         return $this->json('La marque a été ajouté avec succès');
     }
+
+    /**
+     * @Route("", name="brands_list", methods={"GET"})
+     * @param BrandManagement $brandManagement
+     * @return JsonResponse
+     */
+    public function list(BrandManagement $brandManagement): JsonResponse
+    {
+        return $this->json($brandManagement->brandsList(),'200',['Content-Type' => 'application/json']);
+    }
+
 }

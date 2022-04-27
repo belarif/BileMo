@@ -27,4 +27,9 @@ class BrandManagement
 
         $this->brandRepository->add($brand);
     }
+
+    public function brandsList(): array
+    {
+        return $this->brandRepository->findAll();
+    }
 }
