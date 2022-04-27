@@ -33,8 +33,6 @@ class BrandController extends AbstractController
 
     /**
      * @Route("", name="brands_list", methods={"GET"})
-     * @param BrandManagement $brandManagement
-     * @return JsonResponse
      */
     public function list(BrandManagement $brandManagement): JsonResponse
     {
@@ -43,8 +41,6 @@ class BrandController extends AbstractController
 
     /**
      * @Route("/{id}", name="show_brand", methods={"GET"})
-     * @param Brand $brand
-     * @return JsonResponse
      */
     public function show(Brand $brand): JsonResponse
     {
@@ -53,11 +49,7 @@ class BrandController extends AbstractController
 
     /**
      * @Route("/{id}", name="update_brand", methods={"PUT"})
-     * @param Request $request
-     * @param Brand $brand
-     * @param BrandManagement $brandManagement
-     * @param SerializerInterface $serializer
-     * @return JsonResponse
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
