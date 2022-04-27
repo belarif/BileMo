@@ -72,4 +72,19 @@ class BrandController extends AbstractController
         return $this->json('La marque a été modifié avec succès');
     }
 
+    /**
+     * @Route("/{id}", name="delete_brand", methods={"DELETE"})
+     * @param Brand $brand
+     * @param BrandManagement $brandManagement
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function delete(Brand $brand, BrandManagement $brandManagement): JsonResponse
+    {
+        $brandManagement->deleteBrand($brand);
+
+        return $this->json('La marque a été supprimé avec succès',200,['Content-Type' => 'text/plain']);
+    }
+
 }
