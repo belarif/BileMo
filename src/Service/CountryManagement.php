@@ -39,4 +39,19 @@ class CountryManagement
     {
         return $this->countryRepository->findAll();
     }
+
+    /**
+     * @param $country
+     * @param CountryDTO $countryDTO
+     * @return Void
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function updateCountry($country, CountryDTO $countryDTO): Void
+    {
+        $country->setName($countryDTO->name);
+
+        $this->countryRepository->add($country);
+    }
+
 }
