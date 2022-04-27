@@ -71,4 +71,19 @@ class CountryController extends AbstractController
 
         return $this->json('La pays a été modifié avec succès');
     }
+
+    /**
+     * @Route("/{id}", name="delete_country", methods={"DELETE"})
+     * @param Country $country
+     * @param CountryManagement $countryManagement
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function delete(Country $country, CountryManagement $countryManagement): JsonResponse
+    {
+        $countryManagement->deleteCountry($country);
+
+        return $this->json('La pays a été supprimé avec succès',200,['Content-Type' => 'text/plain']);
+    }
 }

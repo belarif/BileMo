@@ -54,4 +54,14 @@ class CountryManagement
         $this->countryRepository->add($country);
     }
 
+    /**
+     * @param $country
+     * @return void
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function deleteCountry($country)
+    {
+        $this->countryRepository->remove($country);
+    }
 }
