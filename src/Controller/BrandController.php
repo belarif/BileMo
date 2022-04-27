@@ -30,6 +30,6 @@ class BrandController extends AbstractController
 
         $brandManagement->createBrand($brandDTO);
 
-        return $this->json('La marque a été ajouté avec succès');
+        return $this->json('La marque a été ajouté avec succès',200,['Content-Type' => 'text/plain']);
     }
 }
