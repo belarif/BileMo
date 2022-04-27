@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Brand;
 use App\Entity\DTO\BrandDTO;
 use App\Service\BrandManagement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,6 +42,16 @@ class BrandController extends AbstractController
     public function list(BrandManagement $brandManagement): JsonResponse
     {
         return $this->json($brandManagement->brandsList(),'200',['Content-Type' => 'application/json']);
+    }
+
+    /**
+     * @Route("/{id}", name="show_brand", methods={"GET"})
+     * @param Brand $brand
+     * @return JsonResponse
+     */
+    public function show(Brand $brand): JsonResponse
+    {
+        return $this->json($brand,'200',['Content-Type' => 'application/json']);
     }
 
 }
