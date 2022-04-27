@@ -32,4 +32,14 @@ class CountryController extends AbstractController
 
         return $this->json('La pays a été ajouté avec succès',200,['Content-Type' => 'text/plain']);
     }
+
+    /**
+     * @Route("", name="countries_list", methods={"GET"})
+     * @param CountryManagement $countryManagement
+     * @return JsonResponse
+     */
+    public function list(CountryManagement $countryManagement): JsonResponse
+    {
+        return $this->json($countryManagement->countriesList(),'200',['Content-Type' => 'application/json']);
+    }
 }
