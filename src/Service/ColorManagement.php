@@ -39,4 +39,18 @@ class ColorManagement
     {
         return $this->colorRepository->findAll();
     }
+
+    /**
+     * @param $color
+     * @param ColorDTO $colorDTO
+     * @return Void
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function updateColor($color, ColorDTO $colorDTO): Void
+    {
+        $color->setName($colorDTO->name);
+
+        $this->colorRepository->add($color);
+    }
 }

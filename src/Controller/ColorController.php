@@ -51,4 +51,22 @@ class ColorController extends AbstractController
     {
         return $this->json($color,'200',['Content-Type' => 'application/json']);
     }
+
+    /**
+     * @Route("/{id}", name="update_color", methods={"PUT"})
+     * @param Request $request
+     * @param Color $color
+     * @param ColorManagement $colorManagement
+     * @param SerializerInterface $serializer
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function update(Request $request, Color $color, ColorManagement $colorManagement, SerializerInterface $serializer): JsonResponse
+    {
+        $colorDTO = $serializer->deserialize($request->getContent(),ColorDTO::class,'json');
+        $colorManagement->updateColor($color,$colorDTO);
+
+        return $this->json('La couleur a été modifié avec succès');
+    }
 }
