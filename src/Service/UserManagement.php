@@ -73,8 +73,6 @@ class UserManagement
     }
 
     /**
-     * @param $user
-     * @return void
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */

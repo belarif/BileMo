@@ -89,9 +89,6 @@ class UserController extends AbstractController
      * @Route("/{user_id}", name="delete_user", methods={"DELETE"})
      * @Entity("customer", expr="repository.find(customer_id)")
      * @Entity("user", expr="repository.find(user_id)")
-     * @param User $user
-     * @param UserManagement $userManagement
-     * @return JsonResponse
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
