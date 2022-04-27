@@ -54,4 +54,22 @@ class BrandController extends AbstractController
         return $this->json($brand,'200',['Content-Type' => 'application/json']);
     }
 
+    /**
+     * @Route("/{id}", name="update_brand", methods={"PUT"})
+     * @param Request $request
+     * @param Brand $brand
+     * @param BrandManagement $brandManagement
+     * @param SerializerInterface $serializer
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function update(Request $request, Brand $brand, BrandManagement $brandManagement, SerializerInterface $serializer): JsonResponse
+    {
+        $brandDTO = $serializer->deserialize($request->getContent(),BrandDTO::class,'json');
+        $brandManagement->updateBrand($brand,$brandDTO);
+
+        return $this->json('La marque a été modifié avec succès');
+    }
+
 }
