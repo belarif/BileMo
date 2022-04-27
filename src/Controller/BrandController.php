@@ -33,8 +33,6 @@ class BrandController extends AbstractController
 
     /**
      * @Route("", name="brands_list", methods={"GET"})
-     * @param BrandManagement $brandManagement
-     * @return JsonResponse
      */
     public function list(BrandManagement $brandManagement): JsonResponse
     {
@@ -43,12 +41,9 @@ class BrandController extends AbstractController
 
     /**
      * @Route("/{id}", name="show_brand", methods={"GET"})
-     * @param Brand $brand
-     * @return JsonResponse
      */
     public function show(Brand $brand): JsonResponse
     {
         return $this->json($brand,'200',['Content-Type' => 'application/json']);
     }
-
 }
