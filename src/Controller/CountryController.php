@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Country;
 use App\Entity\DTO\CountryDTO;
 use App\Service\CountryManagement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,5 +37,13 @@ class CountryController extends AbstractController
     public function list(CountryManagement $countryManagement): JsonResponse
     {
         return $this->json($countryManagement->countriesList(),'200',['Content-Type' => 'application/json']);
+    }
+
+    /**
+     * @Route("/{id}", name="show_country", methods={"GET"})
+     */
+    public function show(Country $country): JsonResponse
+    {
+        return $this->json($country,'200',['Content-Type' => 'application/json']);
     }
 }
