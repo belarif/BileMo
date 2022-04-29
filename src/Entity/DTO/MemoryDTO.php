@@ -7,5 +7,4 @@ class MemoryDTO
     public int $id;
 
     public string $memoryCapacity;
-
 }
