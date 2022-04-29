@@ -33,4 +33,9 @@ class MemoryManagement
 
         $this->memoryRepository->add($memory);
     }
+
+    public function deleteMemory($memory)
+    {
+        $this->memoryRepository->remove($memory);
+    }
 }

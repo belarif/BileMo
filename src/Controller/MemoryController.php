@@ -55,4 +55,14 @@ class MemoryController extends AbstractController
 
         return $this->json('La memoire a été mise à jour avec succès',200,["Content-Type" => "text/plain"]);
     }
+
+    /**
+     * @Route("/{id}", name="delete_memory", methods={"DELETE"})
+     */
+    public function delete(Memory $memory, MemoryManagement $memoryManagement): JsonResponse
+    {
+        $memoryManagement->deleteMemory($memory);
+
+        return $this->json('La memoire a été supprimé avec succès',200,['Content-Type' => 'text/plain']);
+    }
 }
