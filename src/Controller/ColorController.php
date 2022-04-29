@@ -18,10 +18,6 @@ class ColorController extends AbstractController
 {
     /**
      * @Route("", name="create_color", methods={"POST"})
-     * @param Request $request
-     * @param SerializerInterface $serializer
-     * @param ColorManagement $colorManagement
-     * @return JsonResponse
      */
     public function create(Request $request, SerializerInterface $serializer, ColorManagement $colorManagement): JsonResponse
     {
@@ -34,11 +30,9 @@ class ColorController extends AbstractController
 
     /**
      * @Route("", name="colors_list", methods={"GET"})
-     * @param ColorManagement $colorManagement
-     * @return JsonResponse
      */
     public function list(ColorManagement $colorManagement): JsonResponse
     {
-        return $this->json($colorManagement->colorsList(),'200',['Content-Type' => 'application/json']);
+        return $this->json($colorManagement->colorsList(),200,['Content-Type' => 'application/json']);
     }
 }
