@@ -43,4 +43,16 @@ class MemoryController extends AbstractController
     {
         return $this->json($memory,200,['Content-Type' => 'application/json']);
     }
+
+    /**
+     * @Route("/{id}", name="update_memory", methods={"PUT"})
+     */
+    public function update(Request $request, Memory $memory, MemoryManagement $memoryManagement, SerializerInterface $serializer)
+    {
+        $memoryDTO = $serializer->deserialize($request->getContent(),MemoryDTO::class,'json');
+
+        $memoryManagement->updateMemory($memory,$memoryDTO);
+
+        return $this->json('La memoire a été mise à jour avec succès',200,["Content-Type" => "text/plain"]);
+    }
 }

@@ -26,4 +26,11 @@ class MemoryManagement
     {
         return $this->memoryRepository->findAll();
     }
+
+    public function updateMemory($memory,$memoryDTO)
+    {
+        $memory->setMemoryCapacity($memoryDTO->memoryCapacity);
+
+        $this->memoryRepository->add($memory);
+    }
 }
