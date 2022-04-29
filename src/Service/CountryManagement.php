@@ -10,21 +10,16 @@ class CountryManagement
 {
     private CountryRepository $countryRepository;
 
-    /**
-     * @param CountryRepository $countryRepository
-     */
     public function __construct(CountryRepository $countryRepository)
     {
         $this->countryRepository = $countryRepository;
     }
 
     /**
-     * @param CountryDTO $countryDTO
-     * @return void
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function createCountry(CountryDTO $countryDTO)
+    public function createCountry(CountryDTO $countryDTO): void
     {
         $country = new Country();
         $country->setName($countryDTO->name);
@@ -32,11 +27,20 @@ class CountryManagement
         $this->countryRepository->add($country);
     }
 
-    /**
-     * @return array
-     */
     public function countriesList(): array
     {
         return $this->countryRepository->findAll();
     }
+
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function updateCountry($country, CountryDTO $countryDTO): Void
+    {
+        $country->setName($countryDTO->name);
+
+        $this->countryRepository->add($country);
+    }
+
 }
