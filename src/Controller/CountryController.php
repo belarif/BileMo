@@ -18,10 +18,7 @@ class CountryController extends AbstractController
 {
     /**
      * @Route("", name="create_country", methods={"POST"})
-     * @param Request $request
-     * @param SerializerInterface $serializer
-     * @param CountryManagement $countryManagement
-     * @return JsonResponse
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -36,8 +33,6 @@ class CountryController extends AbstractController
 
     /**
      * @Route("", name="countries_list", methods={"GET"})
-     * @param CountryManagement $countryManagement
-     * @return JsonResponse
      */
     public function list(CountryManagement $countryManagement): JsonResponse
     {
@@ -46,8 +41,6 @@ class CountryController extends AbstractController
 
     /**
      * @Route("/{id}", name="show_country", methods={"GET"})
-     * @param Country $country
-     * @return JsonResponse
      */
     public function show(Country $country): JsonResponse
     {
