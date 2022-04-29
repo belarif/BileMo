@@ -18,10 +18,6 @@ class ColorController extends AbstractController
 {
     /**
      * @Route("", name="create_color", methods={"POST"})
-     * @param Request $request
-     * @param SerializerInterface $serializer
-     * @param ColorManagement $colorManagement
-     * @return JsonResponse
      */
     public function create(Request $request, SerializerInterface $serializer, ColorManagement $colorManagement): JsonResponse
     {

@@ -10,21 +10,16 @@ class ColorManagement
 {
     private ColorRepository $colorRepository;
 
-    /**
-     * @param ColorRepository $colorRepository
-     */
     public function __construct(ColorRepository $colorRepository)
     {
         $this->colorRepository = $colorRepository;
     }
 
     /**
-     * @param ColorDTO $colorDTO
-     * @return void
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function createColor(ColorDTO $colorDTO)
+    public function createColor(ColorDTO $colorDTO):void
     {
         $color = new Color();
         $color->setName($colorDTO->name);
