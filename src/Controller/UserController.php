@@ -86,7 +86,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{user_id}", name="delete_user", methods={"DELETE"})
+     * @Route("/{user_id}", name="delete_user", methods={"DELETE"}, requirements={"id"="\d+"})
      * @Entity("customer", expr="repository.find(customer_id)")
      * @Entity("user", expr="repository.find(user_id)")
      * @throws \Doctrine\ORM\ORMException
