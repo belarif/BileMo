@@ -73,7 +73,7 @@ class BrandController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete_brand", methods={"DELETE"})
+     * @Route("/{id}", name="delete_brand", methods={"DELETE"}, requirements={"id"="\d+"})
      * @param Brand $brand
      * @param BrandManagement $brandManagement
      * @return JsonResponse
