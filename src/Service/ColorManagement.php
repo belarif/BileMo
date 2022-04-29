@@ -19,7 +19,7 @@ class ColorManagement
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function createColor(ColorDTO $colorDTO)
+    public function createColor(ColorDTO $colorDTO):void
     {
         $color = new Color();
         $color->setName($colorDTO->name);
