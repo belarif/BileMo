@@ -71,7 +71,7 @@ class ColorController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete_color", methods={"DELETE"})
+     * @Route("/{id}", name="delete_color", methods={"DELETE"}, requirements={"id"="\d+"})
      * @param Color $color
      * @param ColorManagement $colorManagement
      * @return JsonResponse
