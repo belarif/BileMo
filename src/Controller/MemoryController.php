@@ -39,7 +39,7 @@ class MemoryController extends AbstractController
     /**
      * @Route("/{id}", name="show_memory", methods={"GET"})
      */
-    public function show(Memory $memory, MemoryManagement $memoryManagement)
+    public function show(Memory $memory)
     {
         return $this->json($memory,200,['Content-Type' => 'application/json']);
     }
