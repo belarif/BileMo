@@ -41,7 +41,7 @@ class CountryController extends AbstractController
      */
     public function list(CountryManagement $countryManagement): JsonResponse
     {
-        return $this->json($countryManagement->countriesList(),'200',['Content-Type' => 'application/json']);
+        return $this->json($countryManagement->countriesList(),200,['Content-Type' => 'application/json']);
     }
 
     /**
@@ -51,7 +51,7 @@ class CountryController extends AbstractController
      */
     public function show(Country $country): JsonResponse
     {
-        return $this->json($country,'200',['Content-Type' => 'application/json']);
+        return $this->json($country,200,['Content-Type' => 'application/json']);
     }
 
     /**
@@ -69,7 +69,7 @@ class CountryController extends AbstractController
         $countryDTO = $serializer->deserialize($request->getContent(),CountryDTO::class,'json');
         $countryManagement->updateCountry($country,$countryDTO);
 
-        return $this->json('La pays a été modifié avec succès');
+        return $this->json('La pays a été modifié avec succès',200,['Content-Type' => 'text/plain']);
     }
 
     /**
