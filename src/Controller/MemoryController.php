@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\DTO\MemoryDTO;
+use App\Entity\Memory;
 use App\Service\MemoryManagement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,10 +29,18 @@ class MemoryController extends AbstractController
     }
 
     /**
-     * @Route("", name="list", methods={"GET"})
+     * @Route("", name="memories_list", methods={"GET"})
      */
     public function list(MemoryManagement $memoryManagement): JsonResponse
     {
         return $this->json($memoryManagement->memoriesList(),200,['Content-Type' => 'application/json']);
+    }
+
+    /**
+     * @Route("/{id}", name="show_memory", methods={"GET"})
+     */
+    public function show(Memory $memory, MemoryManagement $memoryManagement)
+    {
+        return $this->json($memory,200,['Content-Type' => 'application/json']);
     }
 }
