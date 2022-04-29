@@ -57,7 +57,7 @@ class MemoryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete_memory", methods={"DELETE"})
+     * @Route("/{id}", name="delete_memory", methods={"DELETE"}, requirements={"id"="\d+"})
      */
     public function delete(Memory $memory, MemoryManagement $memoryManagement): JsonResponse
     {
