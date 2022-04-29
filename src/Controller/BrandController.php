@@ -17,10 +17,7 @@ class BrandController extends AbstractController
 {
     /**
      * @Route("", name="create_brand", methods={"POST"})
-     * @param Request $request
-     * @param SerializerInterface $serializer
-     * @param BrandManagement $brandManagement
-     * @return JsonResponse
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
