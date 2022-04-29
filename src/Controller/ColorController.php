@@ -27,4 +27,12 @@ class ColorController extends AbstractController
 
         return $this->json('La couleur a été ajouté avec succès',200,['Content-Type' => 'text/plain']);
     }
+
+    /**
+     * @Route("", name="colors_list", methods={"GET"})
+     */
+    public function list(ColorManagement $colorManagement): JsonResponse
+    {
+        return $this->json($colorManagement->colorsList(),200,['Content-Type' => 'application/json']);
+    }
 }

@@ -26,4 +26,9 @@ class ColorManagement
 
         $this->colorRepository->add($color);
     }
+
+    public function colorsList(): array
+    {
+        return $this->colorRepository->findAll();
+    }
 }
