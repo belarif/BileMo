@@ -37,7 +37,7 @@ class ColorController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show_color", methods={"GET"})
+     * @Route("/{id}", name="show_color", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function show(Color $color): JsonResponse
     {
@@ -45,7 +45,7 @@ class ColorController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="update_color", methods={"PUT"})
+     * @Route("/{id}", name="update_color", methods={"PUT"}, requirements={"id"="\d+"})
      *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
