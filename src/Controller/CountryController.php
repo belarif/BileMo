@@ -56,11 +56,7 @@ class CountryController extends AbstractController
 
     /**
      * @Route("/{id}", name="update_country", methods={"PUT"})
-     * @param Request $request
-     * @param Country $country
-     * @param CountryManagement $countryManagement
-     * @param SerializerInterface $serializer
-     * @return JsonResponse
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -69,6 +65,6 @@ class CountryController extends AbstractController
         $countryDTO = $serializer->deserialize($request->getContent(),CountryDTO::class,'json');
         $countryManagement->updateCountry($country,$countryDTO);
 
-        return $this->json('La pays a été modifié avec succès');
+        return $this->json('Le pays a été modifié avec succès');
     }
 }
