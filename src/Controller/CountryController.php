@@ -17,10 +17,7 @@ class CountryController extends AbstractController
 {
     /**
      * @Route("", name="create_country", methods={"POST"})
-     * @param Request $request
-     * @param SerializerInterface $serializer
-     * @param CountryManagement $countryManagement
-     * @return JsonResponse
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -30,13 +27,11 @@ class CountryController extends AbstractController
 
         $countryManagement->createCountry($countryDTO);
 
-        return $this->json('La pays a été ajouté avec succès',200,['Content-Type' => 'text/plain']);
+        return $this->json('Le pays a été ajouté avec succès',200,['Content-Type' => 'text/plain']);
     }
 
     /**
      * @Route("", name="countries_list", methods={"GET"})
-     * @param CountryManagement $countryManagement
-     * @return JsonResponse
      */
     public function list(CountryManagement $countryManagement): JsonResponse
     {
