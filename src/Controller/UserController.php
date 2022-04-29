@@ -22,6 +22,8 @@ class UserController extends AbstractController
     /**
      * @Route("", name="create_user", methods={"POST"})
      *
+     * @Entity("customer", expr="repository.find(customer_id)")
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
