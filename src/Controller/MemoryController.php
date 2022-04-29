@@ -28,7 +28,7 @@ class MemoryController extends AbstractController
     }
 
     /**
-     * @Route("", name="list", methods={"GET"})
+     * @Route("", name="memories_list", methods={"GET"})
      */
     public function list(MemoryManagement $memoryManagement): JsonResponse
     {
