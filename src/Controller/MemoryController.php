@@ -38,7 +38,7 @@ class MemoryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show_memory", methods={"GET"})
+     * @Route("/{id}", name="show_memory", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function show(Memory $memory): JsonResponse
     {
