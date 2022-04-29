@@ -21,4 +21,9 @@ class MemoryManagement
 
         $this->memoryRepository->add($memory);
     }
+
+    public function memoriesList()
+    {
+        return $this->memoryRepository->findAll();
+    }
 }

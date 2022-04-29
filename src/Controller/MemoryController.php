@@ -7,7 +7,6 @@ use App\Service\MemoryManagement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -26,5 +25,13 @@ class MemoryController extends AbstractController
         $memoryManagement->createMemory($memoryDTO);
 
         return $this->json('La memoire a été ajouté avec succès ',200,['Content-Type' => 'text/plain']);
+    }
+
+    /**
+     * @Route("", name="list", methods={"GET"})
+     */
+    public function list(MemoryManagement $memoryManagement): JsonResponse
+    {
+        return $this->json($memoryManagement->memoriesList(),200,['Content-Type' => 'application/json']);
     }
 }
