@@ -10,17 +10,12 @@ class ColorManagement
 {
     private ColorRepository $colorRepository;
 
-    /**
-     * @param ColorRepository $colorRepository
-     */
     public function __construct(ColorRepository $colorRepository)
     {
         $this->colorRepository = $colorRepository;
     }
 
     /**
-     * @param ColorDTO $colorDTO
-     * @return void
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -32,9 +27,6 @@ class ColorManagement
         $this->colorRepository->add($color);
     }
 
-    /**
-     * @return array
-     */
     public function colorsList(): array
     {
         return $this->colorRepository->findAll();
