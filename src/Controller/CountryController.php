@@ -73,7 +73,7 @@ class CountryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete_country", methods={"DELETE"})
+     * @Route("/{id}", name="delete_country", methods={"DELETE"}, requirements={"id"="\d+"})
      * @param Country $country
      * @param CountryManagement $countryManagement
      * @return JsonResponse
