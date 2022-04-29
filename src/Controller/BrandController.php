@@ -40,7 +40,7 @@ class BrandController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show_brand", methods={"GET"})
+     * @Route("/{id}", name="show_brand", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function show(Brand $brand): JsonResponse
     {
@@ -48,7 +48,7 @@ class BrandController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="update_brand", methods={"PUT"})
+     * @Route("/{id}", name="update_brand", methods={"PUT"}, requirements={"id"="\d+"})
      *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
