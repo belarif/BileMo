@@ -40,7 +40,7 @@ class CountryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show_country", methods={"GET"})
+     * @Route("/{id}", name="show_country", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function show(Country $country): JsonResponse
     {
@@ -48,7 +48,7 @@ class CountryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="update_country", methods={"PUT"})
+     * @Route("/{id}", name="update_country", methods={"PUT"}, requirements={"id"="\d+"})
      *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
