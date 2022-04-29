@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 /**
- * @Route("/customers/{customer_id}/users", name="api_")
+ * @Route("/customers/{customer_id}/users", name="api_", requirements={"customer_id"="\d+"})
  */
 class UserController extends AbstractController
 {
@@ -51,7 +51,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{user_id}", name="show_user", methods={"GET"})
+     * @Route("/{user_id}", name="show_user", methods={"GET"}, requirements={"user_id"="\d+"})
      *
      * @Entity("customer", expr="repository.find(customer_id)")
      */
@@ -62,7 +62,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{user_id}", name="update_user", methods={"PUT"})
+     * @Route("/{user_id}", name="update_user", methods={"PUT"}, requirements={"user_id"="\d+"})
      *
      * @Entity("customer", expr="repository.find(customer_id)")
      * @Entity("user", expr="repository.find(user_id)")
