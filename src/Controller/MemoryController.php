@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 /**
  * @Route("/memories", name="api_")
@@ -46,6 +47,8 @@ class MemoryController extends AbstractController
 
     /**
      * @Route("/{id}", name="update_memory", methods={"PUT"}, requirements={"id"="\d+"})
+     *
+     * @Entity("memory", expr="repository.getMemory(id)")
      */
     public function update(Request $request, Memory $memory, MemoryManagement $memoryManagement, SerializerInterface $serializer)
     {
