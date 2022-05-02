@@ -47,6 +47,8 @@ class MemoryController extends AbstractController
 
     /**
      * @Route("/{id}", name="update_memory", methods={"PUT"}, requirements={"id"="\d+"})
+     *
+     * @Entity("memory", expr="repository.getMemory(id)")
      */
     public function update(Request $request, Memory $memory, MemoryManagement $memoryManagement, SerializerInterface $serializer)
     {
