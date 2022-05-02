@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 /**
  * @Route("/colors", name="api_")
@@ -57,4 +58,21 @@ class ColorController extends AbstractController
 
         return $this->json('La couleur a été modifié avec succès',200,['Content-Type' => 'text/plain']);
     }
+
+    /**
+     * @Route("/{id}", name="delete_color", methods={"DELETE"}, requirements={"id"="\d+"})
+     * @Entity("color", expr="repository.getColor(id)")
+     * @param Color $color
+     * @param ColorManagement $colorManagement
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function delete(Color $color, ColorManagement $colorManagement): JsonResponse
+    {
+        $colorManagement->deleteColor($color);
+
+        return $this->json('La couleur a été supprimé avec succès',200,['Content-Type' => 'text/plain']);
+    }
 }
+

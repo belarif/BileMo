@@ -42,4 +42,15 @@ class ColorManagement
 
         $this->colorRepository->add($color);
     }
+
+    /**
+     * @param $color
+     * @return void
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function deleteColor($color)
+    {
+        $this->colorRepository->remove($color);
+    }
 }
