@@ -7,5 +7,4 @@ class BrandDTO
     public int $id;
 
     public string $name;
-
 }
