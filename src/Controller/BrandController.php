@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 /**
  * @Route("/brands", "api_")
@@ -59,6 +60,22 @@ class BrandController extends AbstractController
         $brandManagement->updateBrand($brand,$brandDTO);
 
         return $this->json('La marque a été modifié avec succès',200,['Content-Type' => 'text/plain']);
+    }
+
+    /**
+     * @Route("/{id}", name="delete_brand", methods={"DELETE"}, requirements={"id"="\d+"})
+     * @Entity("brand", expr="repository.getBrand(id)")
+     * @param Brand $brand
+     * @param BrandManagement $brandManagement
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function delete(Brand $brand, BrandManagement $brandManagement): JsonResponse
+    {
+        $brandManagement->deleteBrand($brand);
+
+        return $this->json('La marque a été supprimé avec succès',200,['Content-Type' => 'text/plain']);
     }
 
 }

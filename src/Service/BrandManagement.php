@@ -47,4 +47,14 @@ class BrandManagement
 
         $this->brandRepository->add($brand);
     }
+
+    /**
+     * @param $brand
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function deleteBrand($brand)
+    {
+        $this->brandRepository->remove($brand);
+    }
 }
