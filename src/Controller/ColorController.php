@@ -47,13 +47,11 @@ class ColorController extends AbstractController
 
     /**
      * @Route("/{id}", name="update_color", methods={"PUT"}, requirements={"id"="\d+"})
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function update(Request $request, Color $color, ColorManagement $colorManagement, SerializerInterface $serializer): JsonResponse
     {
         $colorDTO = $serializer->deserialize($request->getContent(),ColorDTO::class,'json');
+
         $colorManagement->updateColor($color,$colorDTO);
 
         return $this->json('La couleur a été modifié avec succès',200,['Content-Type' => 'text/plain']);
@@ -61,12 +59,8 @@ class ColorController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete_color", methods={"DELETE"}, requirements={"id"="\d+"})
+     *
      * @Entity("color", expr="repository.getColor(id)")
-     * @param Color $color
-     * @param ColorManagement $colorManagement
-     * @return JsonResponse
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function delete(Color $color, ColorManagement $colorManagement): JsonResponse
     {
