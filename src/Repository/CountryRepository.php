@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Country;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -44,4 +45,25 @@ class CountryRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+
+    /**
+     * @param $id
+     * @return Country
+     * @throws EntityNotFoundException
+     */
+    public function getCountry($id):Country
+    {
+        $country = $this->createQueryBuilder('c')
+            ->andWhere('c.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+
+        if(!$country) {
+            throw new EntityNotFoundException('Le pays demandé n\'existe pas');
+        }
+
+        return $country[0];
+    }
 }
+

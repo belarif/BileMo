@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 /**
  * @Route("/countries", name="api_")
@@ -74,6 +75,7 @@ class CountryController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete_country", methods={"DELETE"}, requirements={"id"="\d+"})
+     * @Entity("country", expr="repository.getCountry(id)")
      * @param Country $country
      * @param CountryManagement $countryManagement
      * @return JsonResponse
@@ -87,3 +89,4 @@ class CountryController extends AbstractController
         return $this->json('La pays a été supprimé avec succès',200,['Content-Type' => 'text/plain']);
     }
 }
+
