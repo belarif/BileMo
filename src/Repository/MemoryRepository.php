@@ -66,3 +66,4 @@ class MemoryRepository extends ServiceEntityRepository
         return $memory[0];
     }
 }
+
