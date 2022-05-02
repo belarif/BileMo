@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Color;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -44,4 +45,25 @@ class ColorRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+
+    /**
+     * @param $id
+     * @return Color
+     * @throws EntityNotFoundException
+     */
+    public function getColor($id):Color
+    {
+        $color = $this->createQueryBuilder('c')
+            ->andWhere('c.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+
+        if(!$color) {
+            throw new EntityNotFoundException('La couleur demandé n\'existe pas');
+        }
+
+        return $color[0];
+    }
 }
+

@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 /**
  * @Route("/colors", name="api_")
@@ -18,10 +19,6 @@ class ColorController extends AbstractController
 {
     /**
      * @Route("", name="create_color", methods={"POST"})
-     * @param Request $request
-     * @param SerializerInterface $serializer
-     * @param ColorManagement $colorManagement
-     * @return JsonResponse
      */
     public function create(Request $request, SerializerInterface $serializer, ColorManagement $colorManagement): JsonResponse
     {
@@ -72,6 +69,7 @@ class ColorController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete_color", methods={"DELETE"}, requirements={"id"="\d+"})
+     * @Entity("color", expr="repository.getColor(id)")
      * @param Color $color
      * @param ColorManagement $colorManagement
      * @return JsonResponse
@@ -85,3 +83,4 @@ class ColorController extends AbstractController
         return $this->json('La couleur a été supprimé avec succès',200,['Content-Type' => 'text/plain']);
     }
 }
+
