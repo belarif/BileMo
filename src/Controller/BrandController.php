@@ -39,6 +39,8 @@ class BrandController extends AbstractController
 
     /**
      * @Route("/{id}", name="show_brand", methods={"GET"}, requirements={"id"="\d+"})
+     *
+     * @Entity("brand", expr="repository.getBrand(id)")
      */
     public function show(Brand $brand): JsonResponse
     {
@@ -47,6 +49,8 @@ class BrandController extends AbstractController
 
     /**
      * @Route("/{id}", name="update_brand", methods={"PUT"}, requirements={"id"="\d+"})
+     *
+     * @Entity("brand", expr="repository.getBrand(id)")
      */
     public function update(Request $request, Brand $brand, BrandManagement $brandManagement, SerializerInterface $serializer): JsonResponse
     {
