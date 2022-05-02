@@ -10,7 +10,6 @@ use App\Repository\CountryRepository;
 use App\Repository\MemoryRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 
@@ -45,11 +44,6 @@ class ProductManagement
         $this->colorRepository = $colorRepository;
     }
 
-    /**
-     * @param ProductDTO $productDTO
-     * @throws OptimisticLockException
-     * @throws \Doctrine\ORM\ORMException
-     */
     public function createProduct(ProductDTO $productDTO)
     {
         $brand = $this->brandRepository->findOneBy(['id' => $productDTO->brand->id]);
@@ -84,13 +78,6 @@ class ProductManagement
 
     }
 
-    /**
-     * @param $product
-     * @param ProductDTO $productDTO
-     * @return void
-     * @throws OptimisticLockException
-     * @throws \Doctrine\ORM\ORMException
-     */
     public function updateProduct(ProductDTO $productDTO, $product)
     {
         $brand = $this->brandRepository->findOneBy(['id' => $productDTO->brand->id]);
@@ -112,15 +99,9 @@ class ProductManagement
         $this->productRepository->add($product);
     }
 
-    /**
-     * @param $product
-     * @return void
-     * @throws OptimisticLockException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws ORMException
-     */
     public function deleteProduct($product)
     {
         $this->productRepository->remove($product);
     }
 }
+
