@@ -19,9 +19,6 @@ class BrandController extends AbstractController
 {
     /**
      * @Route("", name="create_brand", methods={"POST"})
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function create(Request $request, SerializerInterface $serializer, BrandManagement $brandManagement): JsonResponse
     {
@@ -50,9 +47,6 @@ class BrandController extends AbstractController
 
     /**
      * @Route("/{id}", name="update_brand", methods={"PUT"}, requirements={"id"="\d+"})
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function update(Request $request, Brand $brand, BrandManagement $brandManagement, SerializerInterface $serializer): JsonResponse
     {
@@ -64,12 +58,8 @@ class BrandController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete_brand", methods={"DELETE"}, requirements={"id"="\d+"})
+     *
      * @Entity("brand", expr="repository.getBrand(id)")
-     * @param Brand $brand
-     * @param BrandManagement $brandManagement
-     * @return JsonResponse
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function delete(Brand $brand, BrandManagement $brandManagement): JsonResponse
     {
