@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\ProductManagement;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 /**
  * @Route("/products", name="api_")
@@ -42,6 +43,8 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/{id}", name="show_product", methods={"GET"})
+     *
+     * @Entity("product", expr="repository.getProduct(id)")
      */
     public function show(Product $product): JsonResponse
     {
@@ -50,6 +53,8 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/{id}", name="update_product", methods={"PUT"})
+     *
+     * @Entity("product", expr="repository.getProduct(id)")
      */
     public function update(Request $request, SerializerInterface $serializer, ProductManagement $productManagement, Product $product): JsonResponse
     {
@@ -63,6 +68,8 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete_product", methods={"DELETE"})
+     *
+     * @Entity("product", expr="repository.getProduct(id)")
      */
     public function delete(Product $product, ProductManagement $productManagement): JsonResponse
     {
