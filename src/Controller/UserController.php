@@ -6,6 +6,7 @@ use App\Entity\Customer;
 use App\Entity\DTO\UserDTO;
 use App\Entity\User;
 use App\Service\UserManagement;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,6 +42,7 @@ class UserController extends AbstractController
 
     /**
      * @Route("", name="users_list", methods={"GET"})
+     * @Entity("customer", expr="repository.find(customer_id)")
      * @param UserManagement $userManagement
      * @param Customer $customer
      * @return JsonResponse
@@ -88,7 +90,7 @@ class UserController extends AbstractController
     /**
      * @Route("/{user_id}", name="delete_user", methods={"DELETE"}, requirements={"id"="\d+"})
      * @Entity("customer", expr="repository.find(customer_id)")
-     * @Entity("user", expr="repository.find(user_id)")
+     * @Entity("user", expr="repository.getUser(user_id)")
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */

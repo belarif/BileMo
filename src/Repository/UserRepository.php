@@ -5,8 +5,8 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -61,4 +61,25 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->persist($user);
         $this->_em->flush();
     }
+
+    /**
+     * @param $user_id
+     * @return User
+     * @throws Exception
+     */
+    public function getUser($user_id):User
+    {
+        $user = $this->createQueryBuilder('u')
+        ->andWhere('u.id = :id')
+        ->setParameter('id', $user_id)
+        ->getQuery()
+        ->getResult();
+
+        if(!$user) {
+            throw new Exception('L\'utilisateur demandé n\'existe pas');
+        }
+        
+        return $user[0];
+    }
 }
+
