@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 /**
  * @Route("/customers", name="api_")
@@ -38,6 +39,8 @@ class CustomerController extends AbstractController
 
     /**
      * @Route("/{id}", name="show_customer", methods={"GET"})
+     *
+     * @Entity("customer", expr="repository.getCustomer(id)")
      */
     public function show(Customer $customer): JsonResponse
     {
@@ -46,6 +49,8 @@ class CustomerController extends AbstractController
 
     /**
      * @Route("/{id}", name="update_customer", methods={"PUT"})
+     *
+     * @Entity("customer", expr="repository.getCustomer(id)")
      */
     public function update(Request $request, SerializerInterface $serializer, CustomerManagement $customerManagement, Customer $customer): JsonResponse
     {
@@ -58,6 +63,8 @@ class CustomerController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete_customer", methods={"DELETE"})
+     *
+     * @Entity("customer", expr="repository.getCustomer(id)")
      */
     public function delete(Customer $customer, CustomerManagement $customerManagement): JsonResponse
     {

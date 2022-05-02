@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Customer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -44,5 +45,21 @@ class CustomerRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+
+    public function getCustomer($id): Customer
+    {
+        $customer = $this->createQueryBuilder('c')
+            ->andWhere('c.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+
+        if(!$customer) {
+            throw new EntityNotFoundException('Le client demandé n\'existe pas');
+        }
+
+        return $customer[0];
+    }
 }
+
 
