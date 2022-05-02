@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 /**
  * @Route("/countries", name="api_")
@@ -36,7 +37,7 @@ class CountryController extends AbstractController
      */
     public function list(CountryManagement $countryManagement): JsonResponse
     {
-        return $this->json($countryManagement->countriesList(),'200',['Content-Type' => 'application/json']);
+        return $this->json($countryManagement->countriesList(),200,['Content-Type' => 'application/json']);
     }
 
     /**
@@ -44,7 +45,7 @@ class CountryController extends AbstractController
      */
     public function show(Country $country): JsonResponse
     {
-        return $this->json($country,'200',['Content-Type' => 'application/json']);
+        return $this->json($country,200,['Content-Type' => 'application/json']);
     }
 
     /**
@@ -58,6 +59,23 @@ class CountryController extends AbstractController
         $countryDTO = $serializer->deserialize($request->getContent(),CountryDTO::class,'json');
         $countryManagement->updateCountry($country,$countryDTO);
 
-        return $this->json('Le pays a été modifié avec succès');
+        return $this->json('Le pays a été modifié avec succès',200,['Content-Type' => 'text/plain']);
+    }
+
+    /**
+     * @Route("/{id}", name="delete_country", methods={"DELETE"}, requirements={"id"="\d+"})
+     * @Entity("country", expr="repository.getCountry(id)")
+     * @param Country $country
+     * @param CountryManagement $countryManagement
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function delete(Country $country, CountryManagement $countryManagement): JsonResponse
+    {
+        $countryManagement->deleteCountry($country);
+
+        return $this->json('La pays a été supprimé avec succès',200,['Content-Type' => 'text/plain']);
     }
 }
+
