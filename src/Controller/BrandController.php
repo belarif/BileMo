@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 /**
  * @Route("/brands", "api_")
@@ -74,6 +75,7 @@ class BrandController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete_brand", methods={"DELETE"}, requirements={"id"="\d+"})
+     * @Entity("brand", expr="repository.getBrand(id)")
      * @param Brand $brand
      * @param BrandManagement $brandManagement
      * @return JsonResponse

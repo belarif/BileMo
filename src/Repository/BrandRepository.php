@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Brand;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -43,5 +44,20 @@ class BrandRepository extends ServiceEntityRepository
         if ($flush) {
             $this->_em->flush();
         }
+    }
+
+    public function getBrand($id)
+    {
+        $brand = $this->createQueryBuilder('b')
+            ->andWhere('b.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+
+        if (!$brand) {
+            throw new EntityNotFoundException('La marque demandé n\'existe pas');
+        }
+
+        return $brand[0];
     }
 }
