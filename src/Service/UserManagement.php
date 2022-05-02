@@ -19,10 +19,6 @@ class UserManagement
         $this->passwordHasher = $passwordHasher;
     }
 
-    /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
     public function createUser(UserDTO $userDTO, $customer)
     {
         $user = new User();
@@ -44,10 +40,6 @@ class UserManagement
         return $this->userRepository->findOneBy(['id' => $user_id, 'customer' => $customer]);
     }
 
-    /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
     public function updateUser(UserDTO $userDTO, $user, $customer)
     {
         $user->setPassword($this->passwordHasher->hashPassword($user,$userDTO->password));
@@ -56,10 +48,6 @@ class UserManagement
         $this->userRepository->add($user);
     }
 
-    /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
     public function deleteUser($user)
     {
         $this->userRepository->remove($user);
