@@ -39,6 +39,8 @@ class CountryController extends AbstractController
 
     /**
      * @Route("/{id}", name="show_country", methods={"GET"}, requirements={"id"="\d+"})
+     *
+     * @Entity("country", expr="repository.getCountry(id)")
      */
     public function show(Country $country): JsonResponse
     {
@@ -47,6 +49,8 @@ class CountryController extends AbstractController
 
     /**
      * @Route("/{id}", name="update_country", methods={"PUT"}, requirements={"id"="\d+"})
+     *
+     * @Entity("country", expr="repository.getCountry(id)")
      */
     public function update(Request $request, Country $country, CountryManagement $countryManagement, SerializerInterface $serializer): JsonResponse
     {
@@ -59,6 +63,7 @@ class CountryController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete_country", methods={"DELETE"}, requirements={"id"="\d+"})
+     *
      * @Entity("country", expr="repository.getCountry(id)")
      */
     public function delete(Country $country, CountryManagement $countryManagement): JsonResponse
