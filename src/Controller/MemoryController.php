@@ -40,7 +40,7 @@ class MemoryController extends AbstractController
     /**
      * @Route("/{id}", name="show_memory", methods={"GET"})
      */
-    public function show(Memory $memory)
+    public function show(Memory $memory): JsonResponse
     {
         return $this->json($memory,200,['Content-Type' => 'application/json']);
     }
@@ -50,7 +50,7 @@ class MemoryController extends AbstractController
      *
      * @Entity("memory", expr="repository.getMemory(id)")
      */
-    public function update(Request $request, Memory $memory, MemoryManagement $memoryManagement, SerializerInterface $serializer)
+    public function update(Request $request, Memory $memory, MemoryManagement $memoryManagement, SerializerInterface $serializer): JsonResponse
     {
         $memoryDTO = $serializer->deserialize($request->getContent(),MemoryDTO::class,'json');
 
