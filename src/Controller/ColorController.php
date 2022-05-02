@@ -39,6 +39,8 @@ class ColorController extends AbstractController
 
     /**
      * @Route("/{id}", name="show_color", methods={"GET"}, requirements={"id"="\d+"})
+     *
+     * @Entity("color", expr="repository.getColor(id)")
      */
     public function show(Color $color): JsonResponse
     {
@@ -47,6 +49,8 @@ class ColorController extends AbstractController
 
     /**
      * @Route("/{id}", name="update_color", methods={"PUT"}, requirements={"id"="\d+"})
+     *
+     * @Entity("color", expr="repository.getColor(id)")
      */
     public function update(Request $request, Color $color, ColorManagement $colorManagement, SerializerInterface $serializer): JsonResponse
     {
