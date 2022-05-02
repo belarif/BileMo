@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Memory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -44,4 +45,25 @@ class MemoryRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+
+    /**
+     * @param $id
+     * @return Memory
+     * @throws EntityNotFoundException
+     */
+    public function getMemory($id):Memory
+    {
+        $memory = $this->createQueryBuilder('m')
+            ->andWhere('m.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+
+        if(!$memory) {
+            throw new EntityNotFoundException('La capacité memoire demandé n\'existe pas');
+        }
+
+        return $memory[0];
+    }
 }
+
