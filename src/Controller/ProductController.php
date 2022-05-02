@@ -4,13 +4,13 @@ namespace App\Controller;
 
 use App\Entity\DTO\ProductDTO;
 use App\Entity\Product;
-use Doctrine\ORM\OptimisticLockException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\ProductManagement;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 /**
  * @Route("/products", name="api_")
@@ -19,12 +19,6 @@ class ProductController extends AbstractController
 {
     /**
      * @Route("", name="create_product", methods={"POST"})
-     * @param Request $request
-     * @param SerializerInterface $serializer
-     * @param ProductManagement $productManagement
-     * @return JsonResponse
-     * @throws OptimisticLockException
-     * @throws \Doctrine\ORM\ORMException
      */
     public function create(Request $request, SerializerInterface $serializer, ProductManagement $productManagement): JsonResponse
     {
@@ -32,6 +26,7 @@ class ProductController extends AbstractController
          * @var ProductDTO $productDTO
          */
         $productDTO = $serializer->deserialize($request->getContent(), ProductDTO::class, 'json');
+
         $productManagement->createProduct($productDTO);
 
         return new JsonResponse('le produit a été créé avec succès','201');
@@ -39,9 +34,6 @@ class ProductController extends AbstractController
 
     /**
      * @Route("", name="products_list", methods={"GET"})
-     * @param ProductManagement $productManagement
-     * @return JsonResponse
-     * @throws \Doctrine\ORM\Exception\ORMException
      */
     public function list(ProductManagement $productManagement): JsonResponse
     {
@@ -51,8 +43,8 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/{id}", name="show_product", methods={"GET"})
-     * @param Product $product
-     * @return JsonResponse
+     *
+     * @Entity("product", expr="repository.getProduct(id)")
      */
     public function show(Product $product): JsonResponse
     {
@@ -61,17 +53,13 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/{id}", name="update_product", methods={"PUT"})
-     * @param Request $request
-     * @param SerializerInterface $serializer
-     * @param ProductManagement $productManagement
-     * @param Product $product
-     * @return JsonResponse
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @Entity("product", expr="repository.getProduct(id)")
      */
     public function update(Request $request, SerializerInterface $serializer, ProductManagement $productManagement, Product $product): JsonResponse
     {
         $productDTO = $serializer->deserialize($request->getContent(), ProductDTO::class, 'json');
+
         $productManagement->updateProduct($productDTO,$product);
 
         return new JsonResponse('Le produit est mise à jour avec succès');
@@ -80,12 +68,8 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete_product", methods={"DELETE"})
-     * @param Product $product
-     * @param ProductManagement $productManagement
-     * @return JsonResponse
-     * @throws \Doctrine\ORM\Exception\ORMException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @Entity("product", expr="repository.getProduct(id)")
      */
     public function delete(Product $product, ProductManagement $productManagement): JsonResponse
     {
@@ -93,7 +77,7 @@ class ProductController extends AbstractController
 
         return new JsonResponse('Le produit est supprimé avec succès');
     }
-
 }
+
 
 

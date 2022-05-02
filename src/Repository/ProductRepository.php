@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -44,5 +45,21 @@ class ProductRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+
+    public function getProduct($id): Product
+    {
+        $product = $this->createQueryBuilder('p')
+            ->andWhere('p.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+
+        if(!$product) {
+            throw new EntityNotFoundException('Le produit demandé n\'existe pas');
+        }
+
+        return $product[0];
+    }
 }
+
 
