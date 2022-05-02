@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Color;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -45,32 +46,24 @@ class ColorRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Color[] Returns an array of Color objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param $id
+     * @return Color
+     * @throws EntityNotFoundException
+     */
+    public function getColor($id):Color
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+        $color = $this->createQueryBuilder('c')
+            ->andWhere('c.id = :id')
+            ->setParameter('id', $id)
             ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+            ->getResult();
 
-    /*
-    public function findOneBySomeField($value): ?Color
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if(!$color) {
+            throw new EntityNotFoundException('La couleur demandé n\'existe pas');
+        }
+
+        return $color[0];
     }
-    */
 }
+
