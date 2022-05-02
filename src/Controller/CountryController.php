@@ -19,9 +19,6 @@ class CountryController extends AbstractController
 {
     /**
      * @Route("", name="create_country", methods={"POST"})
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function create(Request $request, SerializerInterface $serializer, CountryManagement $countryManagement): JsonResponse
     {
@@ -50,13 +47,11 @@ class CountryController extends AbstractController
 
     /**
      * @Route("/{id}", name="update_country", methods={"PUT"}, requirements={"id"="\d+"})
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function update(Request $request, Country $country, CountryManagement $countryManagement, SerializerInterface $serializer): JsonResponse
     {
         $countryDTO = $serializer->deserialize($request->getContent(),CountryDTO::class,'json');
+
         $countryManagement->updateCountry($country,$countryDTO);
 
         return $this->json('Le pays a été modifié avec succès',200,['Content-Type' => 'text/plain']);
@@ -65,11 +60,6 @@ class CountryController extends AbstractController
     /**
      * @Route("/{id}", name="delete_country", methods={"DELETE"}, requirements={"id"="\d+"})
      * @Entity("country", expr="repository.getCountry(id)")
-     * @param Country $country
-     * @param CountryManagement $countryManagement
-     * @return JsonResponse
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function delete(Country $country, CountryManagement $countryManagement): JsonResponse
     {
