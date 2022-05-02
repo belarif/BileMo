@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Memory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -45,32 +46,24 @@ class MemoryRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Memory[] Returns an array of Memory objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param $id
+     * @return Memory
+     * @throws EntityNotFoundException
+     */
+    public function getMemory($id):Memory
     {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
+        $memory = $this->createQueryBuilder('m')
+            ->andWhere('m.id = :id')
+            ->setParameter('id', $id)
             ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+            ->getResult();
 
-    /*
-    public function findOneBySomeField($value): ?Memory
-    {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if(!$memory) {
+            throw new EntityNotFoundException('La capacité memoire demandé n\'existe pas');
+        }
+
+        return $memory[0];
     }
-    */
 }
+
