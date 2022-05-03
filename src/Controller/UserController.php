@@ -21,7 +21,7 @@ class UserController extends AbstractController
     /**
      * @Route("", name="create_user", methods={"POST"})
      *
-     * @Entity("customer", expr="repository.find(customer_id)")
+     * @Entity("customer", expr="repository.getCustomer(customer_id)")
      */
     public function create(Request $request, SerializerInterface $serializer, UserManagement $userManagement, Customer $customer): JsonResponse
     {
@@ -37,7 +37,7 @@ class UserController extends AbstractController
     /**
      * @Route("", name="users_list", methods={"GET"})
      *
-     * @Entity("customer", expr="repository.find(customer_id)")
+     * @Entity("customer", expr="repository.getCustomer(customer_id)")
      */
     public function list(UserManagement $userManagement, Customer $customer): JsonResponse
     {
@@ -47,20 +47,19 @@ class UserController extends AbstractController
     /**
      * @Route("/{user_id}", name="show_user", methods={"GET"}, requirements={"user_id"="\d+"})
      *
-     * @Entity("customer", expr="repository.find(customer_id)")
+     * @Entity("customer", expr="repository.getCustomer(customer_id)")
+     * @Entity("user", expr="repository.getUser(user_id)")
      */
-    public function show(Request $request, Customer $customer, UserManagement $userManagement): JsonResponse
+    public function show(Request $request, Customer $customer, UserManagement $userManagement, User $user): JsonResponse
     {
-        $user = $userManagement->showUser($request->get('user_id'),$customer);
-
-        return $this->json($user,'200',['Content-Type' => 'application/json']);
+        return $this->json($userManagement->showUser($request->get('user_id'),$customer),'200',['Content-Type' => 'application/json']);
     }
 
     /**
      * @Route("/{user_id}", name="update_user", methods={"PUT"}, requirements={"user_id"="\d+"})
      *
-     * @Entity("customer", expr="repository.find(customer_id)")
-     * @Entity("user", expr="repository.find(user_id)")
+     * @Entity("customer", expr="repository.getCustomer(customer_id)")
+     * @Entity("user", expr="repository.getUser(user_id)")
      */
     public function update(Request $request, SerializerInterface $serializer, UserManagement $userManagement, User $user, Customer $customer): JsonResponse
     {
@@ -73,7 +72,7 @@ class UserController extends AbstractController
     /**
      * @Route("/{user_id}", name="delete_user", methods={"DELETE"}, requirements={"id"="\d+"})
      *
-     * @Entity("customer", expr="repository.find(customer_id)")
+     * @Entity("customer", expr="repository.getCustomer(customer_id)")
      * @Entity("user", expr="repository.getUser(user_id)")
      */
     public function delete(User $user, UserManagement $userManagement): JsonResponse
