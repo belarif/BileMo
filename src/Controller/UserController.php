@@ -75,7 +75,7 @@ class UserController extends AbstractController
      * @Entity("customer", expr="repository.getCustomer(customer_id)")
      * @Entity("user", expr="repository.getUser(user_id)")
      */
-    public function delete(User $user, UserManagement $userManagement): JsonResponse
+    public function delete(User $user, UserManagement $userManagement, Customer $customer): JsonResponse
     {
         $userManagement->deleteUser($user);
 
