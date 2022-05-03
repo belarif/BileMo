@@ -31,7 +31,7 @@ class UserController extends AbstractController
         $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
         $userManagement->createUser($userDTO, $customer);
 
-        return $this->json('L\'utilisateur a été créé avec succès');
+        return $this->json('L\'utilisateur a été créé avec succès',200,['Content-Type' => 'text/plain']);
     }
 
     /**
@@ -41,7 +41,7 @@ class UserController extends AbstractController
      */
     public function list(UserManagement $userManagement, Customer $customer): JsonResponse
     {
-        return $this->json($userManagement->usersOfCustomer($customer),'200',['Content-Type' => 'application/json']);
+        return $this->json($userManagement->usersOfCustomer($customer),200,['Content-Type' => 'application/json']);
     }
 
     /**
@@ -52,7 +52,7 @@ class UserController extends AbstractController
      */
     public function show(Request $request, Customer $customer, UserManagement $userManagement, User $user): JsonResponse
     {
-        return $this->json($userManagement->showUser($request->get('user_id'),$customer),'200',['Content-Type' => 'application/json']);
+        return $this->json($userManagement->showUser($request->get('user_id'),$customer),200,['Content-Type' => 'application/json']);
     }
 
     /**
@@ -66,7 +66,7 @@ class UserController extends AbstractController
         $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
         $userManagement->updateUser($userDTO,$user,$customer);
 
-        return new JsonResponse('L\'utilisateur est mise à jour avec succès');
+        return $this->json('L\'utilisateur est mise à jour avec succès',200,['Content-Type' => 'text/plain']);
     }
 
     /**
@@ -79,6 +79,6 @@ class UserController extends AbstractController
     {
         $userManagement->deleteUser($user);
 
-        return $this->json('L\'utilisateur a été supprimé avec succès');
+        return $this->json('L\'utilisateur a été supprimé avec succès',200,['Content-Type' => 'text/plain']);
     }
 }
