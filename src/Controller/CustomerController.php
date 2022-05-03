@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 /**
- * @Route("/customers", name="api_")
+ * @Route("/customers", name="api_", requirements={"customer_id"="\d+"})
  */
 class CustomerController extends AbstractController
 {
