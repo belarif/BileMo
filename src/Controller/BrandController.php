@@ -44,7 +44,7 @@ class BrandController extends AbstractController
      */
     public function show(Brand $brand): JsonResponse
     {
-        return $this->json($brand,'200',['Content-Type' => 'application/json']);
+        return $this->json($brand,200,['Content-Type' => 'application/json']);
     }
 
     /**
