@@ -38,9 +38,9 @@ class CustomerController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show_customer", methods={"GET"})
+     * @Route("/{customer_id}", name="show_customer", methods={"GET"})
      *
-     * @Entity("customer", expr="repository.getCustomer(id)")
+     * @Entity("customer", expr="repository.getCustomer(customer_id)")
      */
     public function show(Customer $customer): JsonResponse
     {
@@ -48,9 +48,9 @@ class CustomerController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="update_customer", methods={"PUT"})
+     * @Route("/{customer_id}", name="update_customer", methods={"PUT"})
      *
-     * @Entity("customer", expr="repository.getCustomer(id)")
+     * @Entity("customer", expr="repository.getCustomer(customer_id)")
      */
     public function update(Request $request, SerializerInterface $serializer, CustomerManagement $customerManagement, Customer $customer): JsonResponse
     {
@@ -62,9 +62,9 @@ class CustomerController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete_customer", methods={"DELETE"})
+     * @Route("/{customer_id}", name="delete_customer", methods={"DELETE"})
      *
-     * @Entity("customer", expr="repository.getCustomer(id)")
+     * @Entity("customer", expr="repository.getCustomer(customer_id)")
      */
     public function delete(Customer $customer, CustomerManagement $customerManagement): JsonResponse
     {

@@ -46,11 +46,11 @@ class CustomerRepository extends ServiceEntityRepository
         }
     }
 
-    public function getCustomer($id): Customer
+    public function getCustomer($customer_id): Customer
     {
         $customer = $this->createQueryBuilder('c')
             ->andWhere('c.id = :id')
-            ->setParameter('id', $id)
+            ->setParameter('id', $customer_id)
             ->getQuery()
             ->getResult();
 
