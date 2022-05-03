@@ -29,7 +29,7 @@ class ProductController extends AbstractController
 
         $productManagement->createProduct($productDTO);
 
-        return new JsonResponse('le produit a été créé avec succès','201');
+        return $this->json('le produit a été créé avec succès',200,['Content-Type' => 'text/plain']);
     }
 
     /**
@@ -37,7 +37,7 @@ class ProductController extends AbstractController
      */
     public function list(ProductManagement $productManagement): JsonResponse
     {
-        return $this->json($productManagement->productsList(),'200',['Content-Type' => 'application/json']);
+        return $this->json($productManagement->productsList(),200,['Content-Type' => 'application/json']);
     }
 
 
@@ -48,7 +48,7 @@ class ProductController extends AbstractController
      */
     public function show(Product $product): JsonResponse
     {
-        return $this->json($product,'200',['Content-Type' => 'application/json']);
+        return $this->json($product,200,['Content-Type' => 'application/json']);
     }
 
     /**
@@ -62,8 +62,7 @@ class ProductController extends AbstractController
 
         $productManagement->updateProduct($productDTO,$product);
 
-        return new JsonResponse('Le produit est mise à jour avec succès');
-
+        return $this->json('Le produit est mise à jour avec succès',200,['Content-Type' => 'text/plain']);
     }
 
     /**
@@ -75,7 +74,7 @@ class ProductController extends AbstractController
     {
         $productManagement->deleteProduct($product);
 
-        return new JsonResponse('Le produit est supprimé avec succès');
+        return $this->json('Le produit est supprimé avec succès',200,['Content-Type' => 'text/plain']);
     }
 }
 
