@@ -26,7 +26,7 @@ class CustomerController extends AbstractController
 
         $customerManagement->createCustomer($customerDTO);
 
-        return new JsonResponse("Le client a été créé avec succès");
+        return $this->json("Le client a été créé avec succès",200,['Content-Type' => 'text/plain']);
     }
 
     /**
@@ -34,7 +34,7 @@ class CustomerController extends AbstractController
      */
     public function list(CustomerManagement $customerManagement): JsonResponse
     {
-        return $this->json($customerManagement->customersList(),'200',['Content-Type' => 'application/json']);
+        return $this->json($customerManagement->customersList(),200,['Content-Type' => 'application/json']);
     }
 
     /**
@@ -44,7 +44,7 @@ class CustomerController extends AbstractController
      */
     public function show(Customer $customer): JsonResponse
     {
-        return $this->json($customer,'200',['Content-Type' => 'application/json']);
+        return $this->json($customer,200,['Content-Type' => 'application/json']);
     }
 
     /**
@@ -58,7 +58,7 @@ class CustomerController extends AbstractController
 
         $customerManagement->updateCustomer($customerDTO,$customer);
 
-        return $this->json('Le client est mise à jour avec succès');
+        return $this->json('Le client est mise à jour avec succès',200,['Content-Type' => 'text/plain']);
     }
 
     /**
@@ -70,7 +70,7 @@ class CustomerController extends AbstractController
     {
         $customerManagement->deletecCustomer($customer);
 
-        return new JsonResponse('Le client est supprimé avec succès');
+        return $this->json('Le client est supprimé avec succès',200,['Content-Type' => 'text/plain']);
     }
 }
 
