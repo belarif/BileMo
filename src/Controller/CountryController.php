@@ -34,7 +34,7 @@ class CountryController extends AbstractController
 
         $countryManagement->createCountry($countryDTO);
 
-        return $this->json('Le pays a été ajouté avec succès',Response::HTTP_OK);
+        return $this->json('Le pays a été ajouté avec succès',Response::HTTP_CREATED);
     }
 
     /**
@@ -42,7 +42,7 @@ class CountryController extends AbstractController
      */
     public function list(CountryManagement $countryManagement): JsonResponse
     {
-        return $this->json($countryManagement->countriesList(),200,['Content-Type' => 'application/json']);
+        return $this->json($countryManagement->countriesList(),Response::HTTP_OK);
     }
 
     /**
@@ -52,7 +52,7 @@ class CountryController extends AbstractController
      */
     public function show(Country $country): JsonResponse
     {
-        return $this->json($country,200,['Content-Type' => 'application/json']);
+        return $this->json($country,Response::HTTP_OK);
     }
 
     /**
@@ -84,7 +84,8 @@ class CountryController extends AbstractController
     {
         $countryManagement->deleteCountry($country);
 
-        return $this->json('La pays a été supprimé avec succès',200,['Content-Type' => 'text/plain']);
+        return $this->json('La pays a été supprimé avec succès',Response::HTTP_OK);
     }
 }
+
 

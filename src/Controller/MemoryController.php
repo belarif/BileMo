@@ -42,7 +42,7 @@ class MemoryController extends AbstractController
      */
     public function list(MemoryManagement $memoryManagement): JsonResponse
     {
-        return $this->json($memoryManagement->memoriesList(),200,['Content-Type' => 'application/json']);
+        return $this->json($memoryManagement->memoriesList(),Response::HTTP_OK);
     }
 
     /**
@@ -52,7 +52,7 @@ class MemoryController extends AbstractController
      */
     public function show(Memory $memory): JsonResponse
     {
-        return $this->json($memory,200,['Content-Type' => 'application/json']);
+        return $this->json($memory,Response::HTTP_OK);
     }
 
     /**
@@ -84,7 +84,8 @@ class MemoryController extends AbstractController
     {
         $memoryManagement->deleteMemory($memory);
 
-        return $this->json('La memoire a été supprimé avec succès',200,['Content-Type' => 'text/plain']);
+        return $this->json('La memoire a été supprimé avec succès',Response::HTTP_OK);
     }
 }
+
 
