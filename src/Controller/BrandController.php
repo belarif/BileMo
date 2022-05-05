@@ -61,12 +61,19 @@ class BrandController extends AbstractController
      *
      * @Entity("brand", expr="repository.getBrand(id)")
      */
-    public function update(Request $request, Brand $brand, BrandManagement $brandManagement, SerializerInterface $serializer): JsonResponse
+    public function update(Request $request, Brand $brand, BrandManagement $brandManagement, SerializerInterface $serializer, ValidatorInterface $validator): JsonResponse
     {
         $brandDTO = $serializer->deserialize($request->getContent(),BrandDTO::class,'json');
+
+        $errors = $validator->validate($brandDTO);
+
+        if($errors->count()) {
+            return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+        }
+
         $brandManagement->updateBrand($brand,$brandDTO);
 
-        return $this->json('La marque a été modifié avec succès',200,['Content-Type' => 'text/plain']);
+        return $this->json('La marque a été modifié avec succès',Response::HTTP_CREATED);
     }
 
     /**
