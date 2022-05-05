@@ -7,6 +7,7 @@ use App\Entity\DTO\BrandDTO;
 use App\Service\BrandManagement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,12 +30,12 @@ class BrandController extends AbstractController
         $errors = $validator->validate($brandDTO);
 
         if($errors->count()) {
-            return $this->json((string)$errors,409);
+            return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
         }
 
         $brandManagement->createBrand($brandDTO);
 
-        return $this->json('La marque a été ajouté avec succès',200,['Content-Type' => 'text/plain']);
+        return $this->json('La marque a été ajouté avec succès',Response::HTTP_CREATED);
     }
 
     /**
