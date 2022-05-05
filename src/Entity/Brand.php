@@ -18,7 +18,7 @@ class Brand
     protected int $id;
 
     /**
-     * @ORM\Column(type="string", length=150)
+     * @ORM\Column(type="string", length=100)
      */
     private string $name;
 
@@ -39,3 +39,4 @@ class Brand
         return $this;
     }
 }
+

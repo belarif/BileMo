@@ -18,7 +18,7 @@ class Country
     protected int $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=80)
      */
     private string $name;
 
@@ -39,3 +39,4 @@ class Country
         return $this;
     }
 }
+
