@@ -43,7 +43,7 @@ class BrandController extends AbstractController
      */
     public function list(BrandManagement $brandManagement): JsonResponse
     {
-        return $this->json($brandManagement->brandsList(),200,['Content-Type' => 'application/json']);
+        return $this->json($brandManagement->brandsList(),Response::HTTP_OK);
     }
 
     /**
@@ -53,7 +53,7 @@ class BrandController extends AbstractController
      */
     public function show(Brand $brand): JsonResponse
     {
-        return $this->json($brand,'200',['Content-Type' => 'application/json']);
+        return $this->json($brand,Response::HTTP_OK);
     }
 
     /**
@@ -85,7 +85,6 @@ class BrandController extends AbstractController
     {
         $brandManagement->deleteBrand($brand);
 
-        return $this->json('La marque a été supprimé avec succès',200,['Content-Type' => 'text/plain']);
+        return $this->json('La marque a été supprimé avec succès',Response::HTTP_OK);
     }
-
 }
