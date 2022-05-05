@@ -8,9 +8,11 @@ use App\Service\CountryManagement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/countries", name="api_")
@@ -20,13 +22,19 @@ class CountryController extends AbstractController
     /**
      * @Route("", name="create_country", methods={"POST"})
      */
-    public function create(Request $request, SerializerInterface $serializer, CountryManagement $countryManagement): JsonResponse
+    public function create(Request $request, SerializerInterface $serializer, CountryManagement $countryManagement, ValidatorInterface $validator): JsonResponse
     {
         $countryDTO = $serializer->deserialize($request->getContent(),CountryDTO::class,'json');
 
+        $errors = $validator->validate($countryDTO);
+
+        if($errors->count()) {
+            return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+        }
+
         $countryManagement->createCountry($countryDTO);
 
-        return $this->json('Le pays a été ajouté avec succès',200,['Content-Type' => 'text/plain']);
+        return $this->json('Le pays a été ajouté avec succès',Response::HTTP_OK);
     }
 
     /**
@@ -52,13 +60,19 @@ class CountryController extends AbstractController
      *
      * @Entity("country", expr="repository.getCountry(id)")
      */
-    public function update(Request $request, Country $country, CountryManagement $countryManagement, SerializerInterface $serializer): JsonResponse
+    public function update(Request $request, Country $country, CountryManagement $countryManagement, SerializerInterface $serializer, ValidatorInterface $validator): JsonResponse
     {
         $countryDTO = $serializer->deserialize($request->getContent(),CountryDTO::class,'json');
 
+        $errors = $validator->validate($countryDTO);
+
+        if($errors->count()) {
+            return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+        }
+
         $countryManagement->updateCountry($country,$countryDTO);
 
-        return $this->json('Le pays a été modifié avec succès',200,['Content-Type' => 'text/plain']);
+        return $this->json('Le pays a été modifié avec succès',Response::HTTP_CREATED);
     }
 
     /**
