@@ -22,7 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     protected int $id;
 
     /**
-     * @ORM\Column(type="string", length=80, unique=true)
+     * @ORM\Column(type="string", length=50, unique=true)
      */
     private string $email;
 

@@ -9,9 +9,11 @@ use App\Service\UserManagement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/customers/{customer_id}/users", name="api_", requirements={"customer_id"="\d+"})
@@ -23,15 +25,22 @@ class UserController extends AbstractController
      *
      * @Entity("customer", expr="repository.find(customer_id)")
      */
-    public function create(Request $request, SerializerInterface $serializer, UserManagement $userManagement, Customer $customer): JsonResponse
+    public function create(Request $request, SerializerInterface $serializer, UserManagement $userManagement, Customer $customer, ValidatorInterface $validator): JsonResponse
     {
         /**
          * @var UserDTO $userDTO
          */
         $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
+
+        $errors = $validator->validate($userDTO);
+
+        if($errors->count()) {
+            return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+        }
+
         $userManagement->createUser($userDTO, $customer);
 
-        return $this->json('L\'utilisateur a été créé avec succès');
+        return $this->json('L\'utilisateur a été créé avec succès',Response::HTTP_CREATED);
     }
 
     /**
@@ -62,12 +71,19 @@ class UserController extends AbstractController
      * @Entity("customer", expr="repository.find(customer_id)")
      * @Entity("user", expr="repository.find(user_id)")
      */
-    public function update(Request $request, SerializerInterface $serializer, UserManagement $userManagement, User $user, Customer $customer): JsonResponse
+    public function update(Request $request, SerializerInterface $serializer, UserManagement $userManagement, User $user, Customer $customer, ValidatorInterface $validator): JsonResponse
     {
         $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
+
+        $errors = $validator->validate($userDTO);
+
+        if($errors->count()) {
+            return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+        }
+
         $userManagement->updateUser($userDTO,$user,$customer);
 
-        return new JsonResponse('L\'utilisateur est mise à jour avec succès');
+        return new JsonResponse('L\'utilisateur est mise à jour avec succès',Response::HTTP_CREATED);
     }
 
     /**
@@ -83,3 +99,4 @@ class UserController extends AbstractController
         return $this->json('L\'utilisateur a été supprimé avec succès');
     }
 }
+
