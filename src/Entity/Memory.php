@@ -18,7 +18,7 @@ class Memory
     protected int $id;
 
     /**
-     * @ORM\Column(type="string", length=40)
+     * @ORM\Column(type="string", length=10)
      */
     private string $memoryCapacity;
 
