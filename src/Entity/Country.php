@@ -18,7 +18,7 @@ class Country
     protected int $id;
 
     /**
-     * @ORM\Column(type="string", length=80)
+     * @ORM\Column(type="string", length=60)
      */
     private string $name;
 
