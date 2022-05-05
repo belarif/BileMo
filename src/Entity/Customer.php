@@ -28,7 +28,7 @@ class Customer
     private bool $status;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=60)
      */
     private $company;
 
