@@ -10,7 +10,7 @@ class BrandDTO
 
     /**
      * @Assert\NotBlank(message="Le champs nom ne peut pas être vide")
-     * @Assert\Length(max=100, maxMessage="Le nom ne doit pas dépasser {{ limit }} caractères")
+     * @Assert\Length(max=60, maxMessage="Le nom ne doit pas dépasser {{ limit }} caractères")
      */
     public string $name;
 }
