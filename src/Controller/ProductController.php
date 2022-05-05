@@ -45,7 +45,7 @@ class ProductController extends AbstractController
      */
     public function list(ProductManagement $productManagement): JsonResponse
     {
-        return $this->json($productManagement->productsList(),200,['Content-Type' => 'application/json']);
+        return $this->json($productManagement->productsList(),Response::HTTP_OK);
     }
 
 
@@ -56,7 +56,7 @@ class ProductController extends AbstractController
      */
     public function show(Product $product): JsonResponse
     {
-        return $this->json($product,200,['Content-Type' => 'application/json']);
+        return $this->json($product,Response::HTTP_OK);
     }
 
     /**
@@ -88,9 +88,10 @@ class ProductController extends AbstractController
     {
         $productManagement->deleteProduct($product);
 
-        return $this->json('Le produit est supprimé avec succès',200,['Content-Type' => 'text/plain']);
+        return $this->json('Le produit est supprimé avec succès',Response::HTTP_OK);
     }
 }
+
 
 
 
