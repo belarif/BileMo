@@ -50,7 +50,7 @@ class UserController extends AbstractController
      */
     public function list(UserManagement $userManagement, Customer $customer): JsonResponse
     {
-        return $this->json($userManagement->usersOfCustomer($customer),'200',['Content-Type' => 'application/json']);
+        return $this->json($userManagement->usersOfCustomer($customer),Response::HTTP_OK);
     }
 
     /**
@@ -62,7 +62,7 @@ class UserController extends AbstractController
     {
         $user = $userManagement->showUser($request->get('user_id'),$customer);
 
-        return $this->json($user,'200',['Content-Type' => 'application/json']);
+        return $this->json($user,Response::HTTP_OK);
     }
 
     /**
@@ -96,7 +96,7 @@ class UserController extends AbstractController
     {
         $userManagement->deleteUser($user);
 
-        return $this->json('L\'utilisateur a été supprimé avec succès');
+        return $this->json('L\'utilisateur a été supprimé avec succès',Response::HTTP_OK);
     }
 }
 
