@@ -42,7 +42,7 @@ class ColorController extends AbstractController
      */
     public function list(ColorManagement $colorManagement): JsonResponse
     {
-        return $this->json($colorManagement->colorsList(),200,['Content-Type' => 'application/json']);
+        return $this->json($colorManagement->colorsList(),Response::HTTP_OK);
     }
 
     /**
@@ -52,7 +52,7 @@ class ColorController extends AbstractController
      */
     public function show(Color $color): JsonResponse
     {
-        return $this->json($color,200,['Content-Type' => 'application/json']);
+        return $this->json($color,Response::HTTP_OK);
     }
 
     /**
@@ -84,7 +84,8 @@ class ColorController extends AbstractController
     {
         $colorManagement->deleteColor($color);
 
-        return $this->json('La couleur a été supprimé avec succès',200,['Content-Type' => 'text/plain']);
+        return $this->json('La couleur a été supprimé avec succès',Response::HTTP_OK);
     }
 }
+
 
