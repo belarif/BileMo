@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/brands", "api_")
@@ -20,9 +22,15 @@ class BrandController extends AbstractController
     /**
      * @Route("", name="create_brand", methods={"POST"})
      */
-    public function create(Request $request, SerializerInterface $serializer, BrandManagement $brandManagement): JsonResponse
+    public function create(Request $request, SerializerInterface $serializer, BrandManagement $brandManagement, ValidatorInterface $validator): JsonResponse
     {
         $brandDTO = $serializer->deserialize($request->getContent(),BrandDTO::class,'json');
+
+        $errors = $validator->validate($brandDTO);
+
+        if($errors->count()) {
+            return $this->json((string)$errors,409);
+        }
 
         $brandManagement->createBrand($brandDTO);
 
