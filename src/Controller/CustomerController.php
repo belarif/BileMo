@@ -42,7 +42,7 @@ class CustomerController extends AbstractController
      */
     public function list(CustomerManagement $customerManagement): JsonResponse
     {
-        return $this->json($customerManagement->customersList(),200,['Content-Type' => 'application/json']);
+        return $this->json($customerManagement->customersList(),Response::HTTP_OK);
     }
 
     /**
@@ -52,7 +52,7 @@ class CustomerController extends AbstractController
      */
     public function show(Customer $customer): JsonResponse
     {
-        return $this->json($customer,200,['Content-Type' => 'application/json']);
+        return $this->json($customer,Response::HTTP_OK);
     }
 
     /**
@@ -83,7 +83,7 @@ class CustomerController extends AbstractController
     {
         $customerManagement->deletecCustomer($customer);
 
-        return $this->json('Le client est supprimé avec succès',200,['Content-Type' => 'text/plain']);
+        return $this->json('Le client est supprimé avec succès',Response::HTTP_OK);
     }
 }
 
