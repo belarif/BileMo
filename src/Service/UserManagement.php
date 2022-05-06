@@ -53,6 +53,11 @@ class UserManagement
     public function updateUser(UserDTO $userDTO, $user, $customer)
     {
         $user->setPassword($this->passwordHasher->hashPassword($user,$userDTO->password));
+
+        if(!$customer) {
+            $user->setCustomer(null);
+        }
+
         $user->setCustomer($customer);
 
         $this->userRepository->add($user);

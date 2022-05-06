@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\DTO\UserDTO;
+use App\Entity\User;
 use App\Service\UserManagement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -10,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+
 
 /**
  * @Route("/admins", name="api_")
@@ -47,5 +50,19 @@ class AdminController extends AbstractController
         $user = $userManagement->showUser($request->get('id'), $customer = null);
 
         return $this->json($user,Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/{id}", name="update_admin", methods={"PUT"}, requirements={"user_id"="\d+"})
+     *
+     * @Entity("user", expr="repository.getUser(id)")
+     */
+    public function update(Request $request, SerializerInterface $serializer, UserManagement $userManagement, User $user): JsonResponse
+    {
+        $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
+
+        $userManagement->updateUser($userDTO,$user,$customer=null);
+
+        return new JsonResponse('L\'administrateur est mise à jour avec succès',Response::HTTP_CREATED);
     }
 }
