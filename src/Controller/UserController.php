@@ -50,7 +50,7 @@ class UserController extends AbstractController
      */
     public function list(UserManagement $userManagement, Customer $customer): JsonResponse
     {
-        return $this->json($userManagement->usersOfCustomer($customer),Response::HTTP_OK);
+        return $this->json($userManagement->users($customer),Response::HTTP_OK);
     }
 
     /**

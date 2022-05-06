@@ -24,6 +24,11 @@ class UserManagement
         $user = new User();
         $user->setEmail($userDTO->email);
         $user->setPassword($this->passwordHasher->hashPassword($user,$userDTO->password));
+
+        if(!$customer) {
+            $user->setCustomer(null);
+        }
+
         $user->setCustomer($customer);
         $user->setRoles($userDTO->roles);
 
@@ -32,8 +37,13 @@ class UserManagement
 
     public function users($customer): array
     {
+        if(!$customer) {
+            return $this->userRepository->getAdmins();
+        }
+
         return $this->userRepository->findBy(['customer' => $customer->getId()]);
     }
+
 
     public function showUser($user_id, $customer): User
     {
@@ -43,6 +53,11 @@ class UserManagement
     public function updateUser(UserDTO $userDTO, $user, $customer)
     {
         $user->setPassword($this->passwordHasher->hashPassword($user,$userDTO->password));
+
+        if(!$customer) {
+            $user->setCustomer(null);
+        }
+
         $user->setCustomer($customer);
 
         $this->userRepository->add($user);

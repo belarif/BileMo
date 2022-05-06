@@ -67,7 +67,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * @return User
      * @throws EntityNotFoundException
      */
-    public function getUser($user_id):User
+    public function getUser($user_id): User
     {
         $user = $this->createQueryBuilder('u')
         ->andWhere('u.id = :id')
@@ -81,5 +81,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         
         return $user[0];
     }
+
+    /**
+     * @return array
+     */
+    public function getAdmins(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.role_id = :role_id')
+            ->setParameter('role_id', 1)
+            ->getQuery()
+            ->getResult();
+    }
 }
+
 
