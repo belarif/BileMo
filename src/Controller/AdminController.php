@@ -65,4 +65,16 @@ class AdminController extends AbstractController
 
         return new JsonResponse('L\'administrateur est mise à jour avec succès',Response::HTTP_CREATED);
     }
+
+    /**
+     * @Route("/{id}", name="delete_admin", methods={"DELETE"}, requirements={"id"="\d+"})
+     *
+     * @Entity("user", expr="repository.getUser(id)")
+     */
+    public function delete(User $user, UserManagement $userManagement): JsonResponse
+    {
+        $userManagement->deleteUser($user);
+
+        return $this->json('L\'administrateur a été supprimé avec succès',Response::HTTP_OK);
+    }
 }
