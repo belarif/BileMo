@@ -24,6 +24,11 @@ class UserManagement
         $user = new User();
         $user->setEmail($userDTO->email);
         $user->setPassword($this->passwordHasher->hashPassword($user,$userDTO->password));
+
+        if(!$customer) {
+            $user->setCustomer(null);
+        }
+
         $user->setCustomer($customer);
         $user->setRoles($userDTO->roles);
 
