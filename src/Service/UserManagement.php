@@ -35,8 +35,12 @@ class UserManagement
         $this->userRepository->add($user);
     }
 
-    public function usersOfCustomer($customer): array
+    public function users($customer): array
     {
+        if(!$customer) {
+            return $this->userRepository->getAdmins();
+        }
+
         return $this->userRepository->findBy(['customer' => $customer->getId()]);
     }
 

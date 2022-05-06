@@ -30,4 +30,12 @@ class AdminController extends AbstractController
 
         return $this->json('L\'administrateur a été créé avec succès',Response::HTTP_CREATED);
     }
+
+    /**
+     * @Route("", name="admins_list", methods={"GET"})
+     */
+    public function list(UserManagement $userManagement): JsonResponse
+    {
+        return $this->json($userManagement->users($customer = null),Response::HTTP_OK);
+    }
 }
