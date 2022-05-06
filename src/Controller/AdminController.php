@@ -38,4 +38,14 @@ class AdminController extends AbstractController
     {
         return $this->json($userManagement->users($customer = null),Response::HTTP_OK);
     }
+
+    /**
+     * @Route("/{id}", name="show_admin", methods={"GET"}, requirements={"user_id"="\d+"})
+     */
+    public function show(Request $request, UserManagement $userManagement): JsonResponse
+    {
+        $user = $userManagement->showUser($request->get('id'), $customer = null);
+
+        return $this->json($user,Response::HTTP_OK);
+    }
 }
