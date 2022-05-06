@@ -7,7 +7,7 @@ use App\Entity\DTO\UserDTO;
 use App\Repository\UserRepository;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserOfCustomerManagement
+class UserManagement
 {
     private UserRepository $userRepository;
 
@@ -19,7 +19,7 @@ class UserOfCustomerManagement
         $this->passwordHasher = $passwordHasher;
     }
 
-    public function createUserOfCustomer(UserDTO $userDTO, $customer)
+    public function createUser(UserDTO $userDTO, $customer)
     {
         $user = new User();
         $user->setEmail($userDTO->email);
@@ -30,17 +30,17 @@ class UserOfCustomerManagement
         $this->userRepository->add($user);
     }
 
-    public function usersOfCustomer($customer): array
+    public function users($customer): array
     {
         return $this->userRepository->findBy(['customer' => $customer->getId()]);
     }
 
-    public function showUserOfCustomer($user_id, $customer): User
+    public function showUser($user_id, $customer): User
     {
         return $this->userRepository->findOneBy(['id' => $user_id, 'customer' => $customer]);
     }
 
-    public function updateUserOfCustomer(UserDTO $userDTO, $user, $customer)
+    public function updateUser(UserDTO $userDTO, $user, $customer)
     {
         $user->setPassword($this->passwordHasher->hashPassword($user,$userDTO->password));
         $user->setCustomer($customer);
@@ -48,7 +48,7 @@ class UserOfCustomerManagement
         $this->userRepository->add($user);
     }
 
-    public function deleteUserOfCustomer($user)
+    public function deleteUser($user)
     {
         $this->userRepository->remove($user);
     }
