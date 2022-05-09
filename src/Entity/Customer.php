@@ -15,10 +15,10 @@ class Customer
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private int $id;
+    protected int $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=10)
      */
     private string $code;
 
@@ -28,7 +28,7 @@ class Customer
     private bool $status;
 
     /**
-     * @ORM\Column(type="string", length=120)
+     * @ORM\Column(type="string", length=60)
      */
     private $company;
 
@@ -73,3 +73,5 @@ class Customer
         return $this;
     }
 }
+
+

@@ -8,9 +8,11 @@ use App\Service\ColorManagement;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/colors", name="api_")
@@ -20,13 +22,19 @@ class ColorController extends AbstractController
     /**
      * @Route("", name="create_color", methods={"POST"})
      */
-    public function create(Request $request, SerializerInterface $serializer, ColorManagement $colorManagement): JsonResponse
+    public function create(Request $request, SerializerInterface $serializer, ColorManagement $colorManagement, ValidatorInterface $validator): JsonResponse
     {
         $colorDTO = $serializer->deserialize($request->getContent(),ColorDTO::class,'json');
 
+        $errors = $validator->validate($colorDTO);
+
+        if($errors->count()) {
+            return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+        }
+
         $colorManagement->createColor($colorDTO);
 
-        return $this->json('La couleur a été ajouté avec succès',200,['Content-Type' => 'text/plain']);
+        return $this->json('La couleur a été ajouté avec succès',Response::HTTP_CREATED);
     }
 
     /**
@@ -34,7 +42,7 @@ class ColorController extends AbstractController
      */
     public function list(ColorManagement $colorManagement): JsonResponse
     {
-        return $this->json($colorManagement->colorsList(),200,['Content-Type' => 'application/json']);
+        return $this->json($colorManagement->colorsList(),Response::HTTP_OK);
     }
 
     /**
@@ -44,7 +52,7 @@ class ColorController extends AbstractController
      */
     public function show(Color $color): JsonResponse
     {
-        return $this->json($color,200,['Content-Type' => 'application/json']);
+        return $this->json($color,Response::HTTP_OK);
     }
 
     /**
@@ -52,13 +60,19 @@ class ColorController extends AbstractController
      *
      * @Entity("color", expr="repository.getColor(id)")
      */
-    public function update(Request $request, Color $color, ColorManagement $colorManagement, SerializerInterface $serializer): JsonResponse
+    public function update(Request $request, Color $color, ColorManagement $colorManagement, SerializerInterface $serializer, ValidatorInterface $validator): JsonResponse
     {
         $colorDTO = $serializer->deserialize($request->getContent(),ColorDTO::class,'json');
 
+        $errors = $validator->validate($colorDTO);
+
+        if($errors->count()) {
+            return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+        }
+
         $colorManagement->updateColor($color,$colorDTO);
 
-        return $this->json('La couleur a été modifié avec succès',200,['Content-Type' => 'text/plain']);
+        return $this->json('La couleur a été modifié avec succès',Response::HTTP_CREATED);
     }
 
     /**
@@ -70,7 +84,8 @@ class ColorController extends AbstractController
     {
         $colorManagement->deleteColor($color);
 
-        return $this->json('La couleur a été supprimé avec succès',200,['Content-Type' => 'text/plain']);
+        return $this->json('La couleur a été supprimé avec succès',Response::HTTP_OK);
     }
 }
+
 

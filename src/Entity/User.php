@@ -22,14 +22,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     protected int $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=50, unique=true)
      */
     private string $email;
-
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
 
     /**
      * @var string The hashed password
@@ -41,6 +36,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\ManyToOne(targetEntity=Customer::class)
      */
     private ?Customer $customer;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Role::class)
+     */
+    private $roles;
+
+    public function __construct()
+    {
+        $this->roles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -82,11 +87,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles = $this->roles->map(function (Role $role) {
+            return $role->getRoleName();
+        });
 
-        return array_unique($roles);
+        return array_unique($roles->toArray());
     }
 
     public function setRoles(array $roles): self
@@ -142,4 +147,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Role>
+     */
+    public function getRole(): Collection
+    {
+        return $this->roles;
+    }
+
+    public function addRole(Role $role): self
+    {
+        if (!$this->roles->contains($role)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Role $role): self
+    {
+        $this->roles->removeElement($role);
+
+        return $this;
+    }
 }
+

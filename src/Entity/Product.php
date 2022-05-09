@@ -22,7 +22,7 @@ class Product
     protected int $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=60)
      */
     private string $name;
 
@@ -215,4 +215,5 @@ class Product
         return $this;
     }
 }
+
 

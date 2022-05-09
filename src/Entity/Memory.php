@@ -18,7 +18,7 @@ class Memory
     protected int $id;
 
     /**
-     * @ORM\Column(type="string", length=80)
+     * @ORM\Column(type="string", length=10)
      */
     private string $memoryCapacity;
 
@@ -39,3 +39,4 @@ class Memory
         return $this;
     }
 }
+
