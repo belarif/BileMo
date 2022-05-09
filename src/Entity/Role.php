@@ -15,12 +15,12 @@ class Role
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    protected $id;
+    protected ?int $id;
 
     /**
      * @ORM\Column(type="string", length=30)
      */
-    private $roleName;
+    private ?string $roleName;
 
     public function getId(): ?int
     {

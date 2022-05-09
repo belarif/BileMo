@@ -26,8 +26,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private string $email;
 
-    /*private $roles = [];*/
-
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
@@ -42,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\ManyToMany(targetEntity=Role::class)
      */
-    private ArrayCollection $roles;
+    private $roles;
 
     public function __construct()
     {
@@ -84,14 +82,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->email;
     }
 
-
-    /*public function getRoles(): array
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles = $this->roles->map(function (Role $role) {
+            return $role->getRoleName();
+        });
 
-        return array_unique($roles);
+        return array_unique($roles->toArray());
     }
 
     public function setRoles(array $roles): self
@@ -99,7 +99,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->roles = $roles;
 
         return $this;
-    }*/
+    }
 
     /**
      * @see PasswordAuthenticatedUserInterface
@@ -151,7 +151,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Role>
      */
-    public function getRoles(): Collection
+    public function getRole(): Collection
     {
         return $this->roles;
     }
