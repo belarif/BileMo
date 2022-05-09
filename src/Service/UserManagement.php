@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Entity\DTO\UserDTO;
+use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -11,11 +12,18 @@ class UserManagement
 {
     private UserRepository $userRepository;
 
+    private RoleRepository $roleRepository;
+
     private UserPasswordHasherInterface $passwordHasher;
 
-    public function __construct(UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher)
+    public function __construct(
+        UserRepository $userRepository,
+        RoleRepository $roleRepository,
+        UserPasswordHasherInterface $passwordHasher
+    )
     {
         $this->userRepository = $userRepository;
+        $this->roleRepository = $roleRepository;
         $this->passwordHasher = $passwordHasher;
     }
 
@@ -30,7 +38,10 @@ class UserManagement
         }
 
         $user->setCustomer($customer);
-        $user->setRoles($userDTO->roles);
+
+        foreach ($userDTO->getRoles() as $role) {
+            $user->addRole($this->roleRepository->findOneBy(['id' => $role->id]));
+        }
 
         $this->userRepository->add($user);
     }
