@@ -27,7 +27,7 @@ class UserManagement
         $this->passwordHasher = $passwordHasher;
     }
 
-    public function createUser(UserDTO $userDTO, $customer)
+    public function createUser(UserDTO $userDTO, $customer): User
     {
         $user = new User();
         $user->setEmail($userDTO->email);
@@ -36,14 +36,13 @@ class UserManagement
         if(!$customer) {
             $user->setCustomer(null);
         }
-
         $user->setCustomer($customer);
 
         foreach ($userDTO->getRoles() as $role) {
             $user->addRole($this->roleRepository->findOneBy(['id' => $role->id]));
         }
 
-        $this->userRepository->add($user);
+        return $this->userRepository->add($user);
     }
 
     public function users($customer): array
@@ -61,7 +60,7 @@ class UserManagement
         return $this->userRepository->findOneBy(['id' => $user_id, 'customer' => $customer]);
     }
 
-    public function updateUser(UserDTO $userDTO, $user, $customer)
+    public function updateUser(UserDTO $userDTO, $user, $customer): User
     {
         $user->setPassword($this->passwordHasher->hashPassword($user,$userDTO->password));
 
@@ -71,7 +70,7 @@ class UserManagement
 
         $user->setCustomer($customer);
 
-        $this->userRepository->add($user);
+        return $this->userRepository->add($user);
     }
 
     public function deleteUser($user)

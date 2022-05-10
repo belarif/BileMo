@@ -9,6 +9,7 @@ use App\Service\UserManagement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
@@ -29,9 +30,10 @@ class VisitorController extends AbstractController
          * @var UserDTO $userDTO
          */
         $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
-        $userManagement->createUser($userDTO, $customer);
 
-        return $this->json('Le visiteur a été créé avec succès',200,['Content-Type' => 'text/plain']);
+        $user = $userManagement->createUser($userDTO, $customer);
+
+        return $this->json($user,Response::HTTP_CREATED,[],['groups' => ['show_user','show_customer']]);
     }
 
     /**
@@ -64,9 +66,10 @@ class VisitorController extends AbstractController
     public function update(Request $request, SerializerInterface $serializer, UserManagement $userManagement, User $user, Customer $customer): JsonResponse
     {
         $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
-        $userManagement->updateUser($userDTO,$user,$customer);
 
-        return $this->json('Le visiteur est mise à jour avec succès',200,['Content-Type' => 'text/plain']);
+        $updatedUser = $userManagement->updateUser($userDTO,$user,$customer);
+
+        return $this->json($updatedUser,Response::HTTP_CREATED,[],['groups' => ['show_user','show_customer']]);
     }
 
     /**
