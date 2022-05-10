@@ -1,0 +1,50 @@
+###  login ###
+POST {{base_url}}/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username":"b.ocine@live.fr",
+  "password":"user1"
+}
+
+### create visitor ###
+POST {{base_url}}/customers/2/visitors
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "email":"test2@gmail.com",
+  "password":"delete",
+  "roles":
+  [
+    {
+      "id":2
+    }
+  ]
+}
+
+### update visitor ###
+PUT {{base_url}}/customers/2/visitors/62
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "password":"chaglké1",
+    "roles":
+    [
+        {
+            "id":2
+        }
+    ]
+}
+
+### delete visitor ###
+DELETE {{base_url}}/customers/2/visitors/62
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
