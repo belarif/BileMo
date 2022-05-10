@@ -25,6 +25,18 @@ Authorization: Bearer {{token}}
   ]
 }
 
+### visitors list
+GET {{base_url}}/customers/2/visitors
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### show visitor
+GET {{base_url}}/customers/2/visitors/63
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
 ### update visitor ###
 PUT {{base_url}}/customers/2/visitors/62
 Accept: application/json
