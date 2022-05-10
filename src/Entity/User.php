@@ -20,14 +20,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
-     * @Groups({"show_user"})
+     * @Groups({"show_visitor"})
+     * @Groups({"show_admin"})
      */
     protected int $id;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
      *
-     * @Groups({"show_user"})
+     * @Groups({"show_visitor"})
+     * @Groups({"show_admin"})
      */
     private string $email;
 
@@ -40,14 +42,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class)
      *
-     * @Groups({"show_user"})
+     * @Groups({"show_visitor"})
      */
     private ?Customer $customer;
 
     /**
      * @ORM\ManyToMany(targetEntity=Role::class)
      *
-     * @Groups({"show_user"})
+     * @Groups({"show_visitor"})
+     * @Groups({"show_admin"})
      */
     private $roles;
 

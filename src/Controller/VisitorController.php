@@ -33,7 +33,7 @@ class VisitorController extends AbstractController
 
         $user = $userManagement->createUser($userDTO, $customer);
 
-        return $this->json($user,Response::HTTP_CREATED,[],['groups' => ['show_user','show_customer']]);
+        return $this->json($user,Response::HTTP_CREATED,[],['groups' => ['show_visitor','show_customer']]);
     }
 
     /**
@@ -45,7 +45,7 @@ class VisitorController extends AbstractController
     {
         $users = $userManagement->users($customer);
 
-        return $this->json($users,Response::HTTP_OK,[],['groups' => ['show_user','show_customer']]);
+        return $this->json($users,Response::HTTP_OK,[],['groups' => ['show_visitor','show_customer']]);
     }
 
     /**
@@ -58,7 +58,7 @@ class VisitorController extends AbstractController
     {
         $showedUser = $userManagement->showUser($request->get('visitor_id'),$customer);
 
-        return $this->json($showedUser,Response::HTTP_OK,[],['groups' => ['show_user','show_customer']]);
+        return $this->json($showedUser,Response::HTTP_OK,[],['groups' => ['show_visitor','show_customer']]);
     }
 
     /**
@@ -73,7 +73,7 @@ class VisitorController extends AbstractController
 
         $updatedUser = $userManagement->updateUser($userDTO,$user,$customer);
 
-        return $this->json($updatedUser,Response::HTTP_CREATED,[],['groups' => ['show_user','show_customer']]);
+        return $this->json($updatedUser,Response::HTTP_CREATED,[],['groups' => ['show_visitor','show_customer']]);
     }
 
     /**

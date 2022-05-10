@@ -29,9 +29,9 @@ class AdminController extends AbstractController
          */
         $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
 
-        $userManagement->createUser($userDTO, $customer = null);
+        $admin = $userManagement->createUser($userDTO, $customer = null);
 
-        return $this->json('L\'administrateur a été créé avec succès',Response::HTTP_CREATED);
+        return $this->json($admin,Response::HTTP_CREATED,[],['groups' => 'show_admin']);
     }
 
     /**
@@ -39,7 +39,9 @@ class AdminController extends AbstractController
      */
     public function list(UserManagement $userManagement): JsonResponse
     {
-        return $this->json($userManagement->users($customer = null),Response::HTTP_OK);
+        $admins = $userManagement->users($customer = null);
+
+        return $this->json($admins,Response::HTTP_OK,[],['groups' => 'show_admin']);
     }
 
     /**
@@ -47,9 +49,9 @@ class AdminController extends AbstractController
      */
     public function show(Request $request, UserManagement $userManagement): JsonResponse
     {
-        $user = $userManagement->showUser($request->get('id'), $customer = null);
+        $admin = $userManagement->showUser($request->get('id'), $customer = null);
 
-        return $this->json($user,Response::HTTP_OK);
+        return $this->json($admin,Response::HTTP_OK,[],['groups' => 'show_admin']);
     }
 
     /**
@@ -61,9 +63,9 @@ class AdminController extends AbstractController
     {
         $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
 
-        $userManagement->updateUser($userDTO,$user,$customer=null);
+        $admin = $userManagement->updateUser($userDTO,$user,$customer=null);
 
-        return new JsonResponse('L\'administrateur est mise à jour avec succès',Response::HTTP_CREATED);
+        return $this->json($admin,Response::HTTP_CREATED,[],['groups' => 'show_admin']);
     }
 
     /**
