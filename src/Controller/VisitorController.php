@@ -43,7 +43,9 @@ class VisitorController extends AbstractController
      */
     public function list(UserManagement $userManagement, Customer $customer): JsonResponse
     {
-        return $this->json($userManagement->users($customer),200,['Content-Type' => 'application/json']);
+        $users = $userManagement->users($customer);
+
+        return $this->json($users,Response::HTTP_OK,[],['groups' => ['show_user','show_customer']]);
     }
 
     /**
@@ -54,7 +56,9 @@ class VisitorController extends AbstractController
      */
     public function show(Request $request, Customer $customer, UserManagement $userManagement, User $user): JsonResponse
     {
-        return $this->json($userManagement->showUser($request->get('visitor_id'),$customer),200,['Content-Type' => 'application/json']);
+        $showedUser = $userManagement->showUser($request->get('visitor_id'),$customer);
+
+        return $this->json($showedUser,Response::HTTP_OK,[],['groups' => ['show_user','show_customer']]);
     }
 
     /**
@@ -82,6 +86,6 @@ class VisitorController extends AbstractController
     {
         $userManagement->deleteUser($user);
 
-        return $this->json('Le visiteur a été supprimé avec succès',200,['Content-Type' => 'text/plain']);
+        return $this->json('Le visiteur a été supprimé avec succès',Response::HTTP_OK);
     }
 }
