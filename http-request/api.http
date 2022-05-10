@@ -1,3 +1,4 @@
+### start security management
 ###  login ###
 POST {{base_url}}/login
 Accept: application/json
@@ -7,6 +8,8 @@ Content-Type: application/json
   "username":"b.ocine@live.fr",
   "password":"user1"
 }
+### end security management ###
+
 
 ### create visitor ###
 POST {{base_url}}/customers/2/visitors
@@ -25,6 +28,7 @@ Authorization: Bearer {{token}}
   ]
 }
 
+### start visitors management
 ### visitors list
 GET {{base_url}}/customers/2/visitors
 Accept: application/json
@@ -58,5 +62,60 @@ DELETE {{base_url}}/customers/2/visitors/62
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
+### end visitors management
+
+
+### start admins management
+### create admin
+POST {{base_url}}/admins
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "email":"admin@gmail.com",
+  "password":"admin",
+  "roles":
+  [
+    {
+      "id":1
+    }
+  ]
+}
+
+### admins list
+GET {{base_url}}/admins
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### show admin
+GET {{base_url}}/admins/70
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### update admin ###
+PUT {{base_url}}/admins/70
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "password":"admin2",
+  "roles":
+  [
+    {
+      "id":1
+    }
+  ]
+}
+
+### delete admin
+DELETE {{base_url}}/admins/70
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+### end admins management
 
 
