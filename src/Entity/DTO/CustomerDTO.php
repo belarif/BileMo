@@ -13,7 +13,7 @@ class CustomerDTO
      */
     public string $code;
 
-    public $status;
+    public $enabled;
 
     /**
      * @Assert\NotBlank(message="Le champs société ne peut pas être vide")
