@@ -31,9 +31,9 @@ class VisitorController extends AbstractController
          */
         $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
 
-        $user = $userManagement->createUser($userDTO, $customer);
+        $visitor = $userManagement->createUser($userDTO, $customer);
 
-        return $this->json($user,Response::HTTP_CREATED,[],['groups' => ['show_visitor','show_customer']]);
+        return $this->json($visitor,Response::HTTP_CREATED,[],['groups' => ['show_visitor','show_customer']]);
     }
 
     /**
@@ -43,9 +43,9 @@ class VisitorController extends AbstractController
      */
     public function list(UserManagement $userManagement, Customer $customer): JsonResponse
     {
-        $users = $userManagement->users($customer);
+        $visitors = $userManagement->users($customer);
 
-        return $this->json($users,Response::HTTP_OK,[],['groups' => ['show_visitor','show_customer']]);
+        return $this->json($visitors,Response::HTTP_OK,[],['groups' => ['show_visitor','show_customer']]);
     }
 
     /**
@@ -56,9 +56,9 @@ class VisitorController extends AbstractController
      */
     public function show(Request $request, Customer $customer, UserManagement $userManagement, User $user): JsonResponse
     {
-        $showedUser = $userManagement->showUser($request->get('visitor_id'),$customer);
+        $visitor = $userManagement->showUser($request->get('visitor_id'),$customer);
 
-        return $this->json($showedUser,Response::HTTP_OK,[],['groups' => ['show_visitor','show_customer']]);
+        return $this->json($visitor,Response::HTTP_OK,[],['groups' => ['show_visitor','show_customer']]);
     }
 
     /**
@@ -71,9 +71,9 @@ class VisitorController extends AbstractController
     {
         $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
 
-        $updatedUser = $userManagement->updateUser($userDTO,$user,$customer);
+        $visitor = $userManagement->updateUser($userDTO,$user,$customer);
 
-        return $this->json($updatedUser,Response::HTTP_CREATED,[],['groups' => ['show_visitor','show_customer']]);
+        return $this->json($visitor,Response::HTTP_CREATED,[],['groups' => ['show_visitor','show_customer']]);
     }
 
     /**
