@@ -22,7 +22,12 @@ class ProductController extends AbstractController
     /**
      * @Route("", name="create_product", methods={"POST"})
      */
-    public function create(Request $request, SerializerInterface $serializer, ProductManagement $productManagement, ValidatorInterface $validator): JsonResponse
+    public function create(
+        Request $request,
+        SerializerInterface $serializer,
+        ProductManagement $productManagement,
+        ValidatorInterface $validator
+    ): JsonResponse
     {
         /**
          * @var ProductDTO $productDTO
@@ -30,14 +35,11 @@ class ProductController extends AbstractController
         $productDTO = $serializer->deserialize($request->getContent(), ProductDTO::class, 'json');
 
         $errors = $validator->validate($productDTO);
-
         if($errors->count()) {
             return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
         }
 
-        $productManagement->createProduct($productDTO);
-
-        return $this->json('le produit a été créé avec succès',Response::HTTP_CREATED);
+        return $this->json($productManagement->createProduct($productDTO),Response::HTTP_CREATED,[],['groups' => 'show_product']);
     }
 
     /**
@@ -45,7 +47,7 @@ class ProductController extends AbstractController
      */
     public function list(ProductManagement $productManagement): JsonResponse
     {
-        return $this->json($productManagement->productsList(),Response::HTTP_OK);
+        return $this->json($productManagement->productsList(),Response::HTTP_OK,[],['groups' => 'show_product']);
     }
 
 
@@ -56,7 +58,7 @@ class ProductController extends AbstractController
      */
     public function show(Product $product): JsonResponse
     {
-        return $this->json($product,Response::HTTP_OK);
+        return $this->json($product,Response::HTTP_OK,[],['groups' => 'show_product']);
     }
 
     /**
@@ -64,19 +66,22 @@ class ProductController extends AbstractController
      *
      * @Entity("product", expr="repository.getProduct(id)")
      */
-    public function update(Request $request, SerializerInterface $serializer, ProductManagement $productManagement, Product $product, ValidatorInterface $validator): JsonResponse
+    public function update(
+        Request $request,
+        SerializerInterface $serializer,
+        ProductManagement $productManagement,
+        Product $product,
+        ValidatorInterface $validator
+    ): JsonResponse
     {
         $productDTO = $serializer->deserialize($request->getContent(), ProductDTO::class, 'json');
 
         $errors = $validator->validate($productDTO);
-
         if($errors->count()) {
             return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
         }
 
-        $productManagement->updateProduct($productDTO,$product);
-
-        return $this->json('Le produit est mise à jour avec succès',Response::HTTP_CREATED);
+        return $this->json($productManagement->updateProduct($productDTO,$product),Response::HTTP_CREATED,[],['groups' => 'show_product']);
     }
 
     /**
@@ -91,6 +96,7 @@ class ProductController extends AbstractController
         return $this->json('Le produit est supprimé avec succès',Response::HTTP_OK);
     }
 }
+
 
 
 

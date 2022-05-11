@@ -166,3 +166,109 @@ Authorization: Bearer {{token}}
 ### end customers management
 
 
+### start customers management
+### create customer
+POST {{base_url}}/products
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name":"Iphone 12",
+  "description":"votre nouvel iphone est doté d'un système ...",
+  "brand":
+  {
+    "id":5
+  },
+  "memory":
+  {
+    "id":3
+  },
+  "country":
+  {
+    "id":2
+  },
+  "user":
+  {
+    "id":1
+  },
+  "colors":
+  [
+    {
+      "id":6
+    }
+  ],
+  "images":
+  [
+    {
+      "src":"https://www.frandroid.com/marques/samsung/599043_test-samsung-galaxy-a10"
+    },
+    {
+      "src":"https://www.frandroid.com/marques/samsung/599043_test-samsung-galaxy-a10"
+    }
+  ]
+}
+
+### products list
+GET {{base_url}}/products
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### show product
+GET {{base_url}}/products/11
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### update product ###
+PUT {{base_url}}/products/11
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name":"Iphone 12 modifié",
+  "description":"votre nouvel iphone est doté d'un système ...",
+  "brand":
+  {
+    "id":5
+  },
+  "memory":
+  {
+    "id":3
+  },
+  "country":
+  {
+    "id":2
+  },
+  "user":
+  {
+    "id":1
+  },
+  "colors":
+  [
+    {
+      "id":6
+    }
+  ],
+  "images":
+  [
+    {
+      "src":"https://www.frandroid.com/marques/samsung/599043_test-samsung-galaxy-a10"
+    },
+    {
+      "src":"https://www.frandroid.com/marques/samsung/599043_test-samsung-galaxy-a10"
+    }
+  ]
+}
+
+### delete product
+DELETE {{base_url}}/products/11
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### end products management
+
+
