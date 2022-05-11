@@ -48,7 +48,7 @@ class UserManagement
     public function users($customer): array
     {
         if(!$customer) {
-            return $this->userRepository->getAdmins();
+            return $this->userRepository->findBy(['customer' => null]);
         }
 
         return $this->userRepository->findBy(['customer' => $customer->getId()]);
