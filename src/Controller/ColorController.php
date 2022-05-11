@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -29,14 +30,24 @@ class ColorController extends AbstractController
         ValidatorInterface $validator
     ): JsonResponse
     {
-        $colorDTO = $serializer->deserialize($request->getContent(),ColorDTO::class,'json');
+        try {
+            $colorDTO = $serializer->deserialize($request->getContent(),ColorDTO::class,'json');
 
-        $errors = $validator->validate($colorDTO);
-        if($errors->count()) {
-            return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            $errors = $validator->validate($colorDTO);
+
+            if($errors->count()) {
+                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            }
+
+            return $this->json($colorManagement->createColor($colorDTO),Response::HTTP_CREATED);
+        } catch (NotEncodableValueException $e) {
+
+            return $this->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'message' => $e->getMessage()],
+                Response::HTTP_BAD_REQUEST
+            );
         }
-
-        return $this->json($colorManagement->createColor($colorDTO),Response::HTTP_CREATED);
     }
 
     /**
@@ -70,14 +81,24 @@ class ColorController extends AbstractController
         ValidatorInterface $validator
     ): JsonResponse
     {
-        $colorDTO = $serializer->deserialize($request->getContent(),ColorDTO::class,'json');
+        try {
+            $colorDTO = $serializer->deserialize($request->getContent(),ColorDTO::class,'json');
 
-        $errors = $validator->validate($colorDTO);
-        if($errors->count()) {
-            return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            $errors = $validator->validate($colorDTO);
+
+            if($errors->count()) {
+                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            }
+
+            return $this->json($colorManagement->updateColor($color,$colorDTO),Response::HTTP_CREATED);
+        } catch (NotEncodableValueException $e) {
+
+            return $this->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'message' => $e->getMessage()],
+                Response::HTTP_BAD_REQUEST
+            );
         }
-
-        return $this->json($colorManagement->updateColor($color,$colorDTO),Response::HTTP_CREATED);
     }
 
     /**
