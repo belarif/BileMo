@@ -11,8 +11,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/customers/{customer_id}/visitors", name="api_", requirements={"customer_id"="\d+"})
@@ -24,16 +26,40 @@ class VisitorController extends AbstractController
      *
      * @Entity("customer", expr="repository.getCustomer(customer_id)")
      */
-    public function create(Request $request, SerializerInterface $serializer, UserManagement $userManagement, Customer $customer): JsonResponse
+    public function create(
+        Request $request,
+        SerializerInterface $serializer,
+        UserManagement $userManagement, Customer $customer,
+        ValidatorInterface $validator
+    ): JsonResponse
     {
-        /**
-         * @var UserDTO $userDTO
-         */
-        $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
+        try {
+            /**
+             * @var UserDTO $userDTO
+             */
+            $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
 
-        $visitor = $userManagement->createUser($userDTO, $customer);
+            $errors = $validator->validate($userDTO);
 
-        return $this->json($visitor,Response::HTTP_CREATED,[],['groups' => ['show_visitor','show_customer']]);
+            if($errors->count()) {
+                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            }
+
+            return $this->json(
+                $userManagement->createUser($userDTO, $customer),
+                Response::HTTP_CREATED,
+                [],
+                ['groups' => ['show_visitor','show_customer']]
+            );
+
+        } catch (NotEncodableValueException $e) {
+            return $this->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'message' => $e->getMessage()],
+                Response::HTTP_BAD_REQUEST
+            );
+
+        }
     }
 
     /**
@@ -56,9 +82,13 @@ class VisitorController extends AbstractController
      */
     public function show(Request $request, Customer $customer, UserManagement $userManagement, User $user): JsonResponse
     {
-        $visitor = $userManagement->showUser($request->get('visitor_id'),$customer);
-
-        return $this->json($visitor,Response::HTTP_OK,[],['groups' => ['show_visitor','show_customer']]);
+        return $this->json(
+            $userManagement->showUser($request->get('visitor_id'),
+                $customer),
+            Response::HTTP_OK,
+            [],
+            ['groups' => ['show_visitor','show_customer']]
+        );
     }
 
     /**
@@ -67,13 +97,39 @@ class VisitorController extends AbstractController
      * @Entity("customer", expr="repository.getCustomer(customer_id)")
      * @Entity("user", expr="repository.getUser(visitor_id)")
      */
-    public function update(Request $request, SerializerInterface $serializer, UserManagement $userManagement, User $user, Customer $customer): JsonResponse
+    public function update(
+        Request $request,
+        SerializerInterface $serializer,
+        UserManagement $userManagement,
+        User $user,
+        Customer $customer,
+        ValidatorInterface $validator
+    ): JsonResponse
     {
-        $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
+        try {
+            $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
 
-        $visitor = $userManagement->updateUser($userDTO,$user,$customer);
+            $errors = $validator->validate($userDTO);
 
-        return $this->json($visitor,Response::HTTP_CREATED,[],['groups' => ['show_visitor','show_customer']]);
+            if($errors->count()) {
+                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            }
+
+            return $this->json(
+                $userManagement->updateUser($userDTO,$user,$customer),
+                Response::HTTP_CREATED,
+                [],
+                ['groups' => ['show_visitor','show_customer']]
+            );
+
+        } catch (NotEncodableValueException $e) {
+            return $this->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'message' => $e->getMessage()],
+                Response::HTTP_BAD_REQUEST
+            );
+
+        }
     }
 
     /**
