@@ -116,6 +116,53 @@ DELETE {{base_url}}/admins/70
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
+
 ### end admins management
+
+
+### start customers management
+### create customer
+POST {{base_url}}/customers
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "company":"allo pièces",
+  "code": "2A2562",
+  "enabled": 0
+}
+
+### customers list
+GET {{base_url}}/customers
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### show customer
+GET {{base_url}}/customers/15
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### update customer ###
+PUT {{base_url}}/customers/15
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "company":"allotoz",
+  "code": "2A2562",
+  "enabled": 0
+}
+
+### delete customer
+DELETE {{base_url}}/customers/15
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### end customers management
 
 
