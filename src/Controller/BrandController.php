@@ -23,19 +23,21 @@ class BrandController extends AbstractController
     /**
      * @Route("", name="create_brand", methods={"POST"})
      */
-    public function create(Request $request, SerializerInterface $serializer, BrandManagement $brandManagement, ValidatorInterface $validator): JsonResponse
+    public function create(
+        Request $request,
+        SerializerInterface $serializer,
+        BrandManagement $brandManagement,
+        ValidatorInterface $validator
+    ): JsonResponse
     {
         $brandDTO = $serializer->deserialize($request->getContent(),BrandDTO::class,'json');
 
         $errors = $validator->validate($brandDTO);
-
         if($errors->count()) {
             return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
         }
 
-        $brandManagement->createBrand($brandDTO);
-
-        return $this->json('La marque a été ajouté avec succès',Response::HTTP_CREATED);
+        return $this->json($brandManagement->createBrand($brandDTO),Response::HTTP_CREATED);
     }
 
     /**
@@ -61,19 +63,22 @@ class BrandController extends AbstractController
      *
      * @Entity("brand", expr="repository.getBrand(id)")
      */
-    public function update(Request $request, Brand $brand, BrandManagement $brandManagement, SerializerInterface $serializer, ValidatorInterface $validator): JsonResponse
+    public function update(
+        Request $request,
+        Brand $brand,
+        BrandManagement $brandManagement,
+        SerializerInterface $serializer,
+        ValidatorInterface $validator
+    ): JsonResponse
     {
         $brandDTO = $serializer->deserialize($request->getContent(),BrandDTO::class,'json');
 
         $errors = $validator->validate($brandDTO);
-
         if($errors->count()) {
             return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
         }
 
-        $brandManagement->updateBrand($brand,$brandDTO);
-
-        return $this->json('La marque a été modifié avec succès',Response::HTTP_CREATED);
+        return $this->json($brandManagement->updateBrand($brand,$brandDTO),Response::HTTP_CREATED);
     }
 
     /**

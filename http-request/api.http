@@ -272,3 +272,45 @@ Authorization: Bearer {{token}}
 ### end products management
 
 
+### start brands management
+### create brand
+POST {{base_url}}/brands
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Vodafone"
+}
+
+### brands list
+GET {{base_url}}/brands
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### show brand
+GET {{base_url}}/brands/34
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### update brand ###
+PUT {{base_url}}/brands/34
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Microsoft"
+}
+
+### delete brand
+DELETE {{base_url}}/brands/34
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### end brands management
+
+
