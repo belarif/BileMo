@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\ProductManagement;
@@ -29,17 +30,28 @@ class ProductController extends AbstractController
         ValidatorInterface $validator
     ): JsonResponse
     {
-        /**
-         * @var ProductDTO $productDTO
-         */
-        $productDTO = $serializer->deserialize($request->getContent(), ProductDTO::class, 'json');
+        try {
+            /**
+             * @var ProductDTO $productDTO
+             */
+            $productDTO = $serializer->deserialize($request->getContent(), ProductDTO::class, 'json');
 
-        $errors = $validator->validate($productDTO);
-        if($errors->count()) {
-            return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            $errors = $validator->validate($productDTO);
+
+            if($errors->count()) {
+                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            }
+
+            return $this->json($productManagement->createProduct($productDTO),Response::HTTP_CREATED,[],['groups' => 'show_product']);
+
+        } catch (NotEncodableValueException $e) {
+            return $this->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'message' => $e->getMessage()],
+                Response::HTTP_BAD_REQUEST
+            );
+
         }
-
-        return $this->json($productManagement->createProduct($productDTO),Response::HTTP_CREATED,[],['groups' => 'show_product']);
     }
 
     /**
@@ -74,14 +86,25 @@ class ProductController extends AbstractController
         ValidatorInterface $validator
     ): JsonResponse
     {
-        $productDTO = $serializer->deserialize($request->getContent(), ProductDTO::class, 'json');
+        try {
+            $productDTO = $serializer->deserialize($request->getContent(), ProductDTO::class, 'json');
 
-        $errors = $validator->validate($productDTO);
-        if($errors->count()) {
-            return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            $errors = $validator->validate($productDTO);
+
+            if($errors->count()) {
+                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            }
+
+            return $this->json($productManagement->updateProduct($productDTO,$product),Response::HTTP_CREATED,[],['groups' => 'show_product']);
+
+        } catch (NotEncodableValueException $e) {
+            return $this->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'message' => $e->getMessage()],
+                Response::HTTP_BAD_REQUEST
+            );
+
         }
-
-        return $this->json($productManagement->updateProduct($productDTO,$product),Response::HTTP_CREATED,[],['groups' => 'show_product']);
     }
 
     /**
