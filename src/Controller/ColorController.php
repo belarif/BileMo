@@ -22,19 +22,21 @@ class ColorController extends AbstractController
     /**
      * @Route("", name="create_color", methods={"POST"})
      */
-    public function create(Request $request, SerializerInterface $serializer, ColorManagement $colorManagement, ValidatorInterface $validator): JsonResponse
+    public function create(
+        Request $request,
+        SerializerInterface $serializer,
+        ColorManagement $colorManagement,
+        ValidatorInterface $validator
+    ): JsonResponse
     {
         $colorDTO = $serializer->deserialize($request->getContent(),ColorDTO::class,'json');
 
         $errors = $validator->validate($colorDTO);
-
         if($errors->count()) {
             return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
         }
 
-        $colorManagement->createColor($colorDTO);
-
-        return $this->json('La couleur a été ajouté avec succès',Response::HTTP_CREATED);
+        return $this->json($colorManagement->createColor($colorDTO),Response::HTTP_CREATED);
     }
 
     /**
@@ -60,19 +62,22 @@ class ColorController extends AbstractController
      *
      * @Entity("color", expr="repository.getColor(id)")
      */
-    public function update(Request $request, Color $color, ColorManagement $colorManagement, SerializerInterface $serializer, ValidatorInterface $validator): JsonResponse
+    public function update(
+        Request $request,
+        Color $color,
+        ColorManagement $colorManagement,
+        SerializerInterface $serializer,
+        ValidatorInterface $validator
+    ): JsonResponse
     {
         $colorDTO = $serializer->deserialize($request->getContent(),ColorDTO::class,'json');
 
         $errors = $validator->validate($colorDTO);
-
         if($errors->count()) {
             return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
         }
 
-        $colorManagement->updateColor($color,$colorDTO);
-
-        return $this->json('La couleur a été modifié avec succès',Response::HTTP_CREATED);
+        return $this->json($colorManagement->updateColor($color,$colorDTO),Response::HTTP_CREATED);
     }
 
     /**

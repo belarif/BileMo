@@ -26,12 +26,14 @@ class ColorRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Color $entity, bool $flush = true): void
+    public function add(Color $entity, bool $flush = true): Color
     {
         $this->_em->persist($entity);
         if ($flush) {
             $this->_em->flush();
         }
+
+        return $entity;
     }
 
     /**

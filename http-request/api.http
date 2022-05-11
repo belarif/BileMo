@@ -314,3 +314,45 @@ Authorization: Bearer {{token}}
 ### end brands management
 
 
+### start colors management
+### create color
+POST {{base_url}}/colors
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Yellow"
+}
+
+### colors list
+GET {{base_url}}/colors
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### show color
+GET {{base_url}}/colors/14
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### update color ###
+PUT {{base_url}}/colors/14
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Red"
+}
+
+### delete color
+DELETE {{base_url}}/colors/13
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### end colors management
+
+

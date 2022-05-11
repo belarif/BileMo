@@ -19,12 +19,12 @@ class ColorManagement
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function createColor(ColorDTO $colorDTO):void
+    public function createColor(ColorDTO $colorDTO): Color
     {
         $color = new Color();
         $color->setName($colorDTO->name);
 
-        $this->colorRepository->add($color);
+        return $this->colorRepository->add($color);
     }
 
     public function colorsList(): array
@@ -36,11 +36,11 @@ class ColorManagement
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function updateColor($color, ColorDTO $colorDTO): Void
+    public function updateColor($color, ColorDTO $colorDTO): Color
     {
         $color->setName($colorDTO->name);
 
-        $this->colorRepository->add($color);
+        return $this->colorRepository->add($color);
     }
 
     /**
