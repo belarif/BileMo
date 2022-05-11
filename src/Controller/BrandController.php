@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
@@ -30,14 +31,25 @@ class BrandController extends AbstractController
         ValidatorInterface $validator
     ): JsonResponse
     {
-        $brandDTO = $serializer->deserialize($request->getContent(),BrandDTO::class,'json');
+        try {
+            $brandDTO = $serializer->deserialize($request->getContent(),BrandDTO::class,'json');
 
-        $errors = $validator->validate($brandDTO);
-        if($errors->count()) {
-            return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            $errors = $validator->validate($brandDTO);
+
+            if($errors->count()) {
+                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            }
+
+            return $this->json($brandManagement->createBrand($brandDTO),Response::HTTP_CREATED);
+
+        } catch (NotEncodableValueException $e) {
+            return $this->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'message' => $e->getMessage()],
+                Response::HTTP_BAD_REQUEST
+            );
+
         }
-
-        return $this->json($brandManagement->createBrand($brandDTO),Response::HTTP_CREATED);
     }
 
     /**
@@ -71,14 +83,24 @@ class BrandController extends AbstractController
         ValidatorInterface $validator
     ): JsonResponse
     {
-        $brandDTO = $serializer->deserialize($request->getContent(),BrandDTO::class,'json');
+        try {
+            $brandDTO = $serializer->deserialize($request->getContent(),BrandDTO::class,'json');
 
-        $errors = $validator->validate($brandDTO);
-        if($errors->count()) {
-            return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            $errors = $validator->validate($brandDTO);
+
+            if($errors->count()) {
+                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            }
+
+            return $this->json($brandManagement->updateBrand($brand,$brandDTO),Response::HTTP_CREATED);
+        } catch (NotEncodableValueException $e) {
+            return $this->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'message' => $e->getMessage()],
+                Response::HTTP_BAD_REQUEST
+            );
+
         }
-
-        return $this->json($brandManagement->updateBrand($brand,$brandDTO),Response::HTTP_CREATED);
     }
 
     /**
