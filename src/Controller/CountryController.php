@@ -22,19 +22,21 @@ class CountryController extends AbstractController
     /**
      * @Route("", name="create_country", methods={"POST"})
      */
-    public function create(Request $request, SerializerInterface $serializer, CountryManagement $countryManagement, ValidatorInterface $validator): JsonResponse
+    public function create(
+        Request $request,
+        SerializerInterface $serializer,
+        CountryManagement $countryManagement,
+        ValidatorInterface $validator
+    ): JsonResponse
     {
         $countryDTO = $serializer->deserialize($request->getContent(),CountryDTO::class,'json');
 
         $errors = $validator->validate($countryDTO);
-
         if($errors->count()) {
             return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
         }
 
-        $countryManagement->createCountry($countryDTO);
-
-        return $this->json('Le pays a été ajouté avec succès',Response::HTTP_CREATED);
+        return $this->json($countryManagement->createCountry($countryDTO),Response::HTTP_CREATED);
     }
 
     /**
@@ -60,19 +62,22 @@ class CountryController extends AbstractController
      *
      * @Entity("country", expr="repository.getCountry(id)")
      */
-    public function update(Request $request, Country $country, CountryManagement $countryManagement, SerializerInterface $serializer, ValidatorInterface $validator): JsonResponse
+    public function update(
+        Request $request,
+        Country $country,
+        CountryManagement $countryManagement,
+        SerializerInterface $serializer,
+        ValidatorInterface $validator
+    ): JsonResponse
     {
         $countryDTO = $serializer->deserialize($request->getContent(),CountryDTO::class,'json');
 
         $errors = $validator->validate($countryDTO);
-
         if($errors->count()) {
             return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
         }
 
-        $countryManagement->updateCountry($country,$countryDTO);
-
-        return $this->json('Le pays a été modifié avec succès',Response::HTTP_CREATED);
+        return $this->json($countryManagement->updateCountry($country,$countryDTO),Response::HTTP_CREATED);
     }
 
     /**

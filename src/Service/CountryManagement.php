@@ -19,12 +19,12 @@ class CountryManagement
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function createCountry(CountryDTO $countryDTO): void
+    public function createCountry(CountryDTO $countryDTO): Country
     {
         $country = new Country();
         $country->setName($countryDTO->name);
 
-        $this->countryRepository->add($country);
+        return $this->countryRepository->add($country);
     }
 
     public function countriesList(): array
@@ -36,11 +36,11 @@ class CountryManagement
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function updateCountry($country, CountryDTO $countryDTO): Void
+    public function updateCountry($country, CountryDTO $countryDTO): Country
     {
         $country->setName($countryDTO->name);
 
-        $this->countryRepository->add($country);
+        return $this->countryRepository->add($country);
     }
 
     /**

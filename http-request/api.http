@@ -356,3 +356,45 @@ Authorization: Bearer {{token}}
 ### end colors management
 
 
+### start countries management
+### create country
+POST {{base_url}}/countries
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Mali"
+}
+
+### countries list
+GET {{base_url}}/countries
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### show country
+GET {{base_url}}/countries/11
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### update country ###
+PUT {{base_url}}/countries/11
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Cote d'ivoire"
+}
+
+### delete country
+DELETE {{base_url}}/countries/7
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### end cuntries management
+
+
