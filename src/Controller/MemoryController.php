@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -29,14 +30,23 @@ class MemoryController extends AbstractController
         ValidatorInterface $validator
     ): JsonResponse
     {
-        $memoryDTO = $serializer->deserialize($request->getContent(),MemoryDTO::class,'json');
+        try {
+            $memoryDTO = $serializer->deserialize($request->getContent(),MemoryDTO::class,'json');
 
-        $errors = $validator->validate($memoryDTO);
-        if($errors->count()) {
-            return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            $errors = $validator->validate($memoryDTO);
+
+            if($errors->count()) {
+                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            }
+
+            return $this->json($memoryManagement->createMemory($memoryDTO),Response::HTTP_CREATED);
+        } catch (NotEncodableValueException $e) {
+            return $this->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'message' => $e->getMessage()],
+                Response::HTTP_BAD_REQUEST
+            );
         }
-
-        return $this->json($memoryManagement->createMemory($memoryDTO),Response::HTTP_CREATED);
     }
 
     /**
@@ -70,14 +80,22 @@ class MemoryController extends AbstractController
         ValidatorInterface $validator
     ): JsonResponse
     {
-        $memoryDTO = $serializer->deserialize($request->getContent(),MemoryDTO::class,'json');
+        try {
+            $memoryDTO = $serializer->deserialize($request->getContent(),MemoryDTO::class,'json');
 
-        $errors = $validator->validate($memoryDTO);
-        if($errors->count()) {
-            return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            $errors = $validator->validate($memoryDTO);
+            if($errors->count()) {
+                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            }
+
+            return $this->json($memoryManagement->updateMemory($memory,$memoryDTO),Response::HTTP_CREATED);
+        } catch (NotEncodableValueException $e) {
+            return $this->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'message' => $e->getMessage()],
+                Response::HTTP_BAD_REQUEST
+            );
         }
-
-        return $this->json($memoryManagement->updateMemory($memory,$memoryDTO),Response::HTTP_CREATED);
     }
 
     /**
