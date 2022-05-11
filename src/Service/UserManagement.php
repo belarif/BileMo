@@ -54,7 +54,6 @@ class UserManagement
         return $this->userRepository->findBy(['customer' => $customer->getId()]);
     }
 
-
     public function showUser($user_id, $customer): User
     {
         return $this->userRepository->findOneBy(['id' => $user_id, 'customer' => $customer]);
@@ -69,6 +68,10 @@ class UserManagement
         }
 
         $user->setCustomer($customer);
+
+        foreach ($userDTO->getRoles() as $role) {
+            $user->addRole($this->roleRepository->findOneBy(['id' => $role->id]));
+        }
 
         return $this->userRepository->add($user);
     }
