@@ -398,3 +398,45 @@ Authorization: Bearer {{token}}
 ### end cuntries management
 
 
+### start memories management
+### create memory
+POST {{base_url}}/memories
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "memoryCapacity": "256Go"
+}
+
+### memories list
+GET {{base_url}}/memories
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### show memory
+GET {{base_url}}/memories/10
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### update memory ###
+PUT {{base_url}}/memories/10
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "memoryCapacity": "1To"
+}
+
+### delete memory
+DELETE {{base_url}}/memories/9
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### end memories management
+
+

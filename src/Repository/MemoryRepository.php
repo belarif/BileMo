@@ -26,12 +26,14 @@ class MemoryRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Memory $entity, bool $flush = true): void
+    public function add(Memory $entity, bool $flush = true): Memory
     {
         $this->_em->persist($entity);
         if ($flush) {
             $this->_em->flush();
         }
+
+        return $entity;
     }
 
     /**
