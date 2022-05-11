@@ -166,8 +166,8 @@ Authorization: Bearer {{token}}
 ### end customers management
 
 
-### start customers management
-### create customer
+### start products management
+### create product
 POST {{base_url}}/products
 Accept: application/json
 Content-Type: application/json
@@ -222,7 +222,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### update product ###
-PUT {{base_url}}/products/11
+PUT {{base_url}}/products/10
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
