@@ -21,12 +21,12 @@ class BrandManagement
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function createBrand($brandDTO)
+    public function createBrand($brandDTO): Brand
     {
         $brand = new Brand();
         $brand->setName($brandDTO->name);
 
-        $this->brandRepository->add($brand);
+        return $this->brandRepository->add($brand);
     }
 
     public function brandsList(): array
@@ -41,11 +41,11 @@ class BrandManagement
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function updateBrand($brand, BrandDTO $brandDTO): Void
+    public function updateBrand($brand, BrandDTO $brandDTO): Brand
     {
         $brand->setName($brandDTO->name);
 
-        $this->brandRepository->add($brand);
+        return $this->brandRepository->add($brand);
     }
 
     /**

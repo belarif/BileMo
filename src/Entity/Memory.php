@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\MemoryRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MemoryRepository::class)
@@ -19,6 +20,8 @@ class Memory
 
     /**
      * @ORM\Column(type="string", length=10)
+     *
+     * @Groups({"show_product"})
      */
     private string $memoryCapacity;
 

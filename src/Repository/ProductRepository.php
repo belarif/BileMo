@@ -26,12 +26,13 @@ class ProductRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Product $entity, bool $flush = true): void
+    public function add(Product $entity, bool $flush = true): Product
     {
         $this->_em->persist($entity);
         if ($flush) {
             $this->_em->flush();
         }
+        return $entity;
     }
 
     /**

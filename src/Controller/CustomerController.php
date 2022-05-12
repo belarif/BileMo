@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -22,19 +23,32 @@ class CustomerController extends AbstractController
     /**
      * @Route("", name="create_customer", methods={"POST"})
      */
-    public function create(Request $request, SerializerInterface $serializer, CustomerManagement $customerManagement, ValidatorInterface $validator): JsonResponse
+    public function create(
+        Request $request,
+        SerializerInterface $serializer,
+        CustomerManagement $customerManagement,
+        ValidatorInterface $validator
+    ): JsonResponse
     {
-        $customerDTO = $serializer->deserialize($request->getContent(),CustomerDTO::class,'json');
+        try {
+            $customerDTO = $serializer->deserialize($request->getContent(),CustomerDTO::class,'json');
 
-        $errors = $validator->validate($customerDTO);
+            $errors = $validator->validate($customerDTO);
 
-        if($errors->count()) {
-            return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            if($errors->count()) {
+                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            }
+
+            return $this->json($customerManagement->createCustomer($customerDTO),Response::HTTP_CREATED);
+
+        } catch (NotEncodableValueException $e) {
+            return $this->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'message' => $e->getMessage()],
+                Response::HTTP_BAD_REQUEST
+            );
+
         }
-
-        $customerManagement->createCustomer($customerDTO);
-
-        return $this->json("Le client a été créé avec succès",Response::HTTP_CREATED);
     }
 
     /**
@@ -60,18 +74,33 @@ class CustomerController extends AbstractController
      *
      * @Entity("customer", expr="repository.getCustomer(customer_id)")
      */
-    public function update(Request $request, SerializerInterface $serializer, CustomerManagement $customerManagement, Customer $customer, ValidatorInterface $validator): JsonResponse
+    public function update(
+        Request $request,
+        SerializerInterface $serializer,
+        CustomerManagement $customerManagement,
+        Customer $customer,
+        ValidatorInterface $validator
+    ): JsonResponse
     {
-        $customerDTO = $serializer->deserialize($request->getContent(), CustomerDTO::class, 'json');
+        try {
+            $customerDTO = $serializer->deserialize($request->getContent(), CustomerDTO::class, 'json');
 
-        $errors = $validator->validate($customerDTO);
+            $errors = $validator->validate($customerDTO);
 
-        if($errors->count()) {
-            return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            if($errors->count()) {
+                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            }
+
+            return $this->json($customerManagement->updateCustomer($customerDTO,$customer),Response::HTTP_CREATED);
+
+        } catch (NotEncodableValueException $e) {
+            return $this->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'message' => $e->getMessage()],
+                Response::HTTP_BAD_REQUEST
+            );
+
         }
-        $customerManagement->updateCustomer($customerDTO,$customer);
-
-        return $this->json('Le client est mise à jour avec succès',Response::HTTP_CREATED);
     }
 
     /**
@@ -86,4 +115,5 @@ class CustomerController extends AbstractController
         return $this->json('Le client est supprimé avec succès',Response::HTTP_OK);
     }
 }
+
 

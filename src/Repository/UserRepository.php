@@ -28,12 +28,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(User $entity, bool $flush = true): void
+    public function add(User $entity, bool $flush = true): User
     {
         $this->_em->persist($entity);
         if ($flush) {
             $this->_em->flush();
         }
+        return $entity;
     }
 
     /**
@@ -80,18 +81,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
         
         return $user[0];
-    }
-
-    /**
-     * @return array
-     */
-    public function getAdmins(): array
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.role_id = :role_id')
-            ->setParameter('role_id', 1)
-            ->getQuery()
-            ->getResult();
     }
 }
 

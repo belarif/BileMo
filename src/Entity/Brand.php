@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BrandRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=BrandRepository::class)
@@ -19,6 +20,8 @@ class Brand
 
     /**
      * @ORM\Column(type="string", length=60)
+     *
+     * @Groups({"show_product"})
      */
     private string $name;
 
