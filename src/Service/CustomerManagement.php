@@ -37,9 +37,7 @@ class CustomerManagement
 
     public function updateCustomer( CustomerDTO $customerDTO, $customer)
     {
-
         $customer->setCompany($customerDTO->company);
-        $customer->setCode($customerDTO->code);
         $customer->setEnabled($customerDTO->enabled);
 
         $this->customerRepository->add($customer);
