@@ -14,12 +14,12 @@ class MemoryManagement
         $this->memoryRepository = $memoryRepository;
     }
 
-    public function createMemory($memoryDTO)
+    public function createMemory($memoryDTO): Memory
     {
         $memory = new Memory();
         $memory->setMemoryCapacity($memoryDTO->memoryCapacity);
 
-        $this->memoryRepository->add($memory);
+        return $this->memoryRepository->add($memory);
     }
 
     public function memoriesList()
@@ -27,11 +27,11 @@ class MemoryManagement
         return $this->memoryRepository->findAll();
     }
 
-    public function updateMemory($memory,$memoryDTO)
+    public function updateMemory($memory,$memoryDTO): Memory
     {
         $memory->setMemoryCapacity($memoryDTO->memoryCapacity);
 
-        $this->memoryRepository->add($memory);
+        return $this->memoryRepository->add($memory);
     }
 
     public function deleteMemory($memory)

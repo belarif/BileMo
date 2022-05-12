@@ -18,7 +18,7 @@ class CustomerManagement
         $this->customerRepository = $customerRepository;
     }
 
-    public function createCustomer(CustomerDTO $customerDTO)
+    public function createCustomer(CustomerDTO $customerDTO): Customer
     {
         $customer = new Customer();
         $code = new Ulid();
@@ -27,7 +27,7 @@ class CustomerManagement
         $customer->setEnabled($customerDTO->enabled);
         $customer->setCompany($customerDTO->company);
 
-        $this->customerRepository->add($customer);
+        return $this->customerRepository->add($customer);
     }
 
     public function customersList(): array
@@ -35,12 +35,12 @@ class CustomerManagement
         return $this->customerRepository->findAll();
     }
 
-    public function updateCustomer( CustomerDTO $customerDTO, $customer)
+    public function updateCustomer(CustomerDTO $customerDTO, $customer): Customer
     {
         $customer->setCompany($customerDTO->company);
         $customer->setEnabled($customerDTO->enabled);
 
-        $this->customerRepository->add($customer);
+        return $this->customerRepository->add($customer);
     }
 
     public function deletecCustomer($customer)

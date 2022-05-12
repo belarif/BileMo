@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CountryRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CountryRepository::class)
@@ -19,6 +20,8 @@ class Country
 
     /**
      * @ORM\Column(type="string", length=60)
+     *
+     * @Groups({"show_product"})
      */
     private string $name;
 

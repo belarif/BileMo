@@ -10,8 +10,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 /**
@@ -22,16 +24,35 @@ class AdminController extends AbstractController
     /**
      * @Route("", name="create_admin", methods={"POST"})
      */
-    public function create(Request $request, SerializerInterface $serializer, UserManagement $userManagement): JsonResponse
+    public function create(
+        Request $request,
+        SerializerInterface $serializer,
+        UserManagement $userManagement,
+        ValidatorInterface $validator
+    ): JsonResponse
     {
-        /**
-         * @var UserDTO $userDTO
-         */
-        $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
+        try {
+            /**
+             * @var UserDTO $userDTO
+             */
+            $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
 
-        $userManagement->createUser($userDTO, $customer = null);
+            $errors = $validator->validate($userDTO);
 
-        return $this->json('L\'administrateur a été créé avec succès',Response::HTTP_CREATED);
+            if($errors->count()) {
+                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            }
+
+            return $this->json($userManagement->createUser($userDTO, $customer = null),Response::HTTP_CREATED,[],['groups' => 'show_admin']);
+
+        } catch (NotEncodableValueException $e) {
+            return $this->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'message' => $e->getMessage()],
+                Response::HTTP_BAD_REQUEST
+            );
+
+        }
     }
 
     /**
@@ -39,7 +60,9 @@ class AdminController extends AbstractController
      */
     public function list(UserManagement $userManagement): JsonResponse
     {
-        return $this->json($userManagement->users($customer = null),Response::HTTP_OK);
+        $admins = $userManagement->users($customer = null);
+
+        return $this->json($admins,Response::HTTP_OK,[],['groups' => 'show_admin']);
     }
 
     /**
@@ -47,9 +70,9 @@ class AdminController extends AbstractController
      */
     public function show(Request $request, UserManagement $userManagement): JsonResponse
     {
-        $user = $userManagement->showUser($request->get('id'), $customer = null);
+        $admin = $userManagement->showUser($request->get('id'), $customer = null);
 
-        return $this->json($user,Response::HTTP_OK);
+        return $this->json($admin,Response::HTTP_OK,[],['groups' => 'show_admin']);
     }
 
     /**
@@ -57,13 +80,38 @@ class AdminController extends AbstractController
      *
      * @Entity("user", expr="repository.getUser(id)")
      */
-    public function update(Request $request, SerializerInterface $serializer, UserManagement $userManagement, User $user): JsonResponse
+    public function update(
+        Request $request,
+        SerializerInterface $serializer,
+        UserManagement $userManagement,
+        User $user,
+        ValidatorInterface $validator
+    ): JsonResponse
     {
-        $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
+        try {
+            $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
 
-        $userManagement->updateUser($userDTO,$user,$customer=null);
+            $errors = $validator->validate($userDTO);
 
-        return new JsonResponse('L\'administrateur est mise à jour avec succès',Response::HTTP_CREATED);
+            if($errors->count()) {
+                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            }
+
+            return $this->json(
+                $userManagement->updateUser($userDTO,$user,$customer=null),
+                Response::HTTP_CREATED,
+                [],
+                ['groups' => 'show_admin']
+            );
+
+        } catch (NotEncodableValueException $e) {
+            return $this->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'message' => $e->getMessage()],
+                Response::HTTP_BAD_REQUEST
+            );
+
+        }
     }
 
     /**

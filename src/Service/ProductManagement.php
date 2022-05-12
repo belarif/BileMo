@@ -63,7 +63,7 @@ class ProductManagement
             $product->addColor($this->colorRepository->findOneBy(['id' => $color->id]));
         }
 
-        $this->productRepository->add($product);
+        return $this->productRepository->add($product);
     }
 
     public function productsList(): array
@@ -78,7 +78,7 @@ class ProductManagement
 
     }
 
-    public function updateProduct(ProductDTO $productDTO, $product)
+    public function updateProduct(ProductDTO $productDTO, $product): Product
     {
         $brand = $this->brandRepository->findOneBy(['id' => $productDTO->brand->id]);
         $memory = $this->memoryRepository->findOneBy(['id' => $productDTO->memory->id]);
@@ -96,7 +96,7 @@ class ProductManagement
             $product->addColor($this->colorRepository->findOneBy(['id' => $color->id]));
         }
 
-        $this->productRepository->add($product);
+        return $this->productRepository->add($product);
     }
 
     public function deleteProduct($product)

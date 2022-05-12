@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\CustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CustomerRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
@@ -14,21 +15,29 @@ class Customer
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"show_customer"})
      */
     protected int $id;
 
     /**
      * @ORM\Column(type="string", length=30)
+     *
+     * @Groups({"show_customer"})
      */
     private string $code;
 
     /**
      * @ORM\Column(type="boolean")
+     *
+     * @Groups({"show_customer"})
      */
     private ?bool $enabled;
 
     /**
      * @ORM\Column(type="string", length=60)
+     *
+     * @Groups({"show_customer"})
      */
     private $company;
 
@@ -73,6 +82,4 @@ class Customer
         return $this;
     }
 }
-
-
 
