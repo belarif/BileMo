@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Customer;
 use App\Entity\DTO\CustomerDTO;
 use App\Repository\CustomerRepository;
+use Symfony\Component\Uid\Ulid;
 
 class CustomerManagement
 {
@@ -20,8 +21,10 @@ class CustomerManagement
     public function createCustomer(CustomerDTO $customerDTO)
     {
         $customer = new Customer();
-        $customer->setCode($customerDTO->code);
-        $customer->setStatus($customerDTO->status);
+        $code = new Ulid();
+
+        $customer->setCode($code->toBase58());
+        $customer->setEnabled($customerDTO->enabled);
         $customer->setCompany($customerDTO->company);
 
         $this->customerRepository->add($customer);
@@ -37,7 +40,7 @@ class CustomerManagement
 
         $customer->setCompany($customerDTO->company);
         $customer->setCode($customerDTO->code);
-        $customer->setStatus($customerDTO->status);
+        $customer->setEnabled($customerDTO->enabled);
 
         $this->customerRepository->add($customer);
     }

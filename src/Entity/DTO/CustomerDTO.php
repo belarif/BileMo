@@ -8,12 +8,9 @@ class CustomerDTO
 {
     public int $id;
 
-    /**
-     * @Assert\NotBlank(message="Le champs code ne peut pas être vide")
-     */
     public string $code;
 
-    public $status;
+    public $enabled;
 
     /**
      * @Assert\NotBlank(message="Le champs société ne peut pas être vide")
@@ -21,3 +18,4 @@ class CustomerDTO
      */
     public string $company;
 }
+

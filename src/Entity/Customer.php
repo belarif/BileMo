@@ -18,14 +18,14 @@ class Customer
     protected int $id;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="string", length=30)
      */
     private string $code;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private bool $status;
+    private ?bool $enabled;
 
     /**
      * @ORM\Column(type="string", length=60)
@@ -49,14 +49,14 @@ class Customer
         return $this;
     }
 
-    public function getStatus(): ?bool
+    public function getEnabled(): ?bool
     {
-        return $this->status;
+        return $this->enabled;
     }
 
-    public function setStatus(bool $status): self
+    public function setEnabled(bool $enabled): self
     {
-        $this->status = $status;
+        $this->enabled = $enabled;
 
         return $this;
     }
@@ -73,5 +73,6 @@ class Customer
         return $this;
     }
 }
+
 
 
