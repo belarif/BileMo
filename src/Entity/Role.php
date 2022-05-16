@@ -20,7 +20,7 @@ class Role
     protected ?int $id;
 
     /**
-     * @ORM\Column(type="string", length=30, roleName=true)
+     * @ORM\Column(type="string", length=30, unique=true)
      */
     private ?string $roleName;
 
