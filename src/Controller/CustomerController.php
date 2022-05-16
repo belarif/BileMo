@@ -53,7 +53,7 @@ class CustomerController extends AbstractController
      */
     public function list(CustomerManagement $customerManagement): JsonResponse
     {
-        return $this->json($customerManagement->customersList(), Response::HTTP_OK);
+        return $this->json($customerManagement->customersList(), Response::HTTP_OK, [], ['groups' => ['show_customer']]);
     }
 
     /**
@@ -63,7 +63,7 @@ class CustomerController extends AbstractController
      */
     public function show(Customer $customer): JsonResponse
     {
-        return $this->json($customer, Response::HTTP_OK);
+        return $this->json($customer, Response::HTTP_OK, [], ['groups' => ['show_customer']]);
     }
 
     /**
@@ -87,7 +87,12 @@ class CustomerController extends AbstractController
                 return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
             }
 
-            return $this->json($customerManagement->updateCustomer($customerDTO, $customer), Response::HTTP_CREATED);
+            return $this->json(
+                $customerManagement->updateCustomer($customerDTO, $customer),
+                Response::HTTP_CREATED,
+                [],
+                ['groups' => ['show_customer']]
+            );
         } catch (NotEncodableValueException $e) {
             return $this->json([
                 'status' => Response::HTTP_BAD_REQUEST,

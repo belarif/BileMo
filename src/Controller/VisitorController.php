@@ -68,7 +68,7 @@ class VisitorController extends AbstractController
     {
         $visitors = $userManagement->users($customer);
 
-        return $this->json($visitors, Response::HTTP_OK, [], ['groups' => ['show_visitor', 'show_customer']]);
+        return $this->json($visitors, Response::HTTP_OK, [], ['groups' => ['show_visitor']]);
     }
 
     /**
@@ -84,7 +84,7 @@ class VisitorController extends AbstractController
                 $customer),
             Response::HTTP_OK,
             [],
-            ['groups' => ['show_visitor', 'show_customer']]
+            ['groups' => ['show_visitor']]
         );
     }
 
@@ -115,7 +115,7 @@ class VisitorController extends AbstractController
                 $userManagement->updateUser($userDTO, $user, $customer),
                 Response::HTTP_CREATED,
                 [],
-                ['groups' => ['show_visitor', 'show_customer']]
+                ['groups' => ['show_visitor']]
             );
         } catch (NotEncodableValueException $e) {
             return $this->json([
