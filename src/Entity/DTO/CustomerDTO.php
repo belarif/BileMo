@@ -18,4 +18,3 @@ class CustomerDTO
      */
     public string $company;
 }
-

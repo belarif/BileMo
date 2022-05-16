@@ -50,10 +50,10 @@ class ColorRepository extends ServiceEntityRepository
 
     /**
      * @param $id
-     * @return Color
+     *
      * @throws EntityNotFoundException
      */
-    public function getColor($id):Color
+    public function getColor($id): Color
     {
         $color = $this->createQueryBuilder('c')
             ->andWhere('c.id = :id')
@@ -61,11 +61,10 @@ class ColorRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
-        if(!$color) {
+        if (!$color) {
             throw new EntityNotFoundException('La couleur demandé n\'existe pas');
         }
 
         return $color[0];
     }
 }
-

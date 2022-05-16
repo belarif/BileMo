@@ -11,7 +11,6 @@ use App\Repository\MemoryRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\OptimisticLockException;
 
 class ProductManagement
 {
@@ -34,8 +33,7 @@ class ProductManagement
         CountryRepository $countryRepository,
         UserRepository $userRepository,
         ColorRepository $colorRepository
-    )
-    {
+    ) {
         $this->productRepository = $productRepository;
         $this->brandRepository = $brandRepository;
         $this->memoryRepository = $memoryRepository;
@@ -70,12 +68,11 @@ class ProductManagement
     {
         $products = $this->productRepository->findAll();
 
-        if(!$products) {
+        if (!$products) {
             throw new ORMException('aucun produit existant !');
         }
 
         return $products;
-
     }
 
     public function updateProduct(ProductDTO $productDTO, $product): Product
@@ -104,4 +101,3 @@ class ProductManagement
         $this->productRepository->remove($product);
     }
 }
-

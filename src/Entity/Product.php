@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
+use App\Repository\ProductRepository;
 use DateTime;
 use DateTimeInterface;
-use Doctrine\ORM\Mapping as ORM;
-use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
@@ -236,5 +236,3 @@ class Product
         return $this;
     }
 }
-
-

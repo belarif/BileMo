@@ -6,6 +6,7 @@ use App\Entity\Customer;
 use App\Entity\DTO\UserDTO;
 use App\Entity\User;
 use App\Service\UserManagement;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -31,8 +31,7 @@ class VisitorController extends AbstractController
         SerializerInterface $serializer,
         UserManagement $userManagement, Customer $customer,
         ValidatorInterface $validator
-    ): JsonResponse
-    {
+    ): JsonResponse {
         try {
             /**
              * @var UserDTO $userDTO
@@ -41,24 +40,22 @@ class VisitorController extends AbstractController
 
             $errors = $validator->validate($userDTO);
 
-            if($errors->count()) {
-                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            if ($errors->count()) {
+                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
             }
 
             return $this->json(
                 $userManagement->createUser($userDTO, $customer),
                 Response::HTTP_CREATED,
                 [],
-                ['groups' => ['show_visitor','show_customer']]
+                ['groups' => ['show_visitor', 'show_customer']]
             );
-
         } catch (NotEncodableValueException $e) {
             return $this->json([
                 'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage()],
+                'message' => $e->getMessage(), ],
                 Response::HTTP_BAD_REQUEST
             );
-
         }
     }
 
@@ -71,7 +68,7 @@ class VisitorController extends AbstractController
     {
         $visitors = $userManagement->users($customer);
 
-        return $this->json($visitors,Response::HTTP_OK,[],['groups' => ['show_visitor','show_customer']]);
+        return $this->json($visitors, Response::HTTP_OK, [], ['groups' => ['show_visitor', 'show_customer']]);
     }
 
     /**
@@ -87,7 +84,7 @@ class VisitorController extends AbstractController
                 $customer),
             Response::HTTP_OK,
             [],
-            ['groups' => ['show_visitor','show_customer']]
+            ['groups' => ['show_visitor', 'show_customer']]
         );
     }
 
@@ -104,31 +101,28 @@ class VisitorController extends AbstractController
         User $user,
         Customer $customer,
         ValidatorInterface $validator
-    ): JsonResponse
-    {
+    ): JsonResponse {
         try {
             $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
 
             $errors = $validator->validate($userDTO);
 
-            if($errors->count()) {
-                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            if ($errors->count()) {
+                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
             }
 
             return $this->json(
-                $userManagement->updateUser($userDTO,$user,$customer),
+                $userManagement->updateUser($userDTO, $user, $customer),
                 Response::HTTP_CREATED,
                 [],
-                ['groups' => ['show_visitor','show_customer']]
+                ['groups' => ['show_visitor', 'show_customer']]
             );
-
         } catch (NotEncodableValueException $e) {
             return $this->json([
                 'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage()],
+                'message' => $e->getMessage(), ],
                 Response::HTTP_BAD_REQUEST
             );
-
         }
     }
 
@@ -142,6 +136,6 @@ class VisitorController extends AbstractController
     {
         $userManagement->deleteUser($user);
 
-        return $this->json('Le visiteur a été supprimé avec succès',Response::HTTP_OK);
+        return $this->json('Le visiteur a été supprimé avec succès', Response::HTTP_OK);
     }
 }

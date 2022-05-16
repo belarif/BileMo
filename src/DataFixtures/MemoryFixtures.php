@@ -8,13 +8,12 @@ use Doctrine\Persistence\ObjectManager;
 
 class MemoryFixtures extends Fixture
 {
-
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
-        $memories = ['16Go','32Go','64Go','128Go','256Go'];
+        $memories = ['16Go', '32Go', '64Go', '128Go', '256Go'];
 
         foreach ($memories as $addMemory) {
             $memory = new Memory();

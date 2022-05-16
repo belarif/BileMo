@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Country;
 use App\Entity\DTO\CountryDTO;
 use App\Service\CountryManagement;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -28,23 +28,21 @@ class CountryController extends AbstractController
         SerializerInterface $serializer,
         CountryManagement $countryManagement,
         ValidatorInterface $validator
-    ): JsonResponse
-    {
+    ): JsonResponse {
         try {
-            $countryDTO = $serializer->deserialize($request->getContent(),CountryDTO::class,'json');
+            $countryDTO = $serializer->deserialize($request->getContent(), CountryDTO::class, 'json');
 
             $errors = $validator->validate($countryDTO);
 
-            if($errors->count()) {
-                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            if ($errors->count()) {
+                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
             }
 
-            return $this->json($countryManagement->createCountry($countryDTO),Response::HTTP_CREATED);
-
+            return $this->json($countryManagement->createCountry($countryDTO), Response::HTTP_CREATED);
         } catch (NotEncodableValueException $e) {
             return $this->json([
                 'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage()],
+                'message' => $e->getMessage(), ],
                 Response::HTTP_BAD_REQUEST
             );
         }
@@ -55,7 +53,7 @@ class CountryController extends AbstractController
      */
     public function list(CountryManagement $countryManagement): JsonResponse
     {
-        return $this->json($countryManagement->countriesList(),Response::HTTP_OK);
+        return $this->json($countryManagement->countriesList(), Response::HTTP_OK);
     }
 
     /**
@@ -65,7 +63,7 @@ class CountryController extends AbstractController
      */
     public function show(Country $country): JsonResponse
     {
-        return $this->json($country,Response::HTTP_OK);
+        return $this->json($country, Response::HTTP_OK);
     }
 
     /**
@@ -79,22 +77,21 @@ class CountryController extends AbstractController
         CountryManagement $countryManagement,
         SerializerInterface $serializer,
         ValidatorInterface $validator
-    ): JsonResponse
-    {
+    ): JsonResponse {
         try {
-            $countryDTO = $serializer->deserialize($request->getContent(),CountryDTO::class,'json');
+            $countryDTO = $serializer->deserialize($request->getContent(), CountryDTO::class, 'json');
 
             $errors = $validator->validate($countryDTO);
 
-            if($errors->count()) {
-                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            if ($errors->count()) {
+                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
             }
 
-            return $this->json($countryManagement->updateCountry($country,$countryDTO),Response::HTTP_CREATED);
+            return $this->json($countryManagement->updateCountry($country, $countryDTO), Response::HTTP_CREATED);
         } catch (NotEncodableValueException $e) {
             return $this->json([
                 'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage()],
+                'message' => $e->getMessage(), ],
                 Response::HTTP_BAD_REQUEST
             );
         }
@@ -109,8 +106,6 @@ class CountryController extends AbstractController
     {
         $countryManagement->deleteCountry($country);
 
-        return $this->json('La pays a été supprimé avec succès',Response::HTTP_OK);
+        return $this->json('La pays a été supprimé avec succès', Response::HTTP_OK);
     }
 }
-
-

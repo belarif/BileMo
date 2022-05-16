@@ -5,14 +5,14 @@ namespace App\Controller;
 use App\Entity\Color;
 use App\Entity\DTO\ColorDTO;
 use App\Service\ColorManagement;
-use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -28,23 +28,21 @@ class ColorController extends AbstractController
         SerializerInterface $serializer,
         ColorManagement $colorManagement,
         ValidatorInterface $validator
-    ): JsonResponse
-    {
+    ): JsonResponse {
         try {
-            $colorDTO = $serializer->deserialize($request->getContent(),ColorDTO::class,'json');
+            $colorDTO = $serializer->deserialize($request->getContent(), ColorDTO::class, 'json');
 
             $errors = $validator->validate($colorDTO);
 
-            if($errors->count()) {
-                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            if ($errors->count()) {
+                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
             }
 
-            return $this->json($colorManagement->createColor($colorDTO),Response::HTTP_CREATED);
+            return $this->json($colorManagement->createColor($colorDTO), Response::HTTP_CREATED);
         } catch (NotEncodableValueException $e) {
-
             return $this->json([
                 'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage()],
+                'message' => $e->getMessage(), ],
                 Response::HTTP_BAD_REQUEST
             );
         }
@@ -55,7 +53,7 @@ class ColorController extends AbstractController
      */
     public function list(ColorManagement $colorManagement): JsonResponse
     {
-        return $this->json($colorManagement->colorsList(),Response::HTTP_OK);
+        return $this->json($colorManagement->colorsList(), Response::HTTP_OK);
     }
 
     /**
@@ -65,7 +63,7 @@ class ColorController extends AbstractController
      */
     public function show(Color $color): JsonResponse
     {
-        return $this->json($color,Response::HTTP_OK);
+        return $this->json($color, Response::HTTP_OK);
     }
 
     /**
@@ -79,23 +77,21 @@ class ColorController extends AbstractController
         ColorManagement $colorManagement,
         SerializerInterface $serializer,
         ValidatorInterface $validator
-    ): JsonResponse
-    {
+    ): JsonResponse {
         try {
-            $colorDTO = $serializer->deserialize($request->getContent(),ColorDTO::class,'json');
+            $colorDTO = $serializer->deserialize($request->getContent(), ColorDTO::class, 'json');
 
             $errors = $validator->validate($colorDTO);
 
-            if($errors->count()) {
-                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            if ($errors->count()) {
+                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
             }
 
-            return $this->json($colorManagement->updateColor($color,$colorDTO),Response::HTTP_CREATED);
+            return $this->json($colorManagement->updateColor($color, $colorDTO), Response::HTTP_CREATED);
         } catch (NotEncodableValueException $e) {
-
             return $this->json([
                 'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage()],
+                'message' => $e->getMessage(), ],
                 Response::HTTP_BAD_REQUEST
             );
         }
@@ -110,8 +106,6 @@ class ColorController extends AbstractController
     {
         $colorManagement->deleteColor($color);
 
-        return $this->json('La couleur a été supprimé avec succès',Response::HTTP_OK);
+        return $this->json('La couleur a été supprimé avec succès', Response::HTTP_OK);
     }
 }
-
-

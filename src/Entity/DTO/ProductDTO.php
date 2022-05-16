@@ -42,6 +42,7 @@ class ProductDTO
 
     /**
      * @Assert\NotBlank(message="Le champs couleur ne peut pas être vide")
+     *
      * @var ColorDTO[]
      */
     private array $colors = [];
@@ -57,13 +58,13 @@ class ProductDTO
     public function setColors(array $colors): void
     {
         $this->colors = array_map(
-            function ($color){
+            function ($color) {
                 $colorDTO = new ColorDTO();
                 $colorDTO->id = $color['id'];
+
                 return $colorDTO;
             },
             $colors
         );
     }
-
 }

@@ -9,13 +9,13 @@ use Doctrine\Persistence\ObjectManager;
 class RoleFixtures extends Fixture
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
-        $roles = ['ROLE_ADMIN','ROLE_VISITOR'];
+        $roles = ['ROLE_ADMIN', 'ROLE_VISITOR'];
 
-        foreach($roles as $addRole) {
+        foreach ($roles as $addRole) {
             $role = new Role();
 
             $role->setRoleName($addRole);

@@ -34,6 +34,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         if ($flush) {
             $this->_em->flush();
         }
+
         return $entity;
     }
 
@@ -65,7 +66,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     /**
      * @param $user_id
-     * @return User
+     *
      * @throws EntityNotFoundException
      */
     public function getUser($user_id): User
@@ -76,12 +77,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ->getQuery()
         ->getResult();
 
-        if(!$user) {
+        if (!$user) {
             throw new EntityNotFoundException('L\'utilisateur demandé n\'existe pas');
         }
-        
+
         return $user[0];
     }
 }
-
-

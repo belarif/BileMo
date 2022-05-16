@@ -50,10 +50,10 @@ class CountryRepository extends ServiceEntityRepository
 
     /**
      * @param $id
-     * @return Country
+     *
      * @throws EntityNotFoundException
      */
-    public function getCountry($id):Country
+    public function getCountry($id): Country
     {
         $country = $this->createQueryBuilder('c')
             ->andWhere('c.id = :id')
@@ -61,11 +61,10 @@ class CountryRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
-        if(!$country) {
+        if (!$country) {
             throw new EntityNotFoundException('Le pays demandé n\'existe pas');
         }
 
         return $country[0];
     }
 }
-

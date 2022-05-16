@@ -14,8 +14,7 @@ class SecurityController extends AbstractController
     public function login(): JsonResponse
     {
         return $this->json([
-            'message' => 'Vous vous êtes authentifié avec succès'
+            'message' => 'Vous vous êtes authentifié avec succès',
         ]);
     }
 }
-

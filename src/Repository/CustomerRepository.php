@@ -56,12 +56,10 @@ class CustomerRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
-        if(!$customer) {
+        if (!$customer) {
             throw new EntityNotFoundException('Le client demandé n\'existe pas');
         }
 
         return $customer[0];
     }
 }
-
-

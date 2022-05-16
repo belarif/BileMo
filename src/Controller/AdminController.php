@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\DTO\UserDTO;
 use App\Entity\User;
 use App\Service\UserManagement;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,9 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-
 
 /**
  * @Route("/admins", name="api_")
@@ -29,8 +28,7 @@ class AdminController extends AbstractController
         SerializerInterface $serializer,
         UserManagement $userManagement,
         ValidatorInterface $validator
-    ): JsonResponse
-    {
+    ): JsonResponse {
         try {
             /**
              * @var UserDTO $userDTO
@@ -39,19 +37,17 @@ class AdminController extends AbstractController
 
             $errors = $validator->validate($userDTO);
 
-            if($errors->count()) {
-                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            if ($errors->count()) {
+                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
             }
 
-            return $this->json($userManagement->createUser($userDTO, $customer = null),Response::HTTP_CREATED,[],['groups' => 'show_admin']);
-
+            return $this->json($userManagement->createUser($userDTO, $customer = null), Response::HTTP_CREATED, [], ['groups' => 'show_admin']);
         } catch (NotEncodableValueException $e) {
             return $this->json([
                 'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage()],
+                'message' => $e->getMessage(), ],
                 Response::HTTP_BAD_REQUEST
             );
-
         }
     }
 
@@ -62,7 +58,7 @@ class AdminController extends AbstractController
     {
         $admins = $userManagement->users($customer = null);
 
-        return $this->json($admins,Response::HTTP_OK,[],['groups' => 'show_admin']);
+        return $this->json($admins, Response::HTTP_OK, [], ['groups' => 'show_admin']);
     }
 
     /**
@@ -72,7 +68,7 @@ class AdminController extends AbstractController
     {
         $admin = $userManagement->showUser($request->get('id'), $customer = null);
 
-        return $this->json($admin,Response::HTTP_OK,[],['groups' => 'show_admin']);
+        return $this->json($admin, Response::HTTP_OK, [], ['groups' => 'show_admin']);
     }
 
     /**
@@ -86,31 +82,28 @@ class AdminController extends AbstractController
         UserManagement $userManagement,
         User $user,
         ValidatorInterface $validator
-    ): JsonResponse
-    {
+    ): JsonResponse {
         try {
             $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
 
             $errors = $validator->validate($userDTO);
 
-            if($errors->count()) {
-                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            if ($errors->count()) {
+                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
             }
 
             return $this->json(
-                $userManagement->updateUser($userDTO,$user,$customer=null),
+                $userManagement->updateUser($userDTO, $user, $customer = null),
                 Response::HTTP_CREATED,
                 [],
                 ['groups' => 'show_admin']
             );
-
         } catch (NotEncodableValueException $e) {
             return $this->json([
                 'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage()],
+                'message' => $e->getMessage(), ],
                 Response::HTTP_BAD_REQUEST
             );
-
         }
     }
 
@@ -123,6 +116,6 @@ class AdminController extends AbstractController
     {
         $userManagement->deleteUser($user);
 
-        return $this->json('L\'administrateur a été supprimé avec succès',Response::HTTP_OK);
+        return $this->json('L\'administrateur a été supprimé avec succès', Response::HTTP_OK);
     }
 }

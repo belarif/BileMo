@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\DTO\MemoryDTO;
 use App\Entity\Memory;
 use App\Service\MemoryManagement;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -28,22 +28,21 @@ class MemoryController extends AbstractController
         SerializerInterface $serializer,
         MemoryManagement $memoryManagement,
         ValidatorInterface $validator
-    ): JsonResponse
-    {
+    ): JsonResponse {
         try {
-            $memoryDTO = $serializer->deserialize($request->getContent(),MemoryDTO::class,'json');
+            $memoryDTO = $serializer->deserialize($request->getContent(), MemoryDTO::class, 'json');
 
             $errors = $validator->validate($memoryDTO);
 
-            if($errors->count()) {
-                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            if ($errors->count()) {
+                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
             }
 
-            return $this->json($memoryManagement->createMemory($memoryDTO),Response::HTTP_CREATED);
+            return $this->json($memoryManagement->createMemory($memoryDTO), Response::HTTP_CREATED);
         } catch (NotEncodableValueException $e) {
             return $this->json([
                 'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage()],
+                'message' => $e->getMessage(), ],
                 Response::HTTP_BAD_REQUEST
             );
         }
@@ -54,7 +53,7 @@ class MemoryController extends AbstractController
      */
     public function list(MemoryManagement $memoryManagement): JsonResponse
     {
-        return $this->json($memoryManagement->memoriesList(),Response::HTTP_OK);
+        return $this->json($memoryManagement->memoriesList(), Response::HTTP_OK);
     }
 
     /**
@@ -64,7 +63,7 @@ class MemoryController extends AbstractController
      */
     public function show(Memory $memory): JsonResponse
     {
-        return $this->json($memory,Response::HTTP_OK);
+        return $this->json($memory, Response::HTTP_OK);
     }
 
     /**
@@ -78,21 +77,20 @@ class MemoryController extends AbstractController
         MemoryManagement $memoryManagement,
         SerializerInterface $serializer,
         ValidatorInterface $validator
-    ): JsonResponse
-    {
+    ): JsonResponse {
         try {
-            $memoryDTO = $serializer->deserialize($request->getContent(),MemoryDTO::class,'json');
+            $memoryDTO = $serializer->deserialize($request->getContent(), MemoryDTO::class, 'json');
 
             $errors = $validator->validate($memoryDTO);
-            if($errors->count()) {
-                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            if ($errors->count()) {
+                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
             }
 
-            return $this->json($memoryManagement->updateMemory($memory,$memoryDTO),Response::HTTP_CREATED);
+            return $this->json($memoryManagement->updateMemory($memory, $memoryDTO), Response::HTTP_CREATED);
         } catch (NotEncodableValueException $e) {
             return $this->json([
                 'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage()],
+                'message' => $e->getMessage(), ],
                 Response::HTTP_BAD_REQUEST
             );
         }
@@ -107,8 +105,6 @@ class MemoryController extends AbstractController
     {
         $memoryManagement->deleteMemory($memory);
 
-        return $this->json('La memoire a été supprimé avec succès',Response::HTTP_OK);
+        return $this->json('La memoire a été supprimé avec succès', Response::HTTP_OK);
     }
 }
-
-

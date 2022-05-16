@@ -17,7 +17,9 @@ class BrandManagement
 
     /**
      * @param $brandDTO
+     *
      * @return void
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -36,8 +38,9 @@ class BrandManagement
 
     /**
      * @param $brand
-     * @param BrandDTO $brandDTO
-     * @return Void
+     *
+     * @return void
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -50,6 +53,7 @@ class BrandManagement
 
     /**
      * @param $brand
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */

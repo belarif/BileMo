@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\Entity\User;
 use App\Entity\DTO\UserDTO;
+use App\Entity\User;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -20,8 +20,7 @@ class UserManagement
         UserRepository $userRepository,
         RoleRepository $roleRepository,
         UserPasswordHasherInterface $passwordHasher
-    )
-    {
+    ) {
         $this->userRepository = $userRepository;
         $this->roleRepository = $roleRepository;
         $this->passwordHasher = $passwordHasher;
@@ -31,9 +30,9 @@ class UserManagement
     {
         $user = new User();
         $user->setEmail($userDTO->email);
-        $user->setPassword($this->passwordHasher->hashPassword($user,$userDTO->password));
+        $user->setPassword($this->passwordHasher->hashPassword($user, $userDTO->password));
 
-        if(!$customer) {
+        if (!$customer) {
             $user->setCustomer(null);
         }
         $user->setCustomer($customer);
@@ -47,7 +46,7 @@ class UserManagement
 
     public function users($customer): array
     {
-        if(!$customer) {
+        if (!$customer) {
             return $this->userRepository->findBy(['customer' => null]);
         }
 
@@ -61,9 +60,9 @@ class UserManagement
 
     public function updateUser(UserDTO $userDTO, $user, $customer): User
     {
-        $user->setPassword($this->passwordHasher->hashPassword($user,$userDTO->password));
+        $user->setPassword($this->passwordHasher->hashPassword($user, $userDTO->password));
 
-        if(!$customer) {
+        if (!$customer) {
             $user->setCustomer(null);
         }
 

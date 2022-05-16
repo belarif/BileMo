@@ -8,13 +8,12 @@ use Doctrine\Persistence\ObjectManager;
 
 class CountryFixtures extends Fixture
 {
-
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
-        $countries = ['Chine','Corée du sud','France','Japan','Usa','Vietnam'];
+        $countries = ['Chine', 'Corée du sud', 'France', 'Japan', 'Usa', 'Vietnam'];
 
         foreach ($countries as $addCountry) {
             $country = new Country();

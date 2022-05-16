@@ -5,14 +5,14 @@ namespace App\Controller;
 use App\Entity\Customer;
 use App\Entity\DTO\CustomerDTO;
 use App\Service\CustomerManagement;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -28,26 +28,23 @@ class CustomerController extends AbstractController
         SerializerInterface $serializer,
         CustomerManagement $customerManagement,
         ValidatorInterface $validator
-    ): JsonResponse
-    {
+    ): JsonResponse {
         try {
-            $customerDTO = $serializer->deserialize($request->getContent(),CustomerDTO::class,'json');
+            $customerDTO = $serializer->deserialize($request->getContent(), CustomerDTO::class, 'json');
 
             $errors = $validator->validate($customerDTO);
 
-            if($errors->count()) {
-                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            if ($errors->count()) {
+                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
             }
 
-            return $this->json($customerManagement->createCustomer($customerDTO),Response::HTTP_CREATED);
-
+            return $this->json($customerManagement->createCustomer($customerDTO), Response::HTTP_CREATED);
         } catch (NotEncodableValueException $e) {
             return $this->json([
                 'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage()],
+                'message' => $e->getMessage(), ],
                 Response::HTTP_BAD_REQUEST
             );
-
         }
     }
 
@@ -56,7 +53,7 @@ class CustomerController extends AbstractController
      */
     public function list(CustomerManagement $customerManagement): JsonResponse
     {
-        return $this->json($customerManagement->customersList(),Response::HTTP_OK);
+        return $this->json($customerManagement->customersList(), Response::HTTP_OK);
     }
 
     /**
@@ -66,7 +63,7 @@ class CustomerController extends AbstractController
      */
     public function show(Customer $customer): JsonResponse
     {
-        return $this->json($customer,Response::HTTP_OK);
+        return $this->json($customer, Response::HTTP_OK);
     }
 
     /**
@@ -80,26 +77,23 @@ class CustomerController extends AbstractController
         CustomerManagement $customerManagement,
         Customer $customer,
         ValidatorInterface $validator
-    ): JsonResponse
-    {
+    ): JsonResponse {
         try {
             $customerDTO = $serializer->deserialize($request->getContent(), CustomerDTO::class, 'json');
 
             $errors = $validator->validate($customerDTO);
 
-            if($errors->count()) {
-                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            if ($errors->count()) {
+                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
             }
 
-            return $this->json($customerManagement->updateCustomer($customerDTO,$customer),Response::HTTP_CREATED);
-
+            return $this->json($customerManagement->updateCustomer($customerDTO, $customer), Response::HTTP_CREATED);
         } catch (NotEncodableValueException $e) {
             return $this->json([
                 'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage()],
+                'message' => $e->getMessage(), ],
                 Response::HTTP_BAD_REQUEST
             );
-
         }
     }
 
@@ -112,8 +106,6 @@ class CustomerController extends AbstractController
     {
         $customerManagement->deletecCustomer($customer);
 
-        return $this->json('Le client est supprimé avec succès',Response::HTTP_OK);
+        return $this->json('Le client est supprimé avec succès', Response::HTTP_OK);
     }
 }
-
-

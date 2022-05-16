@@ -45,7 +45,9 @@ class ColorManagement
 
     /**
      * @param $color
+     *
      * @return void
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */

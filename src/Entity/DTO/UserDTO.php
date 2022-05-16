@@ -3,7 +3,6 @@
 namespace App\Entity\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Entity\Customer;
 
 class UserDTO
 {
@@ -36,9 +35,10 @@ class UserDTO
     public function setRoles(array $roles): void
     {
         $this->roles = array_map(
-            function ($role){
+            function ($role) {
                 $roleDTO = new RoleDTO();
                 $roleDTO->id = $role['id'];
+
                 return $roleDTO;
             },
             $roles

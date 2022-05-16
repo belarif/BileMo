@@ -8,15 +8,14 @@ use Doctrine\Persistence\ObjectManager;
 
 class BrandFixtures extends Fixture
 {
-
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
-        $brands = ['Huawei','Iphone','Motorola','Oppo','Samsung','Ulefone','Xiaomi'];
+        $brands = ['Huawei', 'Iphone', 'Motorola', 'Oppo', 'Samsung', 'Ulefone', 'Xiaomi'];
 
-        foreach($brands as $addBrand) {
+        foreach ($brands as $addBrand) {
             $brand = new Brand();
 
             $brand->setName($addBrand);

@@ -50,10 +50,10 @@ class MemoryRepository extends ServiceEntityRepository
 
     /**
      * @param $id
-     * @return Memory
+     *
      * @throws EntityNotFoundException
      */
-    public function getMemory($id):Memory
+    public function getMemory($id): Memory
     {
         $memory = $this->createQueryBuilder('m')
             ->andWhere('m.id = :id')
@@ -61,11 +61,10 @@ class MemoryRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
-        if(!$memory) {
+        if (!$memory) {
             throw new EntityNotFoundException('La capacité memoire demandé n\'existe pas');
         }
 
         return $memory[0];
     }
 }
-

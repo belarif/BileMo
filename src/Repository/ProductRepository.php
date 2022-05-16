@@ -32,6 +32,7 @@ class ProductRepository extends ServiceEntityRepository
         if ($flush) {
             $this->_em->flush();
         }
+
         return $entity;
     }
 
@@ -55,12 +56,10 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
 
-        if(!$product) {
+        if (!$product) {
             throw new EntityNotFoundException('Le produit demandé n\'existe pas');
         }
 
         return $product[0];
     }
 }
-
-

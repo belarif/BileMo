@@ -5,15 +5,14 @@ namespace App\Controller;
 use App\Entity\Brand;
 use App\Entity\DTO\BrandDTO;
 use App\Service\BrandManagement;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -29,26 +28,23 @@ class BrandController extends AbstractController
         SerializerInterface $serializer,
         BrandManagement $brandManagement,
         ValidatorInterface $validator
-    ): JsonResponse
-    {
+    ): JsonResponse {
         try {
-            $brandDTO = $serializer->deserialize($request->getContent(),BrandDTO::class,'json');
+            $brandDTO = $serializer->deserialize($request->getContent(), BrandDTO::class, 'json');
 
             $errors = $validator->validate($brandDTO);
 
-            if($errors->count()) {
-                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            if ($errors->count()) {
+                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
             }
 
-            return $this->json($brandManagement->createBrand($brandDTO),Response::HTTP_CREATED);
-
+            return $this->json($brandManagement->createBrand($brandDTO), Response::HTTP_CREATED);
         } catch (NotEncodableValueException $e) {
             return $this->json([
                 'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage()],
+                'message' => $e->getMessage(), ],
                 Response::HTTP_BAD_REQUEST
             );
-
         }
     }
 
@@ -57,7 +53,7 @@ class BrandController extends AbstractController
      */
     public function list(BrandManagement $brandManagement): JsonResponse
     {
-        return $this->json($brandManagement->brandsList(),Response::HTTP_OK);
+        return $this->json($brandManagement->brandsList(), Response::HTTP_OK);
     }
 
     /**
@@ -67,7 +63,7 @@ class BrandController extends AbstractController
      */
     public function show(Brand $brand): JsonResponse
     {
-        return $this->json($brand,Response::HTTP_OK);
+        return $this->json($brand, Response::HTTP_OK);
     }
 
     /**
@@ -81,25 +77,23 @@ class BrandController extends AbstractController
         BrandManagement $brandManagement,
         SerializerInterface $serializer,
         ValidatorInterface $validator
-    ): JsonResponse
-    {
+    ): JsonResponse {
         try {
-            $brandDTO = $serializer->deserialize($request->getContent(),BrandDTO::class,'json');
+            $brandDTO = $serializer->deserialize($request->getContent(), BrandDTO::class, 'json');
 
             $errors = $validator->validate($brandDTO);
 
-            if($errors->count()) {
-                return $this->json($errors[0]->getMessage(),Response::HTTP_CONFLICT);
+            if ($errors->count()) {
+                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
             }
 
-            return $this->json($brandManagement->updateBrand($brand,$brandDTO),Response::HTTP_CREATED);
+            return $this->json($brandManagement->updateBrand($brand, $brandDTO), Response::HTTP_CREATED);
         } catch (NotEncodableValueException $e) {
             return $this->json([
                 'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage()],
+                'message' => $e->getMessage(), ],
                 Response::HTTP_BAD_REQUEST
             );
-
         }
     }
 
@@ -112,6 +106,6 @@ class BrandController extends AbstractController
     {
         $brandManagement->deleteBrand($brand);
 
-        return $this->json('La marque a été supprimé avec succès',Response::HTTP_OK);
+        return $this->json('La marque a été supprimé avec succès', Response::HTTP_OK);
     }
 }

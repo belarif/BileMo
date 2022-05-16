@@ -13,8 +13,7 @@ class CustomerManagement
 
     public function __construct(
         CustomerRepository $customerRepository
-    )
-    {
+    ) {
         $this->customerRepository = $customerRepository;
     }
 
