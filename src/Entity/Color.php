@@ -5,9 +5,11 @@ namespace App\Entity;
 use App\Repository\ColorRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ColorRepository::class)
+ * @UniqueEntity("name")
  */
 class Color
 {
@@ -19,7 +21,7 @@ class Color
     protected int $id;
 
     /**
-     * @ORM\Column(type="string", length=60)
+     * @ORM\Column(type="string", length=60, unique=true)
      *
      * @Groups({"show_product"})
      */

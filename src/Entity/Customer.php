@@ -5,9 +5,11 @@ namespace App\Entity;
 use App\Repository\CustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
+ * @UniqueEntity("company")
  */
 class Customer
 {
@@ -35,7 +37,7 @@ class Customer
     private ?bool $enabled;
 
     /**
-     * @ORM\Column(type="string", length=60)
+     * @ORM\Column(type="string", length=60, unique=true)
      *
      * @Groups({"show_customer"})
      */
