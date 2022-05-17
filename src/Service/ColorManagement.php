@@ -19,6 +19,7 @@ class ColorManagement
     /**
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ColorException
      */
     public function createColor(ColorDTO $colorDTO): Color
     {
