@@ -84,7 +84,7 @@ class BrandController extends AbstractController
             $errors = $validator->validate($brandDTO);
 
             if ($errors->count()) {
-                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
+                return $this->json(['success' => false, 'message' => $errors[0]->getMessage()], Response::HTTP_CONFLICT);
             }
 
             return $this->json($brandManagement->updateBrand($brand, $brandDTO), Response::HTTP_CREATED);
