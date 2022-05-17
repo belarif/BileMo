@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
+use App\Repository\ProductRepository;
+use Exception;
 use App\Entity\DTO\ProductDTO;
-use App\Entity\Product;
 use App\Service\ProductManagement;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,7 +12,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -36,17 +36,25 @@ class ProductController extends AbstractController
             $productDTO = $serializer->deserialize($request->getContent(), ProductDTO::class, 'json');
 
             $errors = $validator->validate($productDTO);
-
             if ($errors->count()) {
-                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
+                return $this->json(
+                    [
+                        'status' => Response::HTTP_CONFLICT,
+                        'message' => $errors[0]->getMessage()
+                    ],
+                    Response::HTTP_CONFLICT
+                );
             }
 
             return $this->json($productManagement->createProduct($productDTO), Response::HTTP_CREATED, [], ['groups' => 'show_product']);
-        } catch (NotEncodableValueException $e) {
-            return $this->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage(), ],
-                Response::HTTP_BAD_REQUEST
+
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                'status' => Response::HTTP_CONFLICT,
+                'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
             );
         }
     }
@@ -61,54 +69,80 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/{id}", name="show_product", methods={"GET"})
-     *
-     * @Entity("product", expr="repository.getProduct(id)")
      */
-    public function show(Product $product): JsonResponse
+    public function show(int $id, ProductRepository $productRepository): JsonResponse
     {
-        return $this->json($product, Response::HTTP_OK, [], ['groups' => 'show_product']);
+        try {
+            return $this->json($productRepository->getProduct($id), Response::HTTP_OK, [], ['groups' => 'show_product']);
+
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'status' => Response::HTTP_CONFLICT,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
+            );
+        }
     }
 
     /**
      * @Route("/{id}", name="update_product", methods={"PUT"})
-     *
-     * @Entity("product", expr="repository.getProduct(id)")
      */
     public function update(
+        int $id,
         Request $request,
         SerializerInterface $serializer,
+        ProductRepository $productRepository,
         ProductManagement $productManagement,
-        Product $product,
         ValidatorInterface $validator
     ): JsonResponse {
         try {
             $productDTO = $serializer->deserialize($request->getContent(), ProductDTO::class, 'json');
 
             $errors = $validator->validate($productDTO);
-
             if ($errors->count()) {
-                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
+                return $this->json(
+                    [
+                        'status' => Response::HTTP_CONFLICT,
+                        'message' => $errors[0]->getMessage()
+                    ],
+                    Response::HTTP_CONFLICT
+                );
             }
 
-            return $this->json($productManagement->updateProduct($productDTO, $product), Response::HTTP_CREATED, [], ['groups' => 'show_product']);
-        } catch (NotEncodableValueException $e) {
-            return $this->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage(), ],
-                Response::HTTP_BAD_REQUEST
+            return $this->json($productManagement->updateProduct($productRepository->getProduct($id),$productDTO), Response::HTTP_CREATED, [], ['groups' => 'show_product']);
+
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                'status' => Response::HTTP_CONFLICT,
+                'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
             );
+
         }
     }
 
     /**
      * @Route("/{id}", name="delete_product", methods={"DELETE"})
-     *
-     * @Entity("product", expr="repository.getProduct(id)")
      */
-    public function delete(Product $product, ProductManagement $productManagement): JsonResponse
+    public function delete(int $id, ProductRepository $productRepository, ProductManagement $productManagement): JsonResponse
     {
-        $productManagement->deleteProduct($product);
+        try {
+            $productManagement->deleteProduct($productRepository->getProduct($id));
 
-        return $this->json('Le produit est supprimé avec succès', Response::HTTP_OK);
+            return $this->json('Le produit est supprimé avec succès', Response::HTTP_OK);
+
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'status' => Response::HTTP_CONFLICT,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
+            );
+        }
     }
 }
