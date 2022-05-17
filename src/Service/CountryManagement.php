@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Country;
 use App\Entity\DTO\CountryDTO;
+use App\Exception\CountryException;
 use App\Repository\CountryRepository;
 
 class CountryManagement
@@ -18,9 +19,14 @@ class CountryManagement
     /**
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws CountryException
      */
     public function createCountry(CountryDTO $countryDTO): Country
     {
+        if($this->countryRepository->findBy(['name' => $countryDTO->name])) {
+            throw CountryException::countryExists($countryDTO->name);
+        }
+
         $country = new Country();
         $country->setName($countryDTO->name);
 
@@ -35,19 +41,18 @@ class CountryManagement
     /**
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws CountryException
      */
     public function updateCountry($country, CountryDTO $countryDTO): Country
     {
-        $country->setName($countryDTO->name);
+        if($this->countryRepository->findBy(['name' => $countryDTO->name])) {
+            throw CountryException::countryExists($countryDTO->name);
+        }
 
-        return $this->countryRepository->add($country);
+        return $this->countryRepository->add($country->setName($countryDTO->name));
     }
 
     /**
-     * @param $country
-     *
-     * @return void
-     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
