@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Brand;
 use App\Entity\DTO\BrandDTO;
+use App\Exception\BrandException;
 use App\Repository\BrandRepository;
 
 class BrandManagement
@@ -16,15 +17,16 @@ class BrandManagement
     }
 
     /**
-     * @param $brandDTO
-     *
-     * @return void
-     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws BrandException
      */
     public function createBrand($brandDTO): Brand
     {
+        if($this->brandRepository->findBy(['name' => $brandDTO->name])){
+            throw BrandException::brandExists($brandDTO->name);
+        }
+
         $brand = new Brand();
         $brand->setName($brandDTO->name);
 
@@ -37,23 +39,20 @@ class BrandManagement
     }
 
     /**
-     * @param $brand
-     *
-     * @return void
-     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws BrandException
      */
     public function updateBrand($brand, BrandDTO $brandDTO): Brand
     {
-        $brand->setName($brandDTO->name);
+        if($this->brandRepository->findBy(['name' => $brandDTO->name])){
+            throw BrandException::brandExists($brandDTO->name);
+        }
 
-        return $this->brandRepository->add($brand);
+        return $this->brandRepository->add($brand->setName($brandDTO->name));
     }
 
     /**
-     * @param $brand
-     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
