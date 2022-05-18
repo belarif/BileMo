@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Exception\UserException;
 use App\Repository\UserRepository;
 use Exception;
 use App\Entity\DTO\UserDTO;
@@ -76,13 +77,13 @@ class AdminController extends AbstractController
         try {
             return $this->json($userRepository->getUser($admin_id), Response::HTTP_OK, [], ['groups' => 'show_admin']);
 
-        } catch (Exception $e) {
+        } catch (UserException $e) {
             return $this->json(
                 [
                     'success' => false,
                     'message' => $e->getMessage()
                 ],
-                Response::HTTP_CONFLICT
+                Response::HTTP_NOT_FOUND
             );
 
         }
@@ -120,6 +121,14 @@ class AdminController extends AbstractController
                 ['groups' => 'show_admin']
             );
 
+        } catch (UserException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -128,7 +137,6 @@ class AdminController extends AbstractController
                 ],
                 Response::HTTP_CONFLICT
             );
-
         }
     }
 
@@ -142,13 +150,13 @@ class AdminController extends AbstractController
 
             return $this->json('L\'administrateur a été supprimé avec succès', Response::HTTP_OK);
 
-        } catch (Exception $e) {
+        } catch (UserException $e) {
             return $this->json(
                 [
                     'success' => false,
                     'message' =>$e->getMessage()
                 ],
-                Response::HTTP_CONFLICT
+                Response::HTTP_NOT_FOUND
             );
 
         }

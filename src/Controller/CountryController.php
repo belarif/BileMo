@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\DTO\CountryDTO;
+use App\Exception\CountryException;
 use App\Repository\CountryRepository;
 use App\Service\CountryManagement;
 use Exception;
@@ -71,13 +72,14 @@ class CountryController extends AbstractController
     {
         try {
             return $this->json($countryRepository->getCountry($id), Response::HTTP_OK);
-        } catch (Exception $e) {
+
+        } catch (CountryException $e) {
             return $this->json(
                 [
                     'success' => false,
                     'message' => $e->getMessage()
                 ],
-                Response::HTTP_CONFLICT
+                Response::HTTP_NOT_FOUND
             );
         }
     }
@@ -109,6 +111,14 @@ class CountryController extends AbstractController
 
             return $this->json($countryManagement->updateCountry($countryRepository->getCountry($id), $countryDTO), Response::HTTP_CREATED);
 
+        } catch (CountryException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage(),
+                ],
+                Response::HTTP_NOT_FOUND
+            );
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -130,13 +140,13 @@ class CountryController extends AbstractController
 
             return $this->json('La pays a été supprimé avec succès', Response::HTTP_OK);
 
-        } catch (Exception $e) {
+        } catch (CountryException $e) {
             return $this->json(
                 [
                     'success' => false,
                     'message' => $e->getMessage()
                 ],
-                Response::HTTP_CONFLICT
+                Response::HTTP_NOT_FOUND
             );
         }
     }

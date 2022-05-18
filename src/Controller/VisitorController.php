@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Exception\UserException;
 use Exception;
 use App\Entity\DTO\UserDTO;
 use App\Repository\CustomerRepository;
@@ -100,13 +101,13 @@ class VisitorController extends AbstractController
 
             return $this->json($visitor, Response::HTTP_OK, [], ['groups' => ['show_visitor']]);
 
-        } catch (Exception $e) {
+        } catch (UserException $e) {
             return $this->json(
                 [
                     'success' => false,
                     'message' => $e->getMessage()
                 ],
-                Response::HTTP_CONFLICT
+                Response::HTTP_NOT_FOUND
             );
         }
     }
@@ -145,6 +146,14 @@ class VisitorController extends AbstractController
                 ['groups' => ['show_visitor']]
             );
 
+        } catch (UserException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -153,7 +162,6 @@ class VisitorController extends AbstractController
                 ],
                 Response::HTTP_CONFLICT
             );
-
         }
     }
 
@@ -173,13 +181,13 @@ class VisitorController extends AbstractController
 
             return $this->json('Le visiteur a été supprimé avec succès', Response::HTTP_OK);
 
-        } catch (Exception $e) {
+        } catch (UserException $e) {
             return $this->json(
                 [
                     'success' => false,
                     'message' => $e->getMessage()
                 ],
-                Response::HTTP_CONFLICT
+                Response::HTTP_NOT_FOUND
             );
 
         }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Exception\ProductException;
 use App\Repository\ProductRepository;
 use Exception;
 use App\Entity\DTO\ProductDTO;
@@ -75,7 +76,7 @@ class ProductController extends AbstractController
         try {
             return $this->json($productRepository->getProduct($id), Response::HTTP_OK, [], ['groups' => 'show_product']);
 
-        } catch (Exception $e) {
+        } catch (ProductException $e) {
             return $this->json(
                 [
                     'success' => false,
@@ -113,6 +114,14 @@ class ProductController extends AbstractController
 
             return $this->json($productManagement->updateProduct($productRepository->getProduct($id),$productDTO), Response::HTTP_CREATED, [], ['groups' => 'show_product']);
 
+        } catch (ProductException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -121,7 +130,6 @@ class ProductController extends AbstractController
                 ],
                 Response::HTTP_CONFLICT
             );
-
         }
     }
 
@@ -135,13 +143,13 @@ class ProductController extends AbstractController
 
             return $this->json('Le produit est supprimé avec succès', Response::HTTP_OK);
 
-        } catch (Exception $e) {
+        } catch (ProductException $e) {
             return $this->json(
                 [
                     'success' => false,
                     'message' => $e->getMessage()
                 ],
-                Response::HTTP_CONFLICT
+                Response::HTTP_NOT_FOUND
             );
         }
     }

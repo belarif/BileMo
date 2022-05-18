@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Exception\CustomerException;
 use Exception;
 use App\Entity\DTO\CustomerDTO;
 use App\Repository\CustomerRepository;
@@ -72,13 +73,13 @@ class CustomerController extends AbstractController
         try {
             return $this->json($customerRepository->getCustomer($customer_id), Response::HTTP_OK, [], ['groups' => ['show_customer']]);
 
-        } catch (Exception $e) {
+        } catch (CustomerException $e) {
             return $this->json(
                 [
                     'success' => false,
                     'message' => $e->getMessage()
                 ],
-                Response::HTTP_CONFLICT
+                Response::HTTP_NOT_FOUND
             );
         }
     }
@@ -115,6 +116,14 @@ class CustomerController extends AbstractController
                 ['groups' => ['show_customer']]
             );
 
+        } catch (CustomerException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -123,7 +132,6 @@ class CustomerController extends AbstractController
                 ],
                 Response::HTTP_CONFLICT
             );
-
         }
     }
 
@@ -137,13 +145,13 @@ class CustomerController extends AbstractController
 
             return $this->json('Le client est supprimé avec succès', Response::HTTP_OK);
 
-        } catch (Exception $e) {
+        } catch (CustomerException $e) {
             return $this->json(
                 [
                     'success' => false,
                     'message' => $e->getMessage()
                 ],
-                Response::HTTP_CONFLICT
+                Response::HTTP_NOT_FOUND
             );
         }
     }

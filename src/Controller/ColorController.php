@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Exception\ColorException;
 use Exception;
 use App\Entity\DTO\ColorDTO;
 use App\Repository\ColorRepository;
@@ -71,13 +72,13 @@ class ColorController extends AbstractController
         try {
             return $this->json($colorRepository->getColor($id), Response::HTTP_OK);
         }
-        catch (Exception $e) {
+        catch (ColorException $e) {
             return $this->json(
                 [
                     'success' => false,
                     'message' => $e->getMessage()
                 ],
-                Response::HTTP_CONFLICT
+                Response::HTTP_NOT_FOUND
             );
         }
     }
@@ -108,6 +109,14 @@ class ColorController extends AbstractController
             }
 
             return $this->json($colorManagement->updateColor($colorRepository->getColor($id), $colorDTO), Response::HTTP_CREATED);
+        } catch (ColorException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage(),
+                ],
+                Response::HTTP_NOT_FOUND
+            );
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -129,13 +138,13 @@ class ColorController extends AbstractController
 
             return $this->json('La couleur a été supprimé avec succès', Response::HTTP_OK);
 
-        } catch (Exception $e) {
+        } catch (ColorException $e) {
             return $this->json(
                 [
                     'success' => false,
                     'message' => $e->getMessage()
                 ],
-                Response::HTTP_CONFLICT
+                Response::HTTP_NOT_FOUND
             );
         }
     }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Exception\MemoryException;
 use Exception;
 use App\Repository\MemoryRepository;
 use App\Entity\DTO\MemoryDTO;
@@ -73,13 +74,13 @@ class MemoryController extends AbstractController
         try {
             return $this->json($memoryRepository->getMemory($id), Response::HTTP_OK);
 
-        } catch (Exception $e) {
+        } catch (MemoryException $e) {
             return $this->json(
                 [
                     'success' => false,
                     'message' => $e->getMessage(),
                 ],
-                Response::HTTP_CONFLICT
+                Response::HTTP_NOT_FOUND
             );
 
         }
@@ -112,6 +113,14 @@ class MemoryController extends AbstractController
 
             return $this->json($memoryManagement->updateMemory($memoryRepository->getMemory($id), $memoryDTO), Response::HTTP_CREATED);
 
+        } catch (MemoryException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -133,13 +142,13 @@ class MemoryController extends AbstractController
 
             return $this->json('La memoire a été supprimé avec succès', Response::HTTP_OK);
 
-        } catch (Exception $e) {
+        } catch (MemoryException $e) {
             return $this->json(
                 [
                     'success' => false,
                     'message' => $e->getMessage()
                 ],
-                Response::HTTP_CONFLICT
+                Response::HTTP_NOT_FOUND
             );
         }
 
