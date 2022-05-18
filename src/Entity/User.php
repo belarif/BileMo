@@ -39,6 +39,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      *
+     * @Groups({"show_admin"})
      * @Groups({"show_visitor"})
      */
     private string $password;

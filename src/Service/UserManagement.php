@@ -67,7 +67,7 @@ class UserManagement
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws UserException
      */
-    public function updateUser(UserDTO $userDTO, $user, $customer): User
+    public function updateUser(UserDTO $userDTO,$user,$customer): User
     {
         if (!$customer) {
             $user->setCustomer(null);

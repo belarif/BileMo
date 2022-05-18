@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
+use Exception;
 use App\Entity\DTO\UserDTO;
-use App\Entity\User;
 use App\Service\UserManagement;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,7 +12,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -36,18 +36,26 @@ class AdminController extends AbstractController
             $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
 
             $errors = $validator->validate($userDTO);
-
             if ($errors->count()) {
-                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
+                return $this->json(
+                    [
+                        'status' => Response::HTTP_CONFLICT,
+                        'message' => $errors[0]->getMessage()
+                    ],
+                    Response::HTTP_CONFLICT);
             }
 
-            return $this->json($userManagement->createUser($userDTO, $customer = null), Response::HTTP_CREATED, [], ['groups' => 'show_admin']);
-        } catch (NotEncodableValueException $e) {
-            return $this->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage(), ],
-                Response::HTTP_BAD_REQUEST
+            return $this->json($userManagement->createUser($userDTO, null), Response::HTTP_CREATED, [], ['groups' => 'show_admin']);
+
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                'status' => Response::HTTP_CONFLICT,
+                'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
             );
+
         }
     }
 
@@ -56,66 +64,89 @@ class AdminController extends AbstractController
      */
     public function list(UserManagement $userManagement): JsonResponse
     {
-        $admins = $userManagement->users($customer = null);
-
-        return $this->json($admins, Response::HTTP_OK, [], ['groups' => 'show_admin']);
+        return $this->json($admins = $userManagement->users(null), Response::HTTP_OK, [], ['groups' => 'show_admin']);
     }
 
     /**
-     * @Route("/{id}", name="show_admin", methods={"GET"}, requirements={"user_id"="\d+"})
+     * @Route("/{admin_id}", name="show_admin", methods={"GET"}, requirements={"admin_id"="\d+"})
      */
-    public function show(Request $request, UserManagement $userManagement): JsonResponse
+    public function show(int $admin_id, UserRepository $userRepository): JsonResponse
     {
-        $admin = $userManagement->showUser($request->get('id'), $customer = null);
+        try {
+            return $this->json($userRepository->getUser($admin_id), Response::HTTP_OK, [], ['groups' => 'show_admin']);
 
-        return $this->json($admin, Response::HTTP_OK, [], ['groups' => 'show_admin']);
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'status' => Response::HTTP_CONFLICT,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
+            );
+
+        }
     }
 
     /**
-     * @Route("/{id}", name="update_admin", methods={"PUT"}, requirements={"user_id"="\d+"})
-     *
-     * @Entity("user", expr="repository.getUser(id)")
+     * @Route("/{admin_id}", name="update_admin", methods={"PUT"}, requirements={"admin_id"="\d+"})
      */
     public function update(
+        int $admin_id,
         Request $request,
         SerializerInterface $serializer,
         UserManagement $userManagement,
-        User $user,
+        UserRepository $userRepository,
         ValidatorInterface $validator
     ): JsonResponse {
         try {
             $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
 
             $errors = $validator->validate($userDTO);
-
             if ($errors->count()) {
-                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
+                return $this->json(
+                    [
+                        'status' => Response::HTTP_CONFLICT,
+                        'message' => $errors[0]->getMessage()
+                    ]
+                    ,Response::HTTP_CONFLICT);
             }
 
             return $this->json(
-                $userManagement->updateUser($userDTO, $user, $customer = null),
+                $userManagement->updateUser($userDTO,$userRepository->getUser($admin_id), null),
                 Response::HTTP_CREATED,
                 [],
                 ['groups' => 'show_admin']
             );
-        } catch (NotEncodableValueException $e) {
+
+        } catch (Exception $e) {
             return $this->json([
-                'status' => Response::HTTP_BAD_REQUEST,
+                'status' => Response::HTTP_CONFLICT,
                 'message' => $e->getMessage(), ],
-                Response::HTTP_BAD_REQUEST
+                Response::HTTP_CONFLICT
             );
+
         }
     }
 
     /**
-     * @Route("/{id}", name="delete_admin", methods={"DELETE"}, requirements={"id"="\d+"})
-     *
-     * @Entity("user", expr="repository.getUser(id)")
+     * @Route("/{admin_id}", name="delete_admin", methods={"DELETE"}, requirements={"admin_id"="\d+"})
      */
-    public function delete(User $user, UserManagement $userManagement): JsonResponse
+    public function delete(int $admin_id, UserRepository $userRepository, UserManagement $userManagement): JsonResponse
     {
-        $userManagement->deleteUser($user);
+        try {
+            $userManagement->deleteUser($userRepository->getUser($admin_id));
 
-        return $this->json('L\'administrateur a été supprimé avec succès', Response::HTTP_OK);
+            return $this->json('L\'administrateur a été supprimé avec succès', Response::HTTP_OK);
+
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'status' => Response::HTTP_CONFLICT,
+                    'message' =>$e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
+            );
+
+        }
     }
 }
