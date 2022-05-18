@@ -36,20 +36,22 @@ class CountryController extends AbstractController
             if ($errors->count()) {
                 return $this->json(
                     [
-                        'status'=> Response::HTTP_CONFLICT,
+                        'success' => false,
                         'message' => $errors[0]->getMessage()
                     ],
-                    Response::HTTP_CONFLICT
+                    Response::HTTP_BAD_REQUEST
                 );
             }
 
             return $this->json($countryManagement->createCountry($countryDTO), Response::HTTP_CREATED);
 
         } catch (Exception $e) {
-            return $this->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage(), ],
-                Response::HTTP_BAD_REQUEST
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
             );
         }
     }
@@ -72,7 +74,7 @@ class CountryController extends AbstractController
         } catch (Exception $e) {
             return $this->json(
                 [
-                    'status' => Response::HTTP_CONFLICT,
+                    'success' => false,
                     'message' => $e->getMessage()
                 ],
                 Response::HTTP_CONFLICT
@@ -98,10 +100,10 @@ class CountryController extends AbstractController
             if ($errors->count()) {
                 return $this->json(
                     [
-                        'status' => Response::HTTP_CONFLICT,
+                        'success' => false,
                         'message' => $errors[0]->getMessage()
                     ],
-                    Response::HTTP_CONFLICT
+                    Response::HTTP_BAD_REQUEST
                 );
             }
 
@@ -110,8 +112,8 @@ class CountryController extends AbstractController
         } catch (Exception $e) {
             return $this->json(
                 [
-                'status' => Response::HTTP_CONFLICT,
-                'message' => $e->getMessage(),
+                    'success' => false,
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_CONFLICT
             );
@@ -131,7 +133,7 @@ class CountryController extends AbstractController
         } catch (Exception $e) {
             return $this->json(
                 [
-                    'status' => Response::HTTP_CONFLICT,
+                    'success' => false,
                     'message' => $e->getMessage()
                 ],
                 Response::HTTP_CONFLICT

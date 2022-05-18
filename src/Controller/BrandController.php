@@ -34,18 +34,22 @@ class BrandController extends AbstractController
 
             $errors = $validator->validate($brandDTO);
             if ($errors->count()) {
-                return $this->json([
-                    'status' => Response::HTTP_CONFLICT,
-                    'message' => $errors[0]->getMessage()],
-                    Response::HTTP_CONFLICT
+                return $this->json(
+                    [
+                        'success' => false,
+                        'message' => $errors[0]->getMessage()
+                    ],
+                    Response::HTTP_BAD_REQUEST
                 );
             }
 
             return $this->json($brandManagement->createBrand($brandDTO), Response::HTTP_CREATED);
         } catch (Exception $e) {
-            return $this->json([
-                'status' => Response::HTTP_CONFLICT,
-                'message' => $e->getMessage(), ],
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
                 Response::HTTP_CONFLICT
             );
 
@@ -69,10 +73,13 @@ class BrandController extends AbstractController
             return $this->json($brandRepository->getBrand($id), Response::HTTP_OK);
 
         } catch(Exception $e) {
-            return $this->json([
-                'status' => Response::HTTP_CONFLICT,
-                'message' => $e->getMessage()
-            ], Response::HTTP_CONFLICT);
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
+            );
 
         }
     }
@@ -92,21 +99,25 @@ class BrandController extends AbstractController
             $brandDTO = $serializer->deserialize($request->getContent(), BrandDTO::class, 'json');
 
             $errors = $validator->validate($brandDTO);
-
             if ($errors->count()) {
-                return $this->json([
-                    'status' => Response::HTTP_CONFLICT,
-                    'message' => $errors[0]->getMessage()],
-                    Response::HTTP_CONFLICT
+                return $this->json(
+                    [
+                        'success' => false,
+                        'message' => $errors[0]->getMessage()
+                    ],
+                    Response::HTTP_BAD_REQUEST
                 );
             }
 
             return $this->json($brandManagement->updateBrand($brandRepository->getBrand($id), $brandDTO), Response::HTTP_CREATED);
+
         } catch (Exception $e) {
-            return $this->json([
-                'status' => Response::HTTP_CONFLICT,
-                'message' => $e->getMessage(), ],
-                Response::HTTP_BAD_REQUEST
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
             );
 
         }
@@ -122,10 +133,13 @@ class BrandController extends AbstractController
             return $this->json('La marque a été supprimé avec succès', Response::HTTP_OK);
 
         } catch (Exception $e) {
-            return $this->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
+            );
 
         }
     }

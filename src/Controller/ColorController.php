@@ -36,10 +36,10 @@ class ColorController extends AbstractController
             if ($errors->count()) {
                 return $this->json(
                     [
-                    'status' => Response::HTTP_CONFLICT,
-                    'message' => $errors[0]->getMessage()
+                        'success' => false,
+                        'message' => $errors[0]->getMessage()
                     ],
-                    Response::HTTP_CONFLICT
+                    Response::HTTP_BAD_REQUEST
                 );
             }
 
@@ -47,8 +47,8 @@ class ColorController extends AbstractController
         } catch (Exception $e) {
             return $this->json(
                 [
-                'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage(),
+                    'success' => false,
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_BAD_REQUEST
             );
@@ -74,8 +74,8 @@ class ColorController extends AbstractController
         catch (Exception $e) {
             return $this->json(
                 [
-                'status' => Response::HTTP_CONFLICT,
-                'message' => $e->getMessage()
+                    'success' => false,
+                    'message' => $e->getMessage()
                 ],
                 Response::HTTP_CONFLICT
             );
@@ -100,10 +100,10 @@ class ColorController extends AbstractController
             if ($errors->count()) {
                 return $this->json(
                     [
-                    'status' => Response::HTTP_CONFLICT,
-                    'message' => $errors[0]->getMessage()
+                        'success' => false,
+                        'message' => $errors[0]->getMessage()
                     ],
-                    Response::HTTP_CONFLICT
+                    Response::HTTP_BAD_REQUEST
                 );
             }
 
@@ -111,10 +111,10 @@ class ColorController extends AbstractController
         } catch (Exception $e) {
             return $this->json(
                 [
-                'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage(),
+                    'success' => false,
+                    'message' => $e->getMessage(),
                 ],
-                Response::HTTP_BAD_REQUEST
+                Response::HTTP_CONFLICT
             );
         }
     }
@@ -132,8 +132,8 @@ class ColorController extends AbstractController
         } catch (Exception $e) {
             return $this->json(
                 [
-                'status' => Response::HTTP_CONFLICT,
-                'message' => $e->getMessage()
+                    'success' => false,
+                    'message' => $e->getMessage()
                 ],
                 Response::HTTP_CONFLICT
             );

@@ -42,10 +42,10 @@ class VisitorController extends AbstractController
             if ($errors->count()) {
                 return $this->json(
                     [
-                        'status' => Response::HTTP_CONFLICT,
+                        'success' => false,
                         'message' => $errors[0]->getMessage()
                     ],
-                    Response::HTTP_CONFLICT
+                    Response::HTTP_BAD_REQUEST
                 );
             }
 
@@ -59,8 +59,8 @@ class VisitorController extends AbstractController
         } catch (Exception $e) {
             return $this->json(
                 [
-                'status' => Response::HTTP_CONFLICT,
-                'message' => $e->getMessage()
+                    'success' => false,
+                    'message' => $e->getMessage()
                 ],
                 Response::HTTP_CONFLICT
 
@@ -81,7 +81,7 @@ class VisitorController extends AbstractController
         } catch (Exception $e) {
             return $this->json(
                 [
-                    'status' => Response::HTTP_CONFLICT,
+                    'success' => false,
                     'message' => $e->getMessage()
                 ],
                 Response::HTTP_CONFLICT
@@ -103,7 +103,7 @@ class VisitorController extends AbstractController
         } catch (Exception $e) {
             return $this->json(
                 [
-                    'status' => Response::HTTP_CONFLICT,
+                    'success' => false,
                     'message' => $e->getMessage()
                 ],
                 Response::HTTP_CONFLICT
@@ -131,10 +131,10 @@ class VisitorController extends AbstractController
             if ($errors->count()) {
                 return $this->json(
                     [
-                        'status' => Response::HTTP_CONFLICT,
+                        'success' => false,
                         'message' => $errors[0]->getMessage()
                     ],
-                    Response::HTTP_CONFLICT
+                    Response::HTTP_BAD_REQUEST
                 );
             }
 
@@ -148,8 +148,8 @@ class VisitorController extends AbstractController
         } catch (Exception $e) {
             return $this->json(
                 [
-                'status' => Response::HTTP_CONFLICT,
-                'message' => $e->getMessage()
+                    'success' => false,
+                    'message' => $e->getMessage()
                 ],
                 Response::HTTP_CONFLICT
             );
@@ -176,8 +176,8 @@ class VisitorController extends AbstractController
         } catch (Exception $e) {
             return $this->json(
                 [
-                'status' => Response::HTTP_CONFLICT,
-                'message' => $e->getMessage()
+                    'success' => false,
+                    'message' => $e->getMessage()
                 ],
                 Response::HTTP_CONFLICT
             );

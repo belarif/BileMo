@@ -39,10 +39,11 @@ class AdminController extends AbstractController
             if ($errors->count()) {
                 return $this->json(
                     [
-                        'status' => Response::HTTP_CONFLICT,
+                        'success' => false,
                         'message' => $errors[0]->getMessage()
                     ],
-                    Response::HTTP_CONFLICT);
+                    Response::HTTP_BAD_REQUEST
+                );
             }
 
             return $this->json($userManagement->createUser($userDTO, null), Response::HTTP_CREATED, [], ['groups' => 'show_admin']);
@@ -50,8 +51,8 @@ class AdminController extends AbstractController
         } catch (Exception $e) {
             return $this->json(
                 [
-                'status' => Response::HTTP_CONFLICT,
-                'message' => $e->getMessage()
+                    'success' => false,
+                    'message' => $e->getMessage()
                 ],
                 Response::HTTP_CONFLICT
             );
@@ -78,7 +79,7 @@ class AdminController extends AbstractController
         } catch (Exception $e) {
             return $this->json(
                 [
-                    'status' => Response::HTTP_CONFLICT,
+                    'success' => false,
                     'message' => $e->getMessage()
                 ],
                 Response::HTTP_CONFLICT
@@ -105,10 +106,11 @@ class AdminController extends AbstractController
             if ($errors->count()) {
                 return $this->json(
                     [
-                        'status' => Response::HTTP_CONFLICT,
+                        'success' => false,
                         'message' => $errors[0]->getMessage()
-                    ]
-                    ,Response::HTTP_CONFLICT);
+                    ],
+                    Response::HTTP_BAD_REQUEST
+                );
             }
 
             return $this->json(
@@ -119,9 +121,11 @@ class AdminController extends AbstractController
             );
 
         } catch (Exception $e) {
-            return $this->json([
-                'status' => Response::HTTP_CONFLICT,
-                'message' => $e->getMessage(), ],
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
                 Response::HTTP_CONFLICT
             );
 
@@ -141,7 +145,7 @@ class AdminController extends AbstractController
         } catch (Exception $e) {
             return $this->json(
                 [
-                    'status' => Response::HTTP_CONFLICT,
+                    'success' => false,
                     'message' =>$e->getMessage()
                 ],
                 Response::HTTP_CONFLICT

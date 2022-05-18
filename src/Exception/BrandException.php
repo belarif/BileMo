@@ -13,6 +13,6 @@ class BrandException extends Exception
 
     public static function notBrandExists(): BrandException
     {
-        return new self("La marque demandé n'existe pas");
+        return new self("La marque demandée n'existe pas");
     }
 }
