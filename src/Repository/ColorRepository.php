@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Color;
+use App\Exception\ColorException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -49,9 +49,7 @@ class ColorRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $id
-     *
-     * @throws EntityNotFoundException
+     * @throws ColorException
      */
     public function getColor($id): Color
     {
@@ -62,7 +60,7 @@ class ColorRepository extends ServiceEntityRepository
             ->getResult();
 
         if (!$color) {
-            throw new EntityNotFoundException('La couleur demandé n\'existe pas');
+            throw ColorException::notColorExists();
         }
 
         return $color[0];

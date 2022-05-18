@@ -71,11 +71,11 @@ class ColorController extends AbstractController
         try {
             return $this->json($colorRepository->getColor($id), Response::HTTP_OK);
         }
-        catch (Exception $exception) {
+        catch (Exception $e) {
             return $this->json(
                 [
                 'status' => Response::HTTP_CONFLICT,
-                'message' => $exception->getMessage()
+                'message' => $e->getMessage()
                 ],
                 Response::HTTP_CONFLICT
             );
