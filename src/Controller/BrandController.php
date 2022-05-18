@@ -68,10 +68,10 @@ class BrandController extends AbstractController
         try {
             return $this->json($brandRepository->getBrand($id), Response::HTTP_OK);
 
-        } catch(Exception $exception) {
+        } catch(Exception $e) {
             return $this->json([
                 'status' => Response::HTTP_CONFLICT,
-                'message' => $exception->getMessage()
+                'message' => $e->getMessage()
             ], Response::HTTP_CONFLICT);
 
         }
@@ -121,10 +121,10 @@ class BrandController extends AbstractController
             $brandManagement->deleteBrand($brandRepository->getBrand($id));
             return $this->json('La marque a été supprimé avec succès', Response::HTTP_OK);
 
-        } catch (Exception $exception) {
+        } catch (Exception $e) {
             return $this->json([
                 'success' => false,
-                'message' => $exception->getMessage()
+                'message' => $e->getMessage()
             ]);
 
         }

@@ -10,4 +10,9 @@ class BrandException extends Exception
     {
         return new self("La marque $brand est déjà existante !");
     }
+
+    public static function notBrandExists()
+    {
+        return new self("La marque demandé n'existe pas");
+    }
 }
