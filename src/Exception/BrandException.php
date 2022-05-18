@@ -6,12 +6,12 @@ use Exception;
 
 class BrandException extends Exception
 {
-    public static function brandExists(string $brand)
+    public static function brandExists(string $brand): BrandException
     {
         return new self("La marque $brand est déjà existante !");
     }
 
-    public static function notBrandExists()
+    public static function notBrandExists(): BrandException
     {
         return new self("La marque demandé n'existe pas");
     }
