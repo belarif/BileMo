@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Customer;
+use Exception;
 use App\Entity\DTO\UserDTO;
-use App\Entity\User;
+use App\Repository\CustomerRepository;
+use App\Repository\UserRepository;
 use App\Service\UserManagement;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,7 +13,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -23,13 +23,13 @@ class VisitorController extends AbstractController
 {
     /**
      * @Route("", name="create_visitor", methods={"POST"})
-     *
-     * @Entity("customer", expr="repository.getCustomer(customer_id)")
      */
     public function create(
+        int $customer_id,
         Request $request,
         SerializerInterface $serializer,
-        UserManagement $userManagement, Customer $customer,
+        UserManagement $userManagement,
+        CustomerRepository $customerRepository,
         ValidatorInterface $validator
     ): JsonResponse {
         try {
@@ -39,103 +39,149 @@ class VisitorController extends AbstractController
             $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
 
             $errors = $validator->validate($userDTO);
-
             if ($errors->count()) {
-                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
+                return $this->json(
+                    [
+                        'status' => Response::HTTP_CONFLICT,
+                        'message' => $errors[0]->getMessage()
+                    ],
+                    Response::HTTP_CONFLICT
+                );
             }
 
             return $this->json(
-                $userManagement->createUser($userDTO, $customer),
+                $userManagement->createUser($userDTO, $customerRepository->getCustomer($customer_id)),
                 Response::HTTP_CREATED,
                 [],
-                ['groups' => ['show_visitor', 'show_customer']]
+                ['groups' => ['show_visitor']]
             );
-        } catch (NotEncodableValueException $e) {
-            return $this->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage(), ],
-                Response::HTTP_BAD_REQUEST
+
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                'status' => Response::HTTP_CONFLICT,
+                'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
+
             );
         }
     }
 
     /**
      * @Route("", name="visitors_list", methods={"GET"})
-     *
-     * @Entity("customer", expr="repository.getCustomer(customer_id)")
      */
-    public function list(UserManagement $userManagement, Customer $customer): JsonResponse
+    public function list(int $customer_id, UserManagement $userManagement, CustomerRepository $customerRepository): JsonResponse
     {
-        $visitors = $userManagement->users($customer);
+        try {
+            $visitors = $userManagement->users($customerRepository->getCustomer($customer_id));
 
-        return $this->json($visitors, Response::HTTP_OK, [], ['groups' => ['show_visitor']]);
+            return $this->json($visitors, Response::HTTP_OK, [], ['groups' => ['show_visitor']]);
+
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'status' => Response::HTTP_CONFLICT,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
+            );
+        }
     }
 
     /**
      * @Route("/{visitor_id}", name="show_user", methods={"GET"}, requirements={"visitor_id"="\d+"})
-     *
-     * @Entity("customer", expr="repository.getCustomer(customer_id)")
-     * @Entity("user", expr="repository.getUser(visitor_id)")
      */
-    public function show(Request $request, Customer $customer, UserManagement $userManagement, User $user): JsonResponse
+    public function show(int $customer_id, int $visitor_id, CustomerRepository $customerRepository, UserRepository $userRepository): JsonResponse
     {
-        return $this->json(
-            $userManagement->showUser($request->get('visitor_id'),
-                $customer),
-            Response::HTTP_OK,
-            [],
-            ['groups' => ['show_visitor']]
-        );
+        try {
+            $customer = $customerRepository->getCustomer($customer_id);
+            $visitor = $userRepository->getVisitorOfCustomer($visitor_id, $customer);
+
+            return $this->json($visitor, Response::HTTP_OK, [], ['groups' => ['show_visitor']]);
+
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'status' => Response::HTTP_CONFLICT,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
+            );
+        }
     }
 
     /**
      * @Route("/{visitor_id}", name="update_visitor", methods={"PUT"}, requirements={"visitor_id"="\d+"})
-     *
-     * @Entity("customer", expr="repository.getCustomer(customer_id)")
-     * @Entity("user", expr="repository.getUser(visitor_id)")
      */
     public function update(
+        int $visitor_id,
+        int $customer_id,
         Request $request,
         SerializerInterface $serializer,
         UserManagement $userManagement,
-        User $user,
-        Customer $customer,
+        UserRepository $userRepository,
+        CustomerRepository $customerRepository,
         ValidatorInterface $validator
     ): JsonResponse {
         try {
             $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
 
             $errors = $validator->validate($userDTO);
-
             if ($errors->count()) {
-                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
+                return $this->json(
+                    [
+                        'status' => Response::HTTP_CONFLICT,
+                        'message' => $errors[0]->getMessage()
+                    ],
+                    Response::HTTP_CONFLICT
+                );
             }
 
             return $this->json(
-                $userManagement->updateUser($userDTO, $user, $customer),
+                $userManagement->updateUser($userDTO, $userRepository->getUser($visitor_id), $customerRepository->getCustomer($customer_id)),
                 Response::HTTP_CREATED,
                 [],
                 ['groups' => ['show_visitor']]
             );
-        } catch (NotEncodableValueException $e) {
-            return $this->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage(), ],
-                Response::HTTP_BAD_REQUEST
+
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                'status' => Response::HTTP_CONFLICT,
+                'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
             );
+
         }
     }
 
     /**
      * @Route("/{visitor_id}", name="delete_user", methods={"DELETE"}, requirements={"visitor_id"="\d+"})
-     *
-     * @Entity("customer", expr="repository.getCustomer(customer_id)")
-     * @Entity("user", expr="repository.getUser(visitor_id)")
      */
-    public function delete(User $user, UserManagement $userManagement, Customer $customer): JsonResponse
+    public function delete(
+        int $visitor_id,
+        int $customer_id,
+        UserRepository $userRepository,
+        CustomerRepository  $customerRepository,
+        UserManagement $userManagement
+    ): JsonResponse
     {
-        $userManagement->deleteUser($user);
+        try {
+            $userManagement->deleteUser($userRepository->getVisitorOfCustomer($visitor_id, $customerRepository->getCustomer($customer_id)));
 
-        return $this->json('Le visiteur a été supprimé avec succès', Response::HTTP_OK);
+            return $this->json('Le visiteur a été supprimé avec succès', Response::HTTP_OK);
+
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                'status' => Response::HTTP_CONFLICT,
+                'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
+            );
+
+        }
     }
 }

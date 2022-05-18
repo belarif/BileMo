@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Exception\UserException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -64,10 +64,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+
     /**
-     * @param $user_id
-     *
-     * @throws EntityNotFoundException
+     * @throws UserException
      */
     public function getUser($user_id): User
     {
@@ -78,9 +77,29 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ->getResult();
 
         if (!$user) {
-            throw new EntityNotFoundException('L\'utilisateur demandé n\'existe pas');
+            throw UserException::notUserExists();
         }
 
         return $user[0];
+    }
+
+    /**
+     * @throws UserException
+     */
+    public function getVisitorOfCustomer($visitor_id, $customer): User
+    {
+        $visitor = $this->createQueryBuilder('u')
+            ->andWhere('u.id = :id')
+            ->setParameter('id', $visitor_id)
+            ->andWhere('u.customer = :customer')
+            ->setParameter('customer', $customer)
+            ->getQuery()
+            ->getResult();
+
+            if(!$visitor) {
+                throw UserException::notUserExists();
+            }
+
+        return $visitor[0];
     }
 }
