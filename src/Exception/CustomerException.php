@@ -6,8 +6,13 @@ use Exception;
 
 class CustomerException extends Exception
 {
-    public static function customerExists(string $company)
+    public static function customerExists(string $company): CustomerException
     {
         return new self("Le client $company est déjà existant !");
+    }
+
+    public static function notCustomerExists(): CustomerException
+    {
+        return new self("Le client demandé n'existe pas !");
     }
 }
