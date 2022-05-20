@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\DTO\ProductDTO;
 use App\Entity\Product;
+use App\Exception\ProductException;
 use App\Repository\BrandRepository;
 use App\Repository\ColorRepository;
 use App\Repository\CountryRepository;
@@ -42,12 +43,21 @@ class ProductManagement
         $this->colorRepository = $colorRepository;
     }
 
+    /**
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ProductException
+     * @throws \Doctrine\ORM\ORMException
+     */
     public function createProduct(ProductDTO $productDTO)
     {
         $brand = $this->brandRepository->findOneBy(['id' => $productDTO->brand->id]);
         $memory = $this->memoryRepository->findOneBy(['id' => $productDTO->memory->id]);
         $country = $this->countryRepository->findOneBy(['id' => $productDTO->country->id]);
         $user = $this->userRepository->findOneBy(['id' => $productDTO->user->id]);
+
+        if($this->productRepository->findBy(['name' => $productDTO->name])) {
+            throw ProductException::ProductExists($productDTO->name);
+        }
 
         $product = new Product();
         $product->setName($productDTO->name);
@@ -75,12 +85,21 @@ class ProductManagement
         return $products;
     }
 
-    public function updateProduct(ProductDTO $productDTO, $product): Product
+    /**
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws ProductException
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function updateProduct($product, ProductDTO $productDTO): Product
     {
         $brand = $this->brandRepository->findOneBy(['id' => $productDTO->brand->id]);
         $memory = $this->memoryRepository->findOneBy(['id' => $productDTO->memory->id]);
         $country = $this->countryRepository->findOneBy(['id' => $productDTO->country->id]);
         $user = $this->userRepository->findOneBy(['id' => $productDTO->user->id]);
+
+        if($this->productRepository->findBy(['name' => $productDTO->name])) {
+            throw ProductException::ProductExists($productDTO->name);
+        }
 
         $product->setName($productDTO->name);
         $product->setDescription($productDTO->description);

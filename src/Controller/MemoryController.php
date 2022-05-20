@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Exception\MemoryException;
+use Exception;
+use App\Repository\MemoryRepository;
 use App\Entity\DTO\MemoryDTO;
-use App\Entity\Memory;
 use App\Service\MemoryManagement;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,7 +13,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -33,18 +34,27 @@ class MemoryController extends AbstractController
             $memoryDTO = $serializer->deserialize($request->getContent(), MemoryDTO::class, 'json');
 
             $errors = $validator->validate($memoryDTO);
-
             if ($errors->count()) {
-                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
+                return $this->json(
+                    [
+                        'success' => false,
+                        'message' => $errors[0]->getMessage()
+                    ],
+                    Response::HTTP_BAD_REQUEST
+                );
             }
 
             return $this->json($memoryManagement->createMemory($memoryDTO), Response::HTTP_CREATED);
-        } catch (NotEncodableValueException $e) {
-            return $this->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage(), ],
-                Response::HTTP_BAD_REQUEST
+
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
             );
+
         }
     }
 
@@ -58,22 +68,31 @@ class MemoryController extends AbstractController
 
     /**
      * @Route("/{id}", name="show_memory", methods={"GET"}, requirements={"id"="\d+"})
-     *
-     * @Entity("memory", expr="repository.getMemory(id)")
      */
-    public function show(Memory $memory): JsonResponse
+    public function show(int $id, MemoryRepository $memoryRepository): JsonResponse
     {
-        return $this->json($memory, Response::HTTP_OK);
+        try {
+            return $this->json($memoryRepository->getMemory($id), Response::HTTP_OK);
+
+        } catch (MemoryException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage(),
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+
+        }
     }
 
     /**
      * @Route("/{id}", name="update_memory", methods={"PUT"}, requirements={"id"="\d+"})
-     *
-     * @Entity("memory", expr="repository.getMemory(id)")
      */
     public function update(
+        int $id,
         Request $request,
-        Memory $memory,
+        MemoryRepository $memoryRepository,
         MemoryManagement $memoryManagement,
         SerializerInterface $serializer,
         ValidatorInterface $validator
@@ -83,28 +102,55 @@ class MemoryController extends AbstractController
 
             $errors = $validator->validate($memoryDTO);
             if ($errors->count()) {
-                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
+                return $this->json(
+                    [
+                        'success' => false,
+                        'message' => $errors[0]->getMessage()
+                    ],
+                    Response::HTTP_BAD_REQUEST
+                );
             }
 
-            return $this->json($memoryManagement->updateMemory($memory, $memoryDTO), Response::HTTP_CREATED);
-        } catch (NotEncodableValueException $e) {
-            return $this->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage(), ],
-                Response::HTTP_BAD_REQUEST
+            return $this->json($memoryManagement->updateMemory($memoryRepository->getMemory($id), $memoryDTO), Response::HTTP_CREATED);
+
+        } catch (MemoryException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
             );
         }
     }
 
     /**
      * @Route("/{id}", name="delete_memory", methods={"DELETE"}, requirements={"id"="\d+"})
-     *
-     * @Entity("memory", expr="repository.getMemory(id)")
      */
-    public function delete(Memory $memory, MemoryManagement $memoryManagement): JsonResponse
+    public function delete(int $id, MemoryRepository $memoryRepository, MemoryManagement $memoryManagement): JsonResponse
     {
-        $memoryManagement->deleteMemory($memory);
+        try {
+            $memoryManagement->deleteMemory($memoryRepository->getMemory($id));
 
-        return $this->json('La memoire a été supprimé avec succès', Response::HTTP_OK);
+            return $this->json('La memoire a été supprimé avec succès', Response::HTTP_OK);
+
+        } catch (MemoryException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
     }
 }

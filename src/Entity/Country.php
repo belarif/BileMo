@@ -5,9 +5,11 @@ namespace App\Entity;
 use App\Repository\CountryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=CountryRepository::class)
+ * @UniqueEntity("name")
  */
 class Country
 {
@@ -19,7 +21,7 @@ class Country
     protected int $id;
 
     /**
-     * @ORM\Column(type="string", length=60)
+     * @ORM\Column(type="string", length=60, unique=true)
      *
      * @Groups({"show_product"})
      */

@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Product;
+use App\Exception\ProductException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -48,6 +48,9 @@ class ProductRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @throws ProductException
+     */
     public function getProduct($id): Product
     {
         $product = $this->createQueryBuilder('p')
@@ -57,7 +60,7 @@ class ProductRepository extends ServiceEntityRepository
             ->getResult();
 
         if (!$product) {
-            throw new EntityNotFoundException('Le produit demandé n\'existe pas');
+            throw ProductException::notProductExists();
         }
 
         return $product[0];

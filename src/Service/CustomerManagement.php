@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Customer;
 use App\Entity\DTO\CustomerDTO;
+use App\Exception\CustomerException;
 use App\Repository\CustomerRepository;
 use Symfony\Component\Uid\Ulid;
 
@@ -17,8 +18,17 @@ class CustomerManagement
         $this->customerRepository = $customerRepository;
     }
 
+    /**
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws CustomerException
+     * @throws \Doctrine\ORM\ORMException
+     */
     public function createCustomer(CustomerDTO $customerDTO): Customer
     {
+        if($this->customerRepository->findBy(['company' => $customerDTO->company])) {
+            throw CustomerException::customerExists($customerDTO->company);
+        }
+
         $customer = new Customer();
         $code = new Ulid();
 
@@ -34,8 +44,17 @@ class CustomerManagement
         return $this->customerRepository->findAll();
     }
 
-    public function updateCustomer(CustomerDTO $customerDTO, $customer): Customer
+    /**
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws CustomerException
+     */
+    public function updateCustomer( $customer, CustomerDTO $customerDTO): Customer
     {
+        if($this->customerRepository->findBy(['company' => $customerDTO->company])) {
+            throw CustomerException::customerExists($customerDTO->company);
+        }
+
         $customer->setCompany($customerDTO->company);
         $customer->setEnabled($customerDTO->enabled);
 

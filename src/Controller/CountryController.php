@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Country;
 use App\Entity\DTO\CountryDTO;
+use App\Exception\CountryException;
+use App\Repository\CountryRepository;
 use App\Service\CountryManagement;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -33,17 +34,25 @@ class CountryController extends AbstractController
             $countryDTO = $serializer->deserialize($request->getContent(), CountryDTO::class, 'json');
 
             $errors = $validator->validate($countryDTO);
-
             if ($errors->count()) {
-                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
+                return $this->json(
+                    [
+                        'success' => false,
+                        'message' => $errors[0]->getMessage()
+                    ],
+                    Response::HTTP_BAD_REQUEST
+                );
             }
 
             return $this->json($countryManagement->createCountry($countryDTO), Response::HTTP_CREATED);
-        } catch (NotEncodableValueException $e) {
-            return $this->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage(), ],
-                Response::HTTP_BAD_REQUEST
+
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
             );
         }
     }
@@ -58,22 +67,30 @@ class CountryController extends AbstractController
 
     /**
      * @Route("/{id}", name="show_country", methods={"GET"}, requirements={"id"="\d+"})
-     *
-     * @Entity("country", expr="repository.getCountry(id)")
      */
-    public function show(Country $country): JsonResponse
+    public function show(int $id, CountryRepository $countryRepository): JsonResponse
     {
-        return $this->json($country, Response::HTTP_OK);
+        try {
+            return $this->json($countryRepository->getCountry($id), Response::HTTP_OK);
+
+        } catch (CountryException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
     }
 
     /**
      * @Route("/{id}", name="update_country", methods={"PUT"}, requirements={"id"="\d+"})
-     *
-     * @Entity("country", expr="repository.getCountry(id)")
      */
     public function update(
+        int $id,
         Request $request,
-        Country $country,
+        CountryRepository $countryRepository,
         CountryManagement $countryManagement,
         SerializerInterface $serializer,
         ValidatorInterface $validator
@@ -82,30 +99,55 @@ class CountryController extends AbstractController
             $countryDTO = $serializer->deserialize($request->getContent(), CountryDTO::class, 'json');
 
             $errors = $validator->validate($countryDTO);
-
             if ($errors->count()) {
-                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
+                return $this->json(
+                    [
+                        'success' => false,
+                        'message' => $errors[0]->getMessage()
+                    ],
+                    Response::HTTP_BAD_REQUEST
+                );
             }
 
-            return $this->json($countryManagement->updateCountry($country, $countryDTO), Response::HTTP_CREATED);
-        } catch (NotEncodableValueException $e) {
-            return $this->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage(), ],
-                Response::HTTP_BAD_REQUEST
+            return $this->json($countryManagement->updateCountry($countryRepository->getCountry($id), $countryDTO), Response::HTTP_CREATED);
+
+        } catch (CountryException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage(),
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage(),
+                ],
+                Response::HTTP_CONFLICT
             );
         }
     }
 
     /**
      * @Route("/{id}", name="delete_country", methods={"DELETE"}, requirements={"id"="\d+"})
-     *
-     * @Entity("country", expr="repository.getCountry(id)")
      */
-    public function delete(Country $country, CountryManagement $countryManagement): JsonResponse
+    public function delete(int $id, CountryRepository $countryRepository, CountryManagement $countryManagement): JsonResponse
     {
-        $countryManagement->deleteCountry($country);
+        try {
+            $countryManagement->deleteCountry($countryRepository->getCountry($id));
 
-        return $this->json('La pays a été supprimé avec succès', Response::HTTP_OK);
+            return $this->json('La pays a été supprimé avec succès', Response::HTTP_OK);
+
+        } catch (CountryException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
     }
 }

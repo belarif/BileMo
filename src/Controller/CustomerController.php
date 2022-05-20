@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Customer;
+use App\Exception\CustomerException;
+use Exception;
 use App\Entity\DTO\CustomerDTO;
+use App\Repository\CustomerRepository;
 use App\Service\CustomerManagement;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,7 +13,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -33,17 +34,25 @@ class CustomerController extends AbstractController
             $customerDTO = $serializer->deserialize($request->getContent(), CustomerDTO::class, 'json');
 
             $errors = $validator->validate($customerDTO);
-
             if ($errors->count()) {
-                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
+                return $this->json(
+                    [
+                        'success' => false,
+                        'message' => $errors[0]->getMessage()
+                    ],
+                    Response::HTTP_BAD_REQUEST
+                );
             }
 
             return $this->json($customerManagement->createCustomer($customerDTO), Response::HTTP_CREATED);
-        } catch (NotEncodableValueException $e) {
-            return $this->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage(), ],
-                Response::HTTP_BAD_REQUEST
+
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
             );
         }
     }
@@ -53,59 +62,97 @@ class CustomerController extends AbstractController
      */
     public function list(CustomerManagement $customerManagement): JsonResponse
     {
-        return $this->json($customerManagement->customersList(), Response::HTTP_OK);
+        return $this->json($customerManagement->customersList(), Response::HTTP_OK, [], ['groups' => ['show_customer']]);
     }
 
     /**
      * @Route("/{customer_id}", name="show_customer", methods={"GET"})
-     *
-     * @Entity("customer", expr="repository.getCustomer(customer_id)")
      */
-    public function show(Customer $customer): JsonResponse
+    public function show(int $customer_id, CustomerRepository $customerRepository): JsonResponse
     {
-        return $this->json($customer, Response::HTTP_OK);
+        try {
+            return $this->json($customerRepository->getCustomer($customer_id), Response::HTTP_OK, [], ['groups' => ['show_customer']]);
+
+        } catch (CustomerException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
     }
 
     /**
      * @Route("/{customer_id}", name="update_customer", methods={"PUT"})
-     *
-     * @Entity("customer", expr="repository.getCustomer(customer_id)")
      */
     public function update(
+        int $customer_id,
         Request $request,
         SerializerInterface $serializer,
         CustomerManagement $customerManagement,
-        Customer $customer,
+        CustomerRepository $customerRepository,
         ValidatorInterface $validator
     ): JsonResponse {
         try {
             $customerDTO = $serializer->deserialize($request->getContent(), CustomerDTO::class, 'json');
 
             $errors = $validator->validate($customerDTO);
-
             if ($errors->count()) {
-                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
+                return $this->json(
+                    [
+                        'success' => false,
+                        'message' => $errors[0]->getMessage()
+                    ],
+                    Response::HTTP_BAD_REQUEST
+                );
             }
 
-            return $this->json($customerManagement->updateCustomer($customerDTO, $customer), Response::HTTP_CREATED);
-        } catch (NotEncodableValueException $e) {
-            return $this->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage(), ],
-                Response::HTTP_BAD_REQUEST
+            return $this->json(
+                $customerManagement->updateCustomer($customerRepository->getCustomer($customer_id) ,$customerDTO),
+                Response::HTTP_CREATED,
+                [],
+                ['groups' => ['show_customer']]
+            );
+
+        } catch (CustomerException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
             );
         }
     }
 
     /**
      * @Route("/{customer_id}", name="delete_customer", methods={"DELETE"})
-     *
-     * @Entity("customer", expr="repository.getCustomer(customer_id)")
      */
-    public function delete(Customer $customer, CustomerManagement $customerManagement): JsonResponse
+    public function delete(int $customer_id, CustomerRepository $customerRepository, CustomerManagement $customerManagement): JsonResponse
     {
-        $customerManagement->deletecCustomer($customer);
+        try {
+            $customerManagement->deletecCustomer($customerRepository->getCustomer($customer_id));
 
-        return $this->json('Le client est supprimé avec succès', Response::HTTP_OK);
+            return $this->json('Le client est supprimé avec succès', Response::HTTP_OK);
+
+        } catch (CustomerException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
     }
 }

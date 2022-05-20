@@ -5,9 +5,12 @@ namespace App\Entity;
 use App\Repository\BrandRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=BrandRepository::class)
+ * @UniqueEntity("name")
  */
 class Brand
 {
@@ -19,7 +22,7 @@ class Brand
     protected int $id;
 
     /**
-     * @ORM\Column(type="string", length=60)
+     * @ORM\Column(type="string", length=60, unique=true)
      *
      * @Groups({"show_product"})
      */

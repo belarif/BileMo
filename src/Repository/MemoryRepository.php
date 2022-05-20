@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Memory;
+use App\Exception\MemoryException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -49,9 +49,7 @@ class MemoryRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $id
-     *
-     * @throws EntityNotFoundException
+     * @throws MemoryException
      */
     public function getMemory($id): Memory
     {
@@ -62,7 +60,7 @@ class MemoryRepository extends ServiceEntityRepository
             ->getResult();
 
         if (!$memory) {
-            throw new EntityNotFoundException('La capacité memoire demandé n\'existe pas');
+            throw MemoryException::notMemoryExists();
         }
 
         return $memory[0];

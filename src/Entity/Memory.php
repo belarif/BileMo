@@ -5,9 +5,11 @@ namespace App\Entity;
 use App\Repository\MemoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=MemoryRepository::class)
+ * @UniqueEntity("memoryCapacity")
  */
 class Memory
 {
@@ -19,7 +21,7 @@ class Memory
     protected int $id;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="string", length=10, unique=true)
      *
      * @Groups({"show_product"})
      */

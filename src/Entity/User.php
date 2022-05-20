@@ -22,6 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @Groups({"show_visitor"})
      * @Groups({"show_admin"})
+     * @Groups({"show_customer"})
      */
     protected int $id;
 
@@ -30,29 +31,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @Groups({"show_visitor"})
      * @Groups({"show_admin"})
+     * @Groups({"show_customer"})
      */
     private string $email;
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-     */
-    private string $password;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Customer::class)
      *
+     * @Groups({"show_admin"})
      * @Groups({"show_visitor"})
      */
-    private ?Customer $customer;
+    private string $password;
 
     /**
      * @ORM\ManyToMany(targetEntity=Role::class)
      *
      * @Groups({"show_visitor"})
      * @Groups({"show_admin"})
+     * @Groups({"show_customer"})
      */
     private $roles;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="users")
+     *
+     * @Groups({"show_visitor"})
+     */
+    private $customer;
 
     public function __construct()
     {
@@ -148,18 +154,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getCustomer(): ?Customer
-    {
-        return $this->customer;
-    }
-
-    public function setCustomer(?Customer $customer): self
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Role>
      */
@@ -180,6 +174,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeRole(Role $role): self
     {
         $this->roles->removeElement($role);
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }

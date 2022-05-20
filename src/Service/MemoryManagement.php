@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Memory;
+use App\Exception\MemoryException;
 use App\Repository\MemoryRepository;
 
 class MemoryManagement
@@ -14,8 +15,17 @@ class MemoryManagement
         $this->memoryRepository = $memoryRepository;
     }
 
+    /**
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws MemoryException
+     * @throws \Doctrine\ORM\ORMException
+     */
     public function createMemory($memoryDTO): Memory
     {
+        if($this->memoryRepository->findBy(['memoryCapacity' => $memoryDTO->memoryCapacity])) {
+            throw MemoryException::memoryExists($memoryDTO->memoryCapacity);
+        }
+
         $memory = new Memory();
         $memory->setMemoryCapacity($memoryDTO->memoryCapacity);
 
@@ -29,9 +39,11 @@ class MemoryManagement
 
     public function updateMemory($memory, $memoryDTO): Memory
     {
-        $memory->setMemoryCapacity($memoryDTO->memoryCapacity);
+        if($this->memoryRepository->findBy(['memoryCapacity' => $memoryDTO->memoryCapacity])) {
+            throw MemoryException::memoryExists($memoryDTO->memoryCapacity);
+        }
 
-        return $this->memoryRepository->add($memory);
+        return $this->memoryRepository->add($memory->setMemoryCapacity($memoryDTO->memoryCapacity));
     }
 
     public function deleteMemory($memory)

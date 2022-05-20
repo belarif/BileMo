@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Brand;
+use App\Exception\BrandException;
+use Exception;
 use App\Entity\DTO\BrandDTO;
+use App\Repository\BrandRepository;
 use App\Service\BrandManagement;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,7 +13,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -33,18 +34,26 @@ class BrandController extends AbstractController
             $brandDTO = $serializer->deserialize($request->getContent(), BrandDTO::class, 'json');
 
             $errors = $validator->validate($brandDTO);
-
             if ($errors->count()) {
-                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
+                return $this->json(
+                    [
+                        'success' => false,
+                        'message' => $errors[0]->getMessage()
+                    ],
+                    Response::HTTP_BAD_REQUEST
+                );
             }
 
             return $this->json($brandManagement->createBrand($brandDTO), Response::HTTP_CREATED);
-        } catch (NotEncodableValueException $e) {
-            return $this->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage(), ],
-                Response::HTTP_BAD_REQUEST
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
             );
+
         }
     }
 
@@ -58,23 +67,32 @@ class BrandController extends AbstractController
 
     /**
      * @Route("/{id}", name="show_brand", methods={"GET"}, requirements={"id"="\d+"})
-     *
-     * @Entity("brand", expr="repository.getBrand(id)")
      */
-    public function show(Brand $brand): JsonResponse
+    public function show(int $id, BrandRepository $brandRepository): JsonResponse
     {
-        return $this->json($brand, Response::HTTP_OK);
+        try {
+            return $this->json($brandRepository->getBrand($id), Response::HTTP_OK);
+
+        } catch (BrandException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
     }
 
     /**
      * @Route("/{id}", name="update_brand", methods={"PUT"}, requirements={"id"="\d+"})
-     *
-     * @Entity("brand", expr="repository.getBrand(id)")
      */
     public function update(
+        int $id,
         Request $request,
-        Brand $brand,
         BrandManagement $brandManagement,
+        BrandRepository $brandRepository,
         SerializerInterface $serializer,
         ValidatorInterface $validator
     ): JsonResponse {
@@ -82,30 +100,55 @@ class BrandController extends AbstractController
             $brandDTO = $serializer->deserialize($request->getContent(), BrandDTO::class, 'json');
 
             $errors = $validator->validate($brandDTO);
-
             if ($errors->count()) {
-                return $this->json($errors[0]->getMessage(), Response::HTTP_CONFLICT);
+                return $this->json(
+                    [
+                        'success' => false,
+                        'message' => $errors[0]->getMessage()
+                    ],
+                    Response::HTTP_BAD_REQUEST
+                );
             }
 
-            return $this->json($brandManagement->updateBrand($brand, $brandDTO), Response::HTTP_CREATED);
-        } catch (NotEncodableValueException $e) {
-            return $this->json([
-                'status' => Response::HTTP_BAD_REQUEST,
-                'message' => $e->getMessage(), ],
-                Response::HTTP_BAD_REQUEST
+            return $this->json($brandManagement->updateBrand($brandRepository->getBrand($id), $brandDTO), Response::HTTP_CREATED);
+
+        } catch (BrandException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_CONFLICT
             );
         }
     }
 
     /**
      * @Route("/{id}", name="delete_brand", methods={"DELETE"}, requirements={"id"="\d+"})
-     *
-     * @Entity("brand", expr="repository.getBrand(id)")
      */
-    public function delete(Brand $brand, BrandManagement $brandManagement): JsonResponse
+    public function delete(int $id, BrandManagement $brandManagement, BrandRepository $brandRepository): JsonResponse
     {
-        $brandManagement->deleteBrand($brand);
+        try {
+            $brandManagement->deleteBrand($brandRepository->getBrand($id));
+            return $this->json('La marque a été supprimé avec succès', Response::HTTP_OK);
 
-        return $this->json('La marque a été supprimé avec succès', Response::HTTP_OK);
+        } catch (BrandException $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+
+        }
     }
 }

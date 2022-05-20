@@ -5,20 +5,20 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "username":"b.ocine@live.fr",
-  "password":"user1"
+  "username":"example@gmail.com",
+  "password":"admin"
 }
 ### end security management ###
 
 
 ### create visitor ###
-POST {{base_url}}/customers/2/visitors
+POST {{base_url}}/customers/30/visitors
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "email":"test2@gmail.com",
+  "email":"hocine@gmail.com",
   "password":"delete",
   "roles":
   [
@@ -30,25 +30,26 @@ Authorization: Bearer {{token}}
 
 ### start visitors management
 ### visitors list
-GET {{base_url}}/customers/2/visitors
+GET {{base_url}}/customers/30/visitors
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### show visitor
-GET {{base_url}}/customers/2/visitors/63
+GET {{base_url}}/customers/30/visitors/104
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### update visitor ###
-PUT {{base_url}}/customers/2/visitors/62
+PUT {{base_url}}/customers/30/visitors/104
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "password":"chaglké1",
+  "email":"te@gmail.com",
+  "password":"user1",
     "roles":
     [
         {
@@ -58,7 +59,7 @@ Authorization: Bearer {{token}}
 }
 
 ### delete visitor ###
-DELETE {{base_url}}/customers/2/visitors/62
+DELETE {{base_url}}/customers/30/visitors/102
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -73,7 +74,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "email":"admin@gmail.com",
+  "email":"admin5@gmail.com",
   "password":"admin",
   "roles":
   [
@@ -90,19 +91,20 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### show admin
-GET {{base_url}}/admins/70
+GET {{base_url}}/admins/106
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### update admin ###
-PUT {{base_url}}/admins/70
+PUT {{base_url}}/admins/10
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "password":"admin2",
+  "email":"admin@gmail.com",
+  "password":"adm1554",
   "roles":
   [
     {
@@ -112,7 +114,7 @@ Authorization: Bearer {{token}}
 }
 
 ### delete admin
-DELETE {{base_url}}/admins/70
+DELETE {{base_url}}/admins/106
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -140,25 +142,25 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### show customer
-GET {{base_url}}/customers/15
+GET {{base_url}}/customers/31
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### update customer ###
-PUT {{base_url}}/customers/15
+PUT {{base_url}}/customers/32
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "company":"allotoz",
+  "company":"allo pièces",
   "code": "2A2562",
   "enabled": 0
 }
 
 ### delete customer
-DELETE {{base_url}}/customers/15
+DELETE {{base_url}}/customers/31
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -174,7 +176,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name":"Iphone 12",
+  "name":"Iphone 11",
   "description":"votre nouvel iphone est doté d'un système ...",
   "brand":
   {
@@ -216,19 +218,19 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### show product
-GET {{base_url}}/products/11
+GET {{base_url}}/products/17
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### update product ###
-PUT {{base_url}}/products/10
+PUT {{base_url}}/products/16
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name":"Iphone 12 modifié",
+  "name":"Iphone 10",
   "description":"votre nouvel iphone est doté d'un système ...",
   "brand":
   {
@@ -264,7 +266,7 @@ Authorization: Bearer {{token}}
 }
 
 ### delete product
-DELETE {{base_url}}/products/11
+DELETE {{base_url}}/products/16
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -290,23 +292,23 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### show brand
-GET {{base_url}}/brands/34
+GET {{base_url}}/brands/4
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### update brand ###
-PUT {{base_url}}/brands/34
+PUT {{base_url}}/brands/4
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "Microsoft"
+  "name": "Oppo"
 }
 
 ### delete brand
-DELETE {{base_url}}/brands/34
+DELETE {{base_url}}/brands/43
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -322,7 +324,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "Yellow"
+  "name": "rouge"
 }
 
 ### colors list
@@ -332,23 +334,23 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### show color
-GET {{base_url}}/colors/14
+GET {{base_url}}/colors/16
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### update color ###
-PUT {{base_url}}/colors/14
+PUT {{base_url}}/colors/16
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "Red"
+  "name": "rouge"
 }
 
 ### delete color
-DELETE {{base_url}}/colors/13
+DELETE {{base_url}}/colors/16
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -364,7 +366,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "Mali"
+  "name": "usa"
 }
 
 ### countries list
@@ -374,7 +376,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### show country
-GET {{base_url}}/countries/11
+GET {{base_url}}/countries/6
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -386,11 +388,11 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "Cote d'ivoire"
+  "name": "Allemagne"
 }
 
 ### delete country
-DELETE {{base_url}}/countries/7
+DELETE {{base_url}}/countries/1174
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -416,23 +418,23 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### show memory
-GET {{base_url}}/memories/10
+GET {{base_url}}/memories/100
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### update memory ###
-PUT {{base_url}}/memories/10
+PUT {{base_url}}/memories/3
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "memoryCapacity": "1To"
+  "memoryCapacity": "64Go"
 }
 
 ### delete memory
-DELETE {{base_url}}/memories/9
+DELETE {{base_url}}/memories/10
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}

@@ -3,11 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\CustomerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
+ * @UniqueEntity("company")
  */
 class Customer
 {
@@ -17,6 +21,7 @@ class Customer
      * @ORM\Column(type="integer")
      *
      * @Groups({"show_customer"})
+     * @Groups({"show_visitor"})
      */
     protected int $id;
 
@@ -24,6 +29,7 @@ class Customer
      * @ORM\Column(type="string", length=30)
      *
      * @Groups({"show_customer"})
+     * @Groups({"show_visitor"})
      */
     private string $code;
 
@@ -31,15 +37,29 @@ class Customer
      * @ORM\Column(type="boolean")
      *
      * @Groups({"show_customer"})
+     * @Groups({"show_visitor"})
      */
     private ?bool $enabled;
 
     /**
-     * @ORM\Column(type="string", length=60)
+     * @ORM\Column(type="string", length=60, unique=true)
+     *
+     * @Groups({"show_customer"})
+     * @Groups({"show_visitor"})
+     */
+    private $company;
+
+    /**
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="customer", orphanRemoval=true)
      *
      * @Groups({"show_customer"})
      */
-    private $company;
+    private $users;
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -78,6 +98,36 @@ class Customer
     public function setCompany(string $company): self
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getCustomer() === $this) {
+                $user->setCustomer(null);
+            }
+        }
 
         return $this;
     }
