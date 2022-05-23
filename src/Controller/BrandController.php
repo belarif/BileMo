@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Exception\BrandException;
 use Exception;
+use OpenApi\Annotations as OA;
 use App\Entity\DTO\BrandDTO;
 use App\Repository\BrandRepository;
 use App\Service\BrandManagement;
@@ -23,6 +24,44 @@ class BrandController extends AbstractController
 {
     /**
      * @Route("", name="create_brand", methods={"POST"})
+     *
+     * @OA\Info(
+     *     title="BileMo API",
+     *     description="BileMo est un service web proposant une sélection de téléphones mobiles",
+     *     version="1.0.0"
+     *     )
+     * @OA\Server(
+     *     url="http://localhost:8000/bile-mo-api/v1",
+     *     description="server principal de l'API bile-mo"
+     * )
+     *
+     * @OA\Post(
+     *     path="/brands",
+     *     @OA\Response(
+     *         response="201",
+     *         description="HTTP_CREATED",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             description="Created"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="409",
+     *         description="HTTP_CONFLICT",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             description="Conflict"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="HTTP_BAD_REQUEST",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             description="Bad request"
+     *         )
+     *     )
+     * )
      */
     public function create(
         Request $request,
@@ -67,6 +106,35 @@ class BrandController extends AbstractController
 
     /**
      * @Route("/{id}", name="show_brand", methods={"GET"}, requirements={"id"="\d+"})
+     *
+     *      *
+     * @OA\Get(
+     *     path="/brands/{id}",
+     *     @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     description="ID de la ressource",
+     *     required=true,
+     *     @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="HTTP_OK",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Brand"),
+     *             description="Ok"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="HTTP_NOT_FOUND",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             description="Not found"
+     *         )
+     *     )
+     * )
      */
     public function show(int $id, BrandRepository $brandRepository): JsonResponse
     {
@@ -138,7 +206,7 @@ class BrandController extends AbstractController
     {
         try {
             $brandManagement->deleteBrand($brandRepository->getBrand($id));
-            return $this->json('La marque a été supprimé avec succès', Response::HTTP_OK);
+            return $this->json('La marque a été supprimé avec succès', Response::HTTP_NO_CONTENT);
 
         } catch (BrandException $e) {
             return $this->json(

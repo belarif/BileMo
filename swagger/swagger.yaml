@@ -1,0 +1,73 @@
+openapi: 3.0.0
+info:
+  title: 'BileMo API'
+  description: 'BileMo est un service web proposant une sélection de téléphones mobiles'
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8000/bile-mo-api/v1'
+    description: 'server principal de l''API bile-mo'
+paths:
+  /brands:
+    post:
+      operationId: 94cdf2b7be7db2bfeb001bc1047a13c1
+      responses:
+        '201':
+          description: HTTP_CREATED
+          content:
+            application/json:
+              schema:
+                description: Created
+                type: string
+        '409':
+          description: HTTP_CONFLICT
+          content:
+            application/json:
+              schema:
+                description: Conflict
+                type: string
+        '400':
+          description: HTTP_BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                description: 'Bad request'
+                type: string
+  '/brands/{id}':
+    get:
+      operationId: ab699acdfe8f94a4d425cbb40da41590
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'ID de la ressource'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: HTTP_OK
+          content:
+            application/json:
+              schema:
+                description: Ok
+                type: array
+                items:
+                  $ref: '#/components/schemas/Brand'
+        '404':
+          description: HTTP_NOT_FOUND
+          content:
+            application/json:
+              schema:
+                description: 'Not found'
+                type: string
+components:
+  schemas:
+    Brand:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          nullable: false
+      type: object
