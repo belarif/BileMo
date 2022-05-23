@@ -26,8 +26,8 @@ class BrandController extends AbstractController
      * @Route("", name="create_brand", methods={"POST"})
      *
      * @OA\Info(
-     *     title="BileMo API",
-     *     description="BileMo est un service web proposant une sélection de téléphones mobiles",
+     *     title="bile-mo API",
+     *     description="bile-mo est un service web proposant une sélection de téléphones mobiles",
      *     version="1.0.0"
      *     )
      * @OA\Server(
@@ -37,6 +37,16 @@ class BrandController extends AbstractController
      *
      * @OA\Post(
      *     path="/brands",
+     *     summary="Create a new brand",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="name"
+     *             )
+     *         )
+     *     ),
      *     @OA\Response(
      *         response="201",
      *         description="HTTP_CREATED",
@@ -98,6 +108,20 @@ class BrandController extends AbstractController
 
     /**
      * @Route("", name="brands_list", methods={"GET"})
+     *
+     * @OA\Get(
+     *     path="/brands",
+     *     summary="Returns list of brands",
+     *     @OA\Response(
+     *         response="200",
+     *         description="HTTP_OK",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Brand"),
+     *             description="Ok"
+     *         )
+     *     )
+     * )
      */
     public function list(BrandManagement $brandManagement): JsonResponse
     {
@@ -107,15 +131,15 @@ class BrandController extends AbstractController
     /**
      * @Route("/{id}", name="show_brand", methods={"GET"}, requirements={"id"="\d+"})
      *
-     *      *
      * @OA\Get(
      *     path="/brands/{id}",
+     *     summary="Returns brand by id",
      *     @OA\Parameter(
-     *     name="id",
-     *     in="path",
-     *     description="ID de la ressource",
-     *     required=true,
-     *     @OA\Schema(type="integer")
+     *         name="id",
+     *         in="path",
+     *         description="ID de la marque",
+     *         required=true,
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
      *         response="200",
@@ -155,6 +179,60 @@ class BrandController extends AbstractController
 
     /**
      * @Route("/{id}", name="update_brand", methods={"PUT"}, requirements={"id"="\d+"})
+     *
+     * @OA\Put(
+     *     path="/brands/{id}",
+     *     summary="Updates a brand by id",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID de la marque",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="name"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="201",
+     *         description="HTTP_CREATED",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Brand"),
+     *             description="Created"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="409",
+     *         description="HTTP_CONFLICT",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             description="Conflict"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="HTTP_BAD_REQUEST",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             description="Bad request"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="HTTP_NOT_FOUND",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             description="Not found"
+     *         )
+     *     )
+     * )
      */
     public function update(
         int $id,
@@ -201,6 +279,33 @@ class BrandController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete_brand", methods={"DELETE"}, requirements={"id"="\d+"})
+     *
+     * @OA\Delete(
+     *     path="/brands/{id}",
+     *     summary="Deletes a brand by id",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID de la marque",
+     *         required=true
+     *     ),
+     *     @OA\Response(
+     *         response="204",
+     *         description="HTTP_NO_CONTENT",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             description="No content"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="HTTP_NOT_FOUND",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             description="Not found"
+     *         )
+     *     )
+     * )
      */
     public function delete(int $id, BrandManagement $brandManagement, BrandRepository $brandRepository): JsonResponse
     {

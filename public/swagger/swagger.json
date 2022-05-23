@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "BileMo API",
-        "description": "BileMo est un service web proposant une sélection de téléphones mobiles",
+        "title": "bile-mo API",
+        "description": "bile-mo est un service web proposant une sélection de téléphones mobiles",
         "version": "1.0.0"
     },
     "servers": [
@@ -13,8 +13,42 @@
     ],
     "paths": {
         "/brands": {
+            "get": {
+                "summary": "Returns list of brands",
+                "operationId": "3544ce2450640def5d6a3d8cf58c9810",
+                "responses": {
+                    "200": {
+                        "description": "HTTP_OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Ok",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Brand"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
+                "summary": "Create a new brand",
                 "operationId": "94cdf2b7be7db2bfeb001bc1047a13c1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {}
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "201": {
                         "description": "HTTP_CREATED",
@@ -54,12 +88,13 @@
         },
         "/brands/{id}": {
             "get": {
+                "summary": "Returns brand by id",
                 "operationId": "ab699acdfe8f94a4d425cbb40da41590",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID de la ressource",
+                        "description": "ID de la marque",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -77,6 +112,119 @@
                                     "items": {
                                         "$ref": "#/components/schemas/Brand"
                                     }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Updates a brand by id",
+                "operationId": "3f74c8e4c8e6f1cb841cf681fa5485dc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la marque",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {}
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "HTTP_CREATED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Created",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Brand"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "HTTP_CONFLICT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Conflict",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "HTTP_BAD_REQUEST",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Bad request",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletes a brand by id",
+                "operationId": "c10cbdf05b0ae1c807468727efb1b138",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la marque",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "HTTP_NO_CONTENT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "No content",
+                                    "type": "string"
                                 }
                             }
                         }
