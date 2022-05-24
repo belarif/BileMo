@@ -117,7 +117,7 @@ class BrandController extends AbstractController
      *         description="HTTP_OK",
      *         @OA\JsonContent(
      *             type="array",
-     *             @OA\Items(ref="#/components/schemas/Brand"),
+     *             @OA\Items(ref="#/components/schemas/BrandDTO"),
      *             description="Ok"
      *         )
      *     )
@@ -146,7 +146,7 @@ class BrandController extends AbstractController
      *         description="HTTP_OK",
      *         @OA\JsonContent(
      *             type="array",
-     *             @OA\Items(ref="#/components/schemas/Brand"),
+     *             @OA\Items(ref="#/components/schemas/BrandDTO"),
      *             description="Ok"
      *         )
      *     ),
@@ -204,7 +204,7 @@ class BrandController extends AbstractController
      *         description="HTTP_CREATED",
      *         @OA\JsonContent(
      *             type="array",
-     *             @OA\Items(ref="#/components/schemas/Brand"),
+     *             @OA\Items(ref="#/components/schemas/BrandDTO"),
      *             description="Created"
      *         )
      *     ),
