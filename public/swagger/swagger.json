@@ -12,6 +12,246 @@
         }
     ],
     "paths": {
+        "/admins": {
+            "get": {
+                "tags": "G",
+                "summary": "Returns list of admins",
+                "operationId": "3ebdb43389a92d44e8d3701cb89cb43e",
+                "responses": {
+                    "200": {
+                        "description": "HTTP_OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Ok",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": "G",
+                "summary": "Create a new admin",
+                "operationId": "3ce12be3a00154c9e88bdc2993251ae4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {},
+                                    "password": {},
+                                    "roles": {}
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "HTTP_CREATED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Created",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "HTTP_CONFLICT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Conflict",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "HTTP_BAD_REQUEST",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Bad request",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/admins/{admin_id}": {
+            "get": {
+                "tags": "G",
+                "summary": "Returns admin by id",
+                "operationId": "da91355e3bad24a471b2ffbe35c3a797",
+                "parameters": [
+                    {
+                        "name": "admin_id",
+                        "in": "path",
+                        "description": "admin ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTTP_OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Ok",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserDTO"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": "G",
+                "summary": "Updates an admin by id",
+                "operationId": "2e77786db77c13a28f8da099d6b175c4",
+                "parameters": [
+                    {
+                        "name": "admin_id",
+                        "in": "path",
+                        "description": "admin ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {},
+                                    "password": {},
+                                    "roles": {}
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "HTTP_CREATED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Created",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserDTO"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "HTTP_CONFLICT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Conflict",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "HTTP_BAD_REQUEST",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Bad request",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": "G",
+                "summary": "Deletes an admin by id",
+                "operationId": "ccd4e6eb3bb68609b4de9823996d14bd",
+                "parameters": [
+                    {
+                        "name": "admin_id",
+                        "in": "path",
+                        "description": "admin ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "HTTP_NO_CONTENT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "No content",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/brands": {
             "get": {
                 "tags": "A",
@@ -799,11 +1039,11 @@
                 }
             }
         },
-        "/customers/{id}": {
+        "/customers/{customer_id}": {
             "get": {
                 "tags": "E",
                 "summary": "Returns customer by id",
-                "operationId": "2c27c1c3b699c2d119f9979014f7725a",
+                "operationId": "3194ea66399f1cd3ad6548df7e1b3c51",
                 "parameters": [
                     {
                         "name": "id",
@@ -846,7 +1086,7 @@
             "put": {
                 "tags": "E",
                 "summary": "Updates a customer by id",
-                "operationId": "0fd51cf82850936776e14c8bf053d10c",
+                "operationId": "64e4e4f64cb1a1a391352f8656525108",
                 "parameters": [
                     {
                         "name": "id",
@@ -925,7 +1165,7 @@
             "delete": {
                 "tags": "E",
                 "summary": "Deletes a customer by id",
-                "operationId": "fda6b62edfc235b3606e2fed4f1df702",
+                "operationId": "d9344752e61198b298352e36876b0034",
                 "parameters": [
                     {
                         "name": "id",
