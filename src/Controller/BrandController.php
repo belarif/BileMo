@@ -27,17 +27,18 @@ class BrandController extends AbstractController
      *
      * @OA\Info(
      *     title="bile-mo API",
-     *     description="bile-mo est un service web proposant une sélection de téléphones mobiles",
+     *     description="bile-mo is a web service offering a selection of mobile phones",
      *     version="1.0.0"
      *     )
      * @OA\Server(
      *     url="http://localhost:8000/bile-mo-api/v1",
-     *     description="server principal de l'API bile-mo"
+     *     description="bile-mo API main server"
      * )
      *
      * @OA\Post(
      *     path="/brands",
      *     summary="Create a new brand",
+     *     tags="A",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -112,6 +113,7 @@ class BrandController extends AbstractController
      * @OA\Get(
      *     path="/brands",
      *     summary="Returns list of brands",
+     *     tags="A",
      *     @OA\Response(
      *         response="200",
      *         description="HTTP_OK",
@@ -134,10 +136,11 @@ class BrandController extends AbstractController
      * @OA\Get(
      *     path="/brands/{id}",
      *     summary="Returns brand by id",
+     *     tags="A",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="ID de la marque",
+     *         description="brand ID",
      *         required=true,
      *         @OA\Schema(type="integer")
      *     ),
@@ -183,10 +186,11 @@ class BrandController extends AbstractController
      * @OA\Put(
      *     path="/brands/{id}",
      *     summary="Updates a brand by id",
+     *     tags="A",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="ID de la marque",
+     *         description="brand ID",
      *         required=true,
      *         @OA\Schema(type="integer")
      *     ),
@@ -283,10 +287,11 @@ class BrandController extends AbstractController
      * @OA\Delete(
      *     path="/brands/{id}",
      *     summary="Deletes a brand by id",
+     *     tags="A",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="ID de la marque",
+     *         description="brand ID",
      *         required=true
      *     ),
      *     @OA\Response(
