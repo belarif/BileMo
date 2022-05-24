@@ -483,6 +483,478 @@
                     }
                 }
             }
+        },
+        "/countries": {
+            "get": {
+                "tags": "C",
+                "summary": "Returns list of countries",
+                "operationId": "1f2be0afb56c7355e832edb34f011b11",
+                "responses": {
+                    "200": {
+                        "description": "HTTP_OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Ok",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CountryDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": "C",
+                "summary": "Create a new country",
+                "operationId": "1de631f284f371311a529ade263e02b5",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {}
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "HTTP_CREATED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Created",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "HTTP_CONFLICT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Conflict",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "HTTP_BAD_REQUEST",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Bad request",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/countries/{id}": {
+            "get": {
+                "tags": "C",
+                "summary": "Returns country by id",
+                "operationId": "cc920f30a32eb71e4bdf54d0867f18b2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "country ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTTP_OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Ok",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CountryDTO"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": "C",
+                "summary": "Updates a country by id",
+                "operationId": "640a41126c1dcdd3d85784e250fd6905",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "country ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {}
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "HTTP_CREATED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Created",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CountryDTO"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "HTTP_CONFLICT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Conflict",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "HTTP_BAD_REQUEST",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Bad request",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": "C",
+                "summary": "Deletes a country by id",
+                "operationId": "ba08734dfcb711808d75bc497657e398",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "country ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "HTTP_NO_CONTENT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "No content",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/memories": {
+            "get": {
+                "tags": "D",
+                "summary": "Returns list of memories",
+                "operationId": "603c384092324660833ea6ac4bb1af7d",
+                "responses": {
+                    "200": {
+                        "description": "HTTP_OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Ok",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/MemoryDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": "D",
+                "summary": "Create a new memory",
+                "operationId": "88974b04cf6ce9c5c94314a0a46c25a7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "memoryCapacity": {}
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "HTTP_CREATED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Created",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "HTTP_CONFLICT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Conflict",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "HTTP_BAD_REQUEST",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Bad request",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/memories/{id}": {
+            "get": {
+                "tags": "D",
+                "summary": "Returns memory by id",
+                "operationId": "9172ea858a4b7804551349c599cf3125",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "memory ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTTP_OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Ok",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/MemoryDTO"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": "D",
+                "summary": "Updates a memory by id",
+                "operationId": "f6ba35fd29618e8c3ac88de1f606fa0d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "memory ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "memoryCapacity": {}
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "HTTP_CREATED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Created",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/MemoryDTO"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "HTTP_CONFLICT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Conflict",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "HTTP_BAD_REQUEST",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Bad request",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": "D",
+                "summary": "Deletes a memory by id",
+                "operationId": "ab9714c7853b47d9c0bea9db4fd83aa4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "memory ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "HTTP_NO_CONTENT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "No content",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -507,6 +979,28 @@
                     "name": {
                         "type": "string",
                         "nullable": false
+                    }
+                },
+                "type": "object"
+            },
+            "CountryDTO": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "MemoryDTO": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "memoryCapacity": {
+                        "type": "string"
                     }
                 },
                 "type": "object"
