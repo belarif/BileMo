@@ -720,6 +720,246 @@
                 }
             }
         },
+        "/customers": {
+            "get": {
+                "tags": "E",
+                "summary": "Returns list of customers",
+                "operationId": "c992d6a1c8c2a6a9b7a4d958e62a79b0",
+                "responses": {
+                    "200": {
+                        "description": "HTTP_OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Ok",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CustomerDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": "E",
+                "summary": "Create a new customer",
+                "operationId": "4b9978cf561413798b854dcc3ca794b6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "company": {},
+                                    "enabled": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "HTTP_CREATED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Created",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "HTTP_CONFLICT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Conflict",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "HTTP_BAD_REQUEST",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Bad request",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/customers/{id}": {
+            "get": {
+                "tags": "E",
+                "summary": "Returns customer by id",
+                "operationId": "2c27c1c3b699c2d119f9979014f7725a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTTP_OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Ok",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CustomerDTO"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": "E",
+                "summary": "Updates a customer by id",
+                "operationId": "0fd51cf82850936776e14c8bf053d10c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "company": {},
+                                    "enabled": {}
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "HTTP_CREATED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Created",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CustomerDTO"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "HTTP_CONFLICT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Conflict",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "HTTP_BAD_REQUEST",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Bad request",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": "E",
+                "summary": "Deletes a customer by id",
+                "operationId": "fda6b62edfc235b3606e2fed4f1df702",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "customer ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "HTTP_NO_CONTENT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "No content",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/memories": {
             "get": {
                 "tags": "D",
@@ -990,6 +1230,26 @@
                     },
                     "name": {
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CustomerDTO": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "code": {
+                        "type": "string"
+                    },
+                    "enabled": {
+                        "type": "boolean"
+                    },
+                    "company": {
+                        "type": "string"
+                    },
+                    "users": {
+                        "type": "array"
                     }
                 },
                 "type": "object"
