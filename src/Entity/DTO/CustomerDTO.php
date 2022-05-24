@@ -17,12 +17,12 @@ class CustomerDTO
     public int $id;
 
     /**
-     * @OA\Property(type="string")
+     * @OA\Property(type="string", nullable=false)
      */
     public string $code;
 
     /**
-     * @OA\Property(type="boolean")
+     * @OA\Property(type="boolean", nullable=false)
      */
     public $enabled;
 
@@ -30,7 +30,7 @@ class CustomerDTO
      * @Assert\NotBlank(message="Le champs société ne peut pas être vide")
      * @Assert\Length(max=60, maxMessage="Le champs société ne doit pas dépasser {{ limit }} caractères")
      *
-     * @OA\Property(type="string")
+     * @OA\Property(type="string", nullable=false)
      */
     public string $company;
 
