@@ -2,18 +2,19 @@
     "openapi": "3.0.0",
     "info": {
         "title": "bile-mo API",
-        "description": "bile-mo est un service web proposant une sélection de téléphones mobiles",
+        "description": "bile-mo is a web service offering a selection of mobile phones",
         "version": "1.0.0"
     },
     "servers": [
         {
             "url": "http://localhost:8000/bile-mo-api/v1",
-            "description": "server principal de l'API bile-mo"
+            "description": "bile-mo API main server"
         }
     ],
     "paths": {
         "/brands": {
             "get": {
+                "tags": "A",
                 "summary": "Returns list of brands",
                 "operationId": "3544ce2450640def5d6a3d8cf58c9810",
                 "responses": {
@@ -25,7 +26,7 @@
                                     "description": "Ok",
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Brand"
+                                        "$ref": "#/components/schemas/BrandDTO"
                                     }
                                 }
                             }
@@ -34,6 +35,7 @@
                 }
             },
             "post": {
+                "tags": "A",
                 "summary": "Create a new brand",
                 "operationId": "94cdf2b7be7db2bfeb001bc1047a13c1",
                 "requestBody": {
@@ -88,13 +90,14 @@
         },
         "/brands/{id}": {
             "get": {
+                "tags": "A",
                 "summary": "Returns brand by id",
                 "operationId": "ab699acdfe8f94a4d425cbb40da41590",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID de la marque",
+                        "description": "brand ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -110,7 +113,7 @@
                                     "description": "Ok",
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Brand"
+                                        "$ref": "#/components/schemas/BrandDTO"
                                     }
                                 }
                             }
@@ -130,13 +133,14 @@
                 }
             },
             "put": {
+                "tags": "A",
                 "summary": "Updates a brand by id",
                 "operationId": "3f74c8e4c8e6f1cb841cf681fa5485dc",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID de la marque",
+                        "description": "brand ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -165,7 +169,7 @@
                                     "description": "Created",
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Brand"
+                                        "$ref": "#/components/schemas/BrandDTO"
                                     }
                                 }
                             }
@@ -207,13 +211,250 @@
                 }
             },
             "delete": {
+                "tags": "A",
                 "summary": "Deletes a brand by id",
                 "operationId": "c10cbdf05b0ae1c807468727efb1b138",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID de la marque",
+                        "description": "brand ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "HTTP_NO_CONTENT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "No content",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/colors": {
+            "get": {
+                "tags": "B",
+                "summary": "Returns list of colors",
+                "operationId": "e74bb8263c3f1e27e30b3b840fc22e3f",
+                "responses": {
+                    "200": {
+                        "description": "HTTP_OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Ok",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ColorDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": "B",
+                "summary": "Create a new color",
+                "operationId": "7566096e8328c306c7783a0d59010b0f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {}
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "HTTP_CREATED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Created",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "HTTP_CONFLICT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Conflict",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "HTTP_BAD_REQUEST",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Bad request",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/colors/{id}": {
+            "get": {
+                "tags": "B",
+                "summary": "Returns color by id",
+                "operationId": "20cc66712d5a433645d5415350dba97a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "color ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTTP_OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Ok",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ColorDTO"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": "B",
+                "summary": "Updates a color by id",
+                "operationId": "1a7fda937dfa705d5c2fa9a52c29eea4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "color ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {}
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "HTTP_CREATED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Created",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ColorDTO"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "HTTP_CONFLICT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Conflict",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "HTTP_BAD_REQUEST",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Bad request",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": "B",
+                "summary": "Deletes a color by id",
+                "operationId": "7ede05fa2ac11479f5c8b9da67dd4252",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "color ID",
                         "required": true
                     }
                 ],
@@ -246,7 +487,19 @@
     },
     "components": {
         "schemas": {
-            "Brand": {
+            "BrandDTO": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string",
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            },
+            "ColorDTO": {
                 "properties": {
                     "id": {
                         "type": "integer"
