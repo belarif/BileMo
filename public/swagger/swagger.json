@@ -1195,6 +1195,295 @@
                     }
                 }
             }
+        },
+        "/customers/{customer_id}/visitors": {
+            "get": {
+                "tags": "F",
+                "summary": "Returns list of visitors",
+                "operationId": "26e3579e5e87de35cd28955101ca9762",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "path",
+                        "description": "customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTTP_OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Ok",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": "F",
+                "summary": "Create a new visitor",
+                "operationId": "24aadeedcd43e9aa48cc1213663264bf",
+                "parameters": [
+                    {
+                        "name": "customer_id",
+                        "in": "path",
+                        "description": "customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {},
+                                    "password": {},
+                                    "roles": {}
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "HTTP_CREATED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Created",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "HTTP_CONFLICT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Conflict",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "HTTP_BAD_REQUEST",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Bad request",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/customers/{customer_id}/visitors/{visitor_id}": {
+            "get": {
+                "tags": "F",
+                "summary": "Returns visitor by id",
+                "operationId": "86b1cabc4dfa666e8c5a1cc4fa2c80b3",
+                "parameters": [
+                    {
+                        "name": "visitor_id",
+                        "in": "path",
+                        "description": "visitor ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "customer_id",
+                        "in": "path",
+                        "description": "customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "HTTP_OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Ok",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserDTO"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": "F",
+                "summary": "Updates a visitor by id",
+                "operationId": "39e4ddd322b5375d582e42e58a940bf0",
+                "parameters": [
+                    {
+                        "name": "visitor_id",
+                        "in": "path",
+                        "description": "visitor ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "customer_id",
+                        "in": "path",
+                        "description": "customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {},
+                                    "password": {},
+                                    "roles": {}
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "HTTP_CREATED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Created",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserDTO"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "HTTP_CONFLICT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Conflict",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "HTTP_BAD_REQUEST",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Bad request",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": "F",
+                "summary": "Deletes a visitor by id",
+                "operationId": "ffafd3cd1db630f0495ab0cfeecde505",
+                "parameters": [
+                    {
+                        "name": "visitor_id",
+                        "in": "path",
+                        "description": "visitor ID",
+                        "required": true
+                    },
+                    {
+                        "name": "customer_id",
+                        "in": "path",
+                        "description": "customer ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "HTTP_NO_CONTENT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "No content",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "HTTP_NOT_FOUND",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Not found",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -1240,13 +1529,16 @@
                         "type": "integer"
                     },
                     "code": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": false
                     },
                     "enabled": {
-                        "type": "boolean"
+                        "type": "boolean",
+                        "nullable": false
                     },
                     "company": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": false
                     },
                     "users": {
                         "type": "array"
@@ -1261,6 +1553,29 @@
                     },
                     "memoryCapacity": {
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "UserDTO": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "email": {
+                        "type": "string",
+                        "nullable": false
+                    },
+                    "password": {
+                        "type": "string",
+                        "nullable": false
+                    },
+                    "customer": {
+                        "type": "array"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "nullable": false
                     }
                 },
                 "type": "object"
