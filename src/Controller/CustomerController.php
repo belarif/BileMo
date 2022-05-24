@@ -125,10 +125,10 @@ class CustomerController extends AbstractController
     }
 
     /**
-     * @Route("/{customer_id}", name="show_customer", methods={"GET"})
+     * @Route("/{customer_id}", name="show_customer", methods={"GET"}, requirements={"customer_id"="\d+"})
      *
      * @OA\Get(
-     *     path="/customers/{id}",
+     *     path="/customers/{customer_id}",
      *     summary="Returns customer by id",
      *     tags="E",
      *     @OA\Parameter(
@@ -174,10 +174,10 @@ class CustomerController extends AbstractController
     }
 
     /**
-     * @Route("/{customer_id}", name="update_customer", methods={"PUT"})
+     * @Route("/{customer_id}", name="update_customer", methods={"PUT"}, requirements={"customer_id"="\d+"})
      *
      * @OA\Put(
-     *     path="/customers/{id}",
+     *     path="/customers/{customer_id}",
      *     summary="Updates a customer by id",
      *     tags="E",
      *     @OA\Parameter(
@@ -283,10 +283,10 @@ class CustomerController extends AbstractController
     }
 
     /**
-     * @Route("/{customer_id}", name="delete_customer", methods={"DELETE"})
+     * @Route("/{customer_id}", name="delete_customer", methods={"DELETE"}, requirements={"customer_id"="\d+"})
      *
      * @OA\Delete(
-     *     path="/customers/{id}",
+     *     path="/customers/{customer_id}",
      *     summary="Deletes a customer by id",
      *     tags="E",
      *     @OA\Parameter(
