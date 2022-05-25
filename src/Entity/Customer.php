@@ -8,10 +8,33 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
  * @UniqueEntity("company")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *     href = "expr('/bile-mo-api/v1/customers/' ~ object.getId())"
+ * )
+ * @Hateoas\Relation(
+ *     "create",
+ *     href = "expr('/bile-mo-api/v1/customers')"
+ * )
+ * @Hateoas\Relation(
+ *     "list",
+ *     href = "expr('/bile-mo-api/v1/customers')"
+ * )
+ * @Hateoas\Relation(
+ *     "update",
+ *     href = "expr('/bile-mo-api/v1/customers/' ~ object.getId())"
+ * )
+ * @Hateoas\Relation(
+ *     "delete",
+ *     href = "expr('/bile-mo-api/v1/customers/' ~ object.getId())"
+ * )
  */
 class Customer
 {

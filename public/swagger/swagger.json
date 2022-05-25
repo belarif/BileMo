@@ -1157,7 +1157,7 @@
                 "operationId": "64e4e4f64cb1a1a391352f8656525108",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "customer_id",
                         "in": "path",
                         "description": "customer ID",
                         "required": true,
@@ -1173,7 +1173,9 @@
                             "schema": {
                                 "properties": {
                                     "company": {},
-                                    "enabled": {}
+                                    "enabled": {
+                                        "type": "boolean"
+                                    }
                                 },
                                 "type": "object"
                             }
