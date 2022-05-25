@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Hateoas\HateoasBuilder;
 
 /**
  * @Route("/countries", name="api_")
@@ -84,8 +85,9 @@ class CountryController extends AbstractController
                 );
             }
 
-            return $this->json($countryManagement->createCountry($countryDTO), Response::HTTP_CREATED);
+            $hateoas = HateoasBuilder::create()->build();
 
+            return new JsonResponse($hateoas->serialize($countryManagement->createCountry($countryDTO), 'json'),Response::HTTP_OK,[],'json');
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -117,7 +119,9 @@ class CountryController extends AbstractController
      */
     public function list(CountryManagement $countryManagement): JsonResponse
     {
-        return $this->json($countryManagement->countriesList(), Response::HTTP_OK);
+        $hateoas = HateoasBuilder::create()->build();
+
+        return new JsonResponse($hateoas->serialize($countryManagement->countriesList(), 'json'),Response::HTTP_OK,[],'json');
     }
 
     /**
@@ -156,8 +160,9 @@ class CountryController extends AbstractController
     public function show(int $id, CountryRepository $countryRepository): JsonResponse
     {
         try {
-            return $this->json($countryRepository->getCountry($id), Response::HTTP_OK);
+            $hateoas = HateoasBuilder::create()->build();
 
+            return new JsonResponse($hateoas->serialize($countryRepository->getCountry($id), 'json'),Response::HTTP_OK,[],'json');
         } catch (CountryException $e) {
             return $this->json(
                 [
@@ -249,7 +254,10 @@ class CountryController extends AbstractController
                 );
             }
 
-            return $this->json($countryManagement->updateCountry($countryRepository->getCountry($id), $countryDTO), Response::HTTP_CREATED);
+            $country = $countryManagement->updateCountry($countryRepository->getCountry($id), $countryDTO);
+            $hateoas = HateoasBuilder::create()->build();
+
+            return new JsonResponse($hateoas->serialize($country, 'json'),Response::HTTP_OK,[],'json');
 
         } catch (CountryException $e) {
             return $this->json(
