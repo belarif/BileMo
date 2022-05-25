@@ -7,10 +7,29 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * @ORM\Entity(repositoryClass=BrandRepository::class)
  * @UniqueEntity("name")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *     href = "expr('/bile-mo-api/v1/brands/' ~ object.getId())"
+ * )
+ * @Hateoas\Relation(
+ *     "list",
+ *     href = "expr('/bile-mo-api/v1/brands')"
+ * )
+ * @Hateoas\Relation(
+ *     "update",
+ *     href = "expr('/bile-mo-api/v1/brands/' ~ object.getId())"
+ * )
+ * @Hateoas\Relation(
+ *     "delete",
+ *     href = "expr('/bile-mo-api/v1/brands/' ~ object.getId())"
+ * )
  */
 class Brand
 {
