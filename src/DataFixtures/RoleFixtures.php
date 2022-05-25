@@ -10,7 +10,7 @@ class RoleFixtures extends Fixture
 {
     public const ROLE_ADMIN = 'ROLE_ADMIN';
     public const ROLE_CUSTOMER_ADMIN = 'ROLE_CUSTOMER_ADMIN';
-    public const ROLE_VISITOR = 'ROLE_VISIOR';
+    public const ROLE_VISITOR = 'ROLE_VISITOR';
 
     /**
      * {@inheritDoc}
