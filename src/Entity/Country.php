@@ -17,6 +17,8 @@ class Country
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"show_product"})
      */
     protected int $id;
 
