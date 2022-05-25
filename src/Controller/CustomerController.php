@@ -28,7 +28,7 @@ class CustomerController extends AbstractController
      * @OA\Post(
      *     path="/customers",
      *     summary="Create a new customer",
-     *     tags="E",
+     *     tags={"Customers management"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -107,7 +107,7 @@ class CustomerController extends AbstractController
      * @OA\Get(
      *     path="/customers",
      *     summary="Returns list of customers",
-     *     tags="E",
+     *     tags={"Customers management"},
      *     @OA\Response(
      *         response="200",
      *         description="HTTP_OK",
@@ -130,7 +130,7 @@ class CustomerController extends AbstractController
      * @OA\Get(
      *     path="/customers/{customer_id}",
      *     summary="Returns customer by id",
-     *     tags="E",
+     *     tags={"Customers management"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -179,7 +179,7 @@ class CustomerController extends AbstractController
      * @OA\Put(
      *     path="/customers/{customer_id}",
      *     summary="Updates a customer by id",
-     *     tags="E",
+     *     tags={"Customers management"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -288,7 +288,7 @@ class CustomerController extends AbstractController
      * @OA\Delete(
      *     path="/customers/{customer_id}",
      *     summary="Deletes a customer by id",
-     *     tags="E",
+     *     tags={"Customers management"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

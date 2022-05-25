@@ -28,7 +28,7 @@ class ProductController extends AbstractController
      * @OA\Post(
      *     path="/products",
      *     summary="Create a new product",
-     *     tags="H",
+     *     tags={"Products management"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -128,7 +128,7 @@ class ProductController extends AbstractController
      * @OA\Get(
      *     path="/products",
      *     summary="Returns list of products",
-     *     tags="H",
+     *     tags={"Products management"},
      *     @OA\Response(
      *         response="200",
      *         description="HTTP_OK",
@@ -151,7 +151,7 @@ class ProductController extends AbstractController
      * @OA\Get(
      *     path="/products/{id}",
      *     summary="Returns product by id",
-     *     tags="H",
+     *     tags={"Products management"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -200,7 +200,7 @@ class ProductController extends AbstractController
      * @OA\Put(
      *     path="/products/{id}",
      *     summary="Updates a product by id",
-     *     tags="H",
+     *     tags={"Products management"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -323,7 +323,7 @@ class ProductController extends AbstractController
      * @OA\Delete(
      *     path="/products/{id}",
      *     summary="Deletes a product by id",
-     *     tags="H",
+     *     tags={"Products management"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

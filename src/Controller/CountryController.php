@@ -28,7 +28,7 @@ class CountryController extends AbstractController
      * @OA\Post(
      *     path="/countries",
      *     summary="Create a new country",
-     *     tags="C",
+     *     tags={"Countries management"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -103,7 +103,7 @@ class CountryController extends AbstractController
      * @OA\Get(
      *     path="/countries",
      *     summary="Returns list of countries",
-     *     tags="C",
+     *     tags={"Countries management"},
      *     @OA\Response(
      *         response="200",
      *         description="HTTP_OK",
@@ -126,7 +126,7 @@ class CountryController extends AbstractController
      * @OA\Get(
      *     path="/countries/{id}",
      *     summary="Returns country by id",
-     *     tags="C",
+     *     tags={"Countries management"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -175,7 +175,7 @@ class CountryController extends AbstractController
      * @OA\Put(
      *     path="/countries/{id}",
      *     summary="Updates a country by id",
-     *     tags="C",
+     *     tags={"Countries management"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -276,7 +276,7 @@ class CountryController extends AbstractController
      * @OA\Delete(
      *     path="/countries/{id}",
      *     summary="Deletes a country by id",
-     *     tags="C",
+     *     tags={"Countries management"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

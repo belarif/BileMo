@@ -28,7 +28,7 @@ class ColorController extends AbstractController
      * @OA\Post(
      *     path="/colors",
      *     summary="Create a new color",
-     *     tags="B",
+     *     tags={"Colors management"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -102,7 +102,7 @@ class ColorController extends AbstractController
      * @OA\Get(
      *     path="/colors",
      *     summary="Returns list of colors",
-     *     tags="B",
+     *     tags={"Colors management"},
      *     @OA\Response(
      *         response="200",
      *         description="HTTP_OK",
@@ -125,7 +125,7 @@ class ColorController extends AbstractController
      * @OA\Get(
      *     path="/colors/{id}",
      *     summary="Returns color by id",
-     *     tags="B",
+     *     tags={"Colors management"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -174,7 +174,7 @@ class ColorController extends AbstractController
      * @OA\Put(
      *     path="/colors/{id}",
      *     summary="Updates a color by id",
-     *     tags="B",
+     *     tags={"Colors management"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -274,7 +274,7 @@ class ColorController extends AbstractController
      * @OA\Delete(
      *     path="/colors/{id}",
      *     summary="Deletes a color by id",
-     *     tags="B",
+     *     tags={"Colors management"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

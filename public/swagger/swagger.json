@@ -14,7 +14,9 @@
     "paths": {
         "/admins": {
             "get": {
-                "tags": "G",
+                "tags": [
+                    "Admins management"
+                ],
                 "summary": "Returns list of admins",
                 "operationId": "3ebdb43389a92d44e8d3701cb89cb43e",
                 "responses": {
@@ -35,7 +37,9 @@
                 }
             },
             "post": {
-                "tags": "G",
+                "tags": [
+                    "Admins management"
+                ],
                 "summary": "Create a new admin",
                 "operationId": "3ce12be3a00154c9e88bdc2993251ae4",
                 "requestBody": {
@@ -92,7 +96,9 @@
         },
         "/admins/{admin_id}": {
             "get": {
-                "tags": "G",
+                "tags": [
+                    "Admins management"
+                ],
                 "summary": "Returns admin by id",
                 "operationId": "da91355e3bad24a471b2ffbe35c3a797",
                 "parameters": [
@@ -135,7 +141,9 @@
                 }
             },
             "put": {
-                "tags": "G",
+                "tags": [
+                    "Admins management"
+                ],
                 "summary": "Updates an admin by id",
                 "operationId": "2e77786db77c13a28f8da099d6b175c4",
                 "parameters": [
@@ -215,7 +223,9 @@
                 }
             },
             "delete": {
-                "tags": "G",
+                "tags": [
+                    "Admins management"
+                ],
                 "summary": "Deletes an admin by id",
                 "operationId": "ccd4e6eb3bb68609b4de9823996d14bd",
                 "parameters": [
@@ -254,7 +264,9 @@
         },
         "/brands": {
             "get": {
-                "tags": "A",
+                "tags": [
+                    "Brands management"
+                ],
                 "summary": "Returns list of brands",
                 "operationId": "3544ce2450640def5d6a3d8cf58c9810",
                 "responses": {
@@ -275,7 +287,9 @@
                 }
             },
             "post": {
-                "tags": "A",
+                "tags": [
+                    "Brands management"
+                ],
                 "summary": "Create a new brand",
                 "operationId": "94cdf2b7be7db2bfeb001bc1047a13c1",
                 "requestBody": {
@@ -330,7 +344,9 @@
         },
         "/brands/{id}": {
             "get": {
-                "tags": "A",
+                "tags": [
+                    "Brands management"
+                ],
                 "summary": "Returns brand by id",
                 "operationId": "ab699acdfe8f94a4d425cbb40da41590",
                 "parameters": [
@@ -373,7 +389,9 @@
                 }
             },
             "put": {
-                "tags": "A",
+                "tags": [
+                    "Brands management"
+                ],
                 "summary": "Updates a brand by id",
                 "operationId": "3f74c8e4c8e6f1cb841cf681fa5485dc",
                 "parameters": [
@@ -451,7 +469,9 @@
                 }
             },
             "delete": {
-                "tags": "A",
+                "tags": [
+                    "Brands management"
+                ],
                 "summary": "Deletes a brand by id",
                 "operationId": "c10cbdf05b0ae1c807468727efb1b138",
                 "parameters": [
@@ -490,7 +510,9 @@
         },
         "/colors": {
             "get": {
-                "tags": "B",
+                "tags": [
+                    "Colors management"
+                ],
                 "summary": "Returns list of colors",
                 "operationId": "e74bb8263c3f1e27e30b3b840fc22e3f",
                 "responses": {
@@ -511,7 +533,9 @@
                 }
             },
             "post": {
-                "tags": "B",
+                "tags": [
+                    "Colors management"
+                ],
                 "summary": "Create a new color",
                 "operationId": "7566096e8328c306c7783a0d59010b0f",
                 "requestBody": {
@@ -566,7 +590,9 @@
         },
         "/colors/{id}": {
             "get": {
-                "tags": "B",
+                "tags": [
+                    "Colors management"
+                ],
                 "summary": "Returns color by id",
                 "operationId": "20cc66712d5a433645d5415350dba97a",
                 "parameters": [
@@ -609,7 +635,9 @@
                 }
             },
             "put": {
-                "tags": "B",
+                "tags": [
+                    "Colors management"
+                ],
                 "summary": "Updates a color by id",
                 "operationId": "1a7fda937dfa705d5c2fa9a52c29eea4",
                 "parameters": [
@@ -687,7 +715,9 @@
                 }
             },
             "delete": {
-                "tags": "B",
+                "tags": [
+                    "Colors management"
+                ],
                 "summary": "Deletes a color by id",
                 "operationId": "7ede05fa2ac11479f5c8b9da67dd4252",
                 "parameters": [
@@ -726,7 +756,9 @@
         },
         "/countries": {
             "get": {
-                "tags": "C",
+                "tags": [
+                    "Countries management"
+                ],
                 "summary": "Returns list of countries",
                 "operationId": "1f2be0afb56c7355e832edb34f011b11",
                 "responses": {
@@ -747,7 +779,9 @@
                 }
             },
             "post": {
-                "tags": "C",
+                "tags": [
+                    "Countries management"
+                ],
                 "summary": "Create a new country",
                 "operationId": "1de631f284f371311a529ade263e02b5",
                 "requestBody": {
@@ -802,7 +836,9 @@
         },
         "/countries/{id}": {
             "get": {
-                "tags": "C",
+                "tags": [
+                    "Countries management"
+                ],
                 "summary": "Returns country by id",
                 "operationId": "cc920f30a32eb71e4bdf54d0867f18b2",
                 "parameters": [
@@ -845,7 +881,9 @@
                 }
             },
             "put": {
-                "tags": "C",
+                "tags": [
+                    "Countries management"
+                ],
                 "summary": "Updates a country by id",
                 "operationId": "640a41126c1dcdd3d85784e250fd6905",
                 "parameters": [
@@ -923,7 +961,9 @@
                 }
             },
             "delete": {
-                "tags": "C",
+                "tags": [
+                    "Countries management"
+                ],
                 "summary": "Deletes a country by id",
                 "operationId": "ba08734dfcb711808d75bc497657e398",
                 "parameters": [
@@ -962,7 +1002,9 @@
         },
         "/customers": {
             "get": {
-                "tags": "E",
+                "tags": [
+                    "Customers management"
+                ],
                 "summary": "Returns list of customers",
                 "operationId": "c992d6a1c8c2a6a9b7a4d958e62a79b0",
                 "responses": {
@@ -983,7 +1025,9 @@
                 }
             },
             "post": {
-                "tags": "E",
+                "tags": [
+                    "Customers management"
+                ],
                 "summary": "Create a new customer",
                 "operationId": "4b9978cf561413798b854dcc3ca794b6",
                 "requestBody": {
@@ -1041,7 +1085,9 @@
         },
         "/customers/{customer_id}": {
             "get": {
-                "tags": "E",
+                "tags": [
+                    "Customers management"
+                ],
                 "summary": "Returns customer by id",
                 "operationId": "3194ea66399f1cd3ad6548df7e1b3c51",
                 "parameters": [
@@ -1084,7 +1130,9 @@
                 }
             },
             "put": {
-                "tags": "E",
+                "tags": [
+                    "Customers management"
+                ],
                 "summary": "Updates a customer by id",
                 "operationId": "64e4e4f64cb1a1a391352f8656525108",
                 "parameters": [
@@ -1163,7 +1211,9 @@
                 }
             },
             "delete": {
-                "tags": "E",
+                "tags": [
+                    "Customers management"
+                ],
                 "summary": "Deletes a customer by id",
                 "operationId": "d9344752e61198b298352e36876b0034",
                 "parameters": [
@@ -1202,7 +1252,9 @@
         },
         "/memories": {
             "get": {
-                "tags": "D",
+                "tags": [
+                    "Memories management"
+                ],
                 "summary": "Returns list of memories",
                 "operationId": "603c384092324660833ea6ac4bb1af7d",
                 "responses": {
@@ -1223,7 +1275,9 @@
                 }
             },
             "post": {
-                "tags": "D",
+                "tags": [
+                    "Memories management"
+                ],
                 "summary": "Create a new memory",
                 "operationId": "88974b04cf6ce9c5c94314a0a46c25a7",
                 "requestBody": {
@@ -1278,7 +1332,9 @@
         },
         "/memories/{id}": {
             "get": {
-                "tags": "D",
+                "tags": [
+                    "Memories management"
+                ],
                 "summary": "Returns memory by id",
                 "operationId": "9172ea858a4b7804551349c599cf3125",
                 "parameters": [
@@ -1321,7 +1377,9 @@
                 }
             },
             "put": {
-                "tags": "D",
+                "tags": [
+                    "Memories management"
+                ],
                 "summary": "Updates a memory by id",
                 "operationId": "f6ba35fd29618e8c3ac88de1f606fa0d",
                 "parameters": [
@@ -1399,7 +1457,9 @@
                 }
             },
             "delete": {
-                "tags": "D",
+                "tags": [
+                    "Memories management"
+                ],
                 "summary": "Deletes a memory by id",
                 "operationId": "ab9714c7853b47d9c0bea9db4fd83aa4",
                 "parameters": [
@@ -1438,7 +1498,9 @@
         },
         "/products": {
             "get": {
-                "tags": "H",
+                "tags": [
+                    "Products management"
+                ],
                 "summary": "Returns list of products",
                 "operationId": "2d4d6e47a3073543b52806d69bc60570",
                 "responses": {
@@ -1459,7 +1521,9 @@
                 }
             },
             "post": {
-                "tags": "H",
+                "tags": [
+                    "Products management"
+                ],
                 "summary": "Create a new product",
                 "operationId": "52743ff1d0efd483c592034857ec62c5",
                 "requestBody": {
@@ -1528,7 +1592,9 @@
         },
         "/products/{id}": {
             "get": {
-                "tags": "H",
+                "tags": [
+                    "Products management"
+                ],
                 "summary": "Returns product by id",
                 "operationId": "386c548c4b9588fefece38298652ce2f",
                 "parameters": [
@@ -1571,7 +1637,9 @@
                 }
             },
             "put": {
-                "tags": "H",
+                "tags": [
+                    "Products management"
+                ],
                 "summary": "Updates a product by id",
                 "operationId": "683218ba4e79dd7932ca7747dc4b94c1",
                 "parameters": [
@@ -1663,7 +1731,9 @@
                 }
             },
             "delete": {
-                "tags": "H",
+                "tags": [
+                    "Products management"
+                ],
                 "summary": "Deletes a product by id",
                 "operationId": "8edd2225424c38a80c648d4be60f13b0",
                 "parameters": [
@@ -1702,7 +1772,9 @@
         },
         "/customers/{customer_id}/visitors": {
             "get": {
-                "tags": "F",
+                "tags": [
+                    "Visitors management"
+                ],
                 "summary": "Returns list of visitors",
                 "operationId": "26e3579e5e87de35cd28955101ca9762",
                 "parameters": [
@@ -1734,7 +1806,9 @@
                 }
             },
             "post": {
-                "tags": "F",
+                "tags": [
+                    "Visitors management"
+                ],
                 "summary": "Create a new visitor",
                 "operationId": "24aadeedcd43e9aa48cc1213663264bf",
                 "parameters": [
@@ -1802,7 +1876,9 @@
         },
         "/customers/{customer_id}/visitors/{visitor_id}": {
             "get": {
-                "tags": "F",
+                "tags": [
+                    "Visitors management"
+                ],
                 "summary": "Returns visitor by id",
                 "operationId": "86b1cabc4dfa666e8c5a1cc4fa2c80b3",
                 "parameters": [
@@ -1854,7 +1930,9 @@
                 }
             },
             "put": {
-                "tags": "F",
+                "tags": [
+                    "Visitors management"
+                ],
                 "summary": "Updates a visitor by id",
                 "operationId": "39e4ddd322b5375d582e42e58a940bf0",
                 "parameters": [
@@ -1943,7 +2021,9 @@
                 }
             },
             "delete": {
-                "tags": "F",
+                "tags": [
+                    "Visitors management"
+                ],
                 "summary": "Deletes a visitor by id",
                 "operationId": "ffafd3cd1db630f0495ab0cfeecde505",
                 "parameters": [

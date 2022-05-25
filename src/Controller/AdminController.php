@@ -28,7 +28,7 @@ class AdminController extends AbstractController
      * @OA\Post(
      *     path="/admins",
      *     summary="Create a new admin",
-     *     tags="G",
+     *     tags={"Admins management"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -113,7 +113,7 @@ class AdminController extends AbstractController
      * @OA\Get(
      *     path="/admins",
      *     summary="Returns list of admins",
-     *     tags="G",
+     *     tags={"Admins management"},
      *     @OA\Response(
      *         response="200",
      *         description="HTTP_OK",
@@ -136,7 +136,7 @@ class AdminController extends AbstractController
      * @OA\Get(
      *     path="/admins/{admin_id}",
      *     summary="Returns admin by id",
-     *     tags="G",
+     *     tags={"Admins management"},
      *     @OA\Parameter(
      *         name="admin_id",
      *         in="path",
@@ -186,7 +186,7 @@ class AdminController extends AbstractController
      * @OA\Put(
      *     path="/admins/{admin_id}",
      *     summary="Updates an admin by id",
-     *     tags="G",
+     *     tags={"Admins management"},
      *     @OA\Parameter(
      *         name="admin_id",
      *         in="path",
@@ -298,7 +298,7 @@ class AdminController extends AbstractController
      * @OA\Delete(
      *     path="/admins/{admin_id}",
      *     summary="Deletes an admin by id",
-     *     tags="G",
+     *     tags={"Admins management"},
      *     @OA\Parameter(
      *         name="admin_id",
      *         in="path",

@@ -38,7 +38,7 @@ class BrandController extends AbstractController
      * @OA\Post(
      *     path="/brands",
      *     summary="Create a new brand",
-     *     tags="A",
+     *     tags={"Brands management"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -113,7 +113,7 @@ class BrandController extends AbstractController
      * @OA\Get(
      *     path="/brands",
      *     summary="Returns list of brands",
-     *     tags="A",
+     *     tags={"Brands management"},
      *     @OA\Response(
      *         response="200",
      *         description="HTTP_OK",
@@ -136,7 +136,7 @@ class BrandController extends AbstractController
      * @OA\Get(
      *     path="/brands/{id}",
      *     summary="Returns brand by id",
-     *     tags="A",
+     *     tags={"Brands management"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -186,7 +186,7 @@ class BrandController extends AbstractController
      * @OA\Put(
      *     path="/brands/{id}",
      *     summary="Updates a brand by id",
-     *     tags="A",
+     *     tags={"Brands management"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -287,7 +287,7 @@ class BrandController extends AbstractController
      * @OA\Delete(
      *     path="/brands/{id}",
      *     summary="Deletes a brand by id",
-     *     tags="A",
+     *     tags={"Brands management"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

@@ -28,7 +28,7 @@ class MemoryController extends AbstractController
      * @OA\Post(
      *     path="/memories",
      *     summary="Create a new memory",
-     *     tags="D",
+     *     tags={"Memories management"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -104,7 +104,7 @@ class MemoryController extends AbstractController
      * @OA\Get(
      *     path="/memories",
      *     summary="Returns list of memories",
-     *     tags="D",
+     *     tags={"Memories management"},
      *     @OA\Response(
      *         response="200",
      *         description="HTTP_OK",
@@ -127,7 +127,7 @@ class MemoryController extends AbstractController
      * @OA\Get(
      *     path="/memories/{id}",
      *     summary="Returns memory by id",
-     *     tags="D",
+     *     tags={"Memories management"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -177,7 +177,7 @@ class MemoryController extends AbstractController
      * @OA\Put(
      *     path="/memories/{id}",
      *     summary="Updates a memory by id",
-     *     tags="D",
+     *     tags={"Memories management"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -278,7 +278,7 @@ class MemoryController extends AbstractController
      * @OA\Delete(
      *     path="/memories/{id}",
      *     summary="Deletes a memory by id",
-     *     tags="D",
+     *     tags={"Memories management"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

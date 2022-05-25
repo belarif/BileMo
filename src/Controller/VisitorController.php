@@ -29,7 +29,7 @@ class VisitorController extends AbstractController
      * @OA\Post(
      *     path="/customers/{customer_id}/visitors",
      *     summary="Create a new visitor",
-     *     tags="F",
+     *     tags={"Visitors management"},
      *     @OA\Parameter(
      *         name="customer_id",
      *         in="path",
@@ -128,7 +128,7 @@ class VisitorController extends AbstractController
      * @OA\Get(
      *     path="/customers/{customer_id}/visitors",
      *     summary="Returns list of visitors",
-     *     tags="F",
+     *     tags={"Visitors management"},
      *     @OA\Parameter(
      *         name="customer_id",
      *         in="path",
@@ -171,7 +171,7 @@ class VisitorController extends AbstractController
      * @OA\Get(
      *     path="/customers/{customer_id}/visitors/{visitor_id}",
      *     summary="Returns visitor by id",
-     *     tags="F",
+     *     tags={"Visitors management"},
      *     @OA\Parameter(
      *         name="visitor_id",
      *         in="path",
@@ -230,7 +230,7 @@ class VisitorController extends AbstractController
      * @OA\Put(
      *     path="/customers/{customer_id}/visitors/{visitor_id}",
      *     summary="Updates a visitor by id",
-     *     tags="F",
+     *     tags={"Visitors management"},
      *     @OA\Parameter(
      *         name="visitor_id",
      *         in="path",
@@ -351,7 +351,7 @@ class VisitorController extends AbstractController
      * @OA\Delete(
      *     path="/customers/{customer_id}/visitors/{visitor_id}",
      *     summary="Deletes a visitor by id",
-     *     tags="F",
+     *     tags={"Visitors management"},
      *     @OA\Parameter(
      *         name="visitor_id",
      *         in="path",
