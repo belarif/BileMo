@@ -27,7 +27,7 @@ class ProductDTO
      * @Assert\NotBlank(message="Le champs description ne peut pas être vide")
      * @Assert\Length(max=600, maxMessage="Le nom ne doit pas dépasser {{ limit }} caractères")
      *
-     * * @OA\Property(type="text", nullable=false)
+     * * @OA\Property(nullable=false)
      */
     public string $description;
 

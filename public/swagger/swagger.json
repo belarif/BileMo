@@ -1552,19 +1552,53 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "name": {},
-                                    "description": {},
-                                    "color": {},
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "colors": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
                                     "country": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            }
+                                        },
                                         "type": "object"
                                     },
                                     "brand": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            }
+                                        },
                                         "type": "object"
                                     },
                                     "memory": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            }
+                                        },
                                         "type": "object"
                                     },
                                     "user": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            }
+                                        },
                                         "type": "object"
                                     }
                                 },
@@ -1679,19 +1713,53 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "name": {},
-                                    "description": {},
-                                    "color": {},
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "colors": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
                                     "country": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            }
+                                        },
                                         "type": "object"
                                     },
                                     "brand": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            }
+                                        },
                                         "type": "object"
                                     },
                                     "memory": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            }
+                                        },
                                         "type": "object"
                                     },
                                     "user": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            }
+                                        },
                                         "type": "object"
                                     }
                                 },
@@ -2199,7 +2267,7 @@
                         "nullable": false
                     },
                     "description": {
-                        "type": "text",
+                        "type": "string",
                         "nullable": false
                     },
                     "country": {

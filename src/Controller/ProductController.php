@@ -34,29 +34,54 @@ class ProductController extends AbstractController
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
-     *                 property="name"
+     *                 property="name",
+     *                 type="string"
      *             ),
      *             @OA\Property(
-     *                 property="description"
+     *                 property="description",
+     *                 type="string"
      *             ),
      *             @OA\Property(
-     *                 property="color"
+     *                 property="colors",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="integer",
+     *                      ),
+     *                 )
      *             ),
      *             @OA\Property(
      *                 property="country",
-     *                 type="object"
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="id",
+     *                     type="integer",
+     *                  ),
      *             ),
      *             @OA\Property(
      *                 property="brand",
-     *                 type="object"
+     *                 type="object",
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="integer",
+     *                      ),
      *             ),
      *             @OA\Property(
      *                 property="memory",
-     *                 type="object"
+     *                 type="object",
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="integer",
+     *                      ),
      *             ),
      *             @OA\Property(
      *                 property="user",
-     *                 type="object"
+     *                 type="object",
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="integer",
+     *                      ),
      *             )
      *         )
      *     ),
@@ -213,29 +238,54 @@ class ProductController extends AbstractController
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
-     *                 property="name"
+     *                 property="name",
+     *                 type="string"
      *             ),
      *             @OA\Property(
-     *                 property="description"
+     *                 property="description",
+     *                 type="string"
      *             ),
      *             @OA\Property(
-     *                 property="color"
+     *                 property="colors",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="integer",
+     *                      ),
+     *                 )
      *             ),
      *             @OA\Property(
      *                 property="country",
-     *                 type="object"
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="id",
+     *                     type="integer",
+     *                  ),
      *             ),
      *             @OA\Property(
      *                 property="brand",
-     *                 type="object"
+     *                 type="object",
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="integer",
+     *                      ),
      *             ),
      *             @OA\Property(
      *                 property="memory",
-     *                 type="object"
+     *                 type="object",
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="integer",
+     *                      ),
      *             ),
      *             @OA\Property(
      *                 property="user",
-     *                 type="object"
+     *                 type="object",
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="integer",
+     *                      ),
      *             )
      *         )
      *     ),
