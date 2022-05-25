@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Exception\MemoryException;
 use Exception;
+use Hateoas\HateoasBuilder;
 use OpenApi\Annotations as OA;
 use App\Repository\MemoryRepository;
 use App\Entity\DTO\MemoryDTO;
@@ -84,8 +85,9 @@ class MemoryController extends AbstractController
                 );
             }
 
-            return $this->json($memoryManagement->createMemory($memoryDTO), Response::HTTP_CREATED);
+            $hateoas = HateoasBuilder::create()->build();
 
+            return new JsonResponse($hateoas->serialize($memoryManagement->createMemory($memoryDTO), 'json'),Response::HTTP_OK,[],'json');
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -118,7 +120,9 @@ class MemoryController extends AbstractController
      */
     public function list(MemoryManagement $memoryManagement): JsonResponse
     {
-        return $this->json($memoryManagement->memoriesList(), Response::HTTP_OK);
+        $hateoas = HateoasBuilder::create()->build();
+
+        return new JsonResponse($hateoas->serialize($memoryManagement->memoriesList(), 'json'),Response::HTTP_OK,[],'json');
     }
 
     /**
@@ -157,8 +161,9 @@ class MemoryController extends AbstractController
     public function show(int $id, MemoryRepository $memoryRepository): JsonResponse
     {
         try {
-            return $this->json($memoryRepository->getMemory($id), Response::HTTP_OK);
+            $hateoas = HateoasBuilder::create()->build();
 
+            return new JsonResponse($hateoas->serialize($memoryRepository->getMemory($id), 'json'),Response::HTTP_OK,[],'json');
         } catch (MemoryException $e) {
             return $this->json(
                 [
@@ -251,8 +256,10 @@ class MemoryController extends AbstractController
                 );
             }
 
-            return $this->json($memoryManagement->updateMemory($memoryRepository->getMemory($id), $memoryDTO), Response::HTTP_CREATED);
+            $memory = $memoryManagement->updateMemory($memoryRepository->getMemory($id), $memoryDTO);
+            $hateoas = HateoasBuilder::create()->build();
 
+            return new JsonResponse($hateoas->serialize($memory, 'json'),Response::HTTP_OK,[],'json');
         } catch (MemoryException $e) {
             return $this->json(
                 [
