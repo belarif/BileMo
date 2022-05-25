@@ -22,6 +22,7 @@ class Customer
      *
      * @Groups({"show_customer"})
      * @Groups({"show_visitor"})
+     * @Groups({"show_product"})
      */
     protected int $id;
 

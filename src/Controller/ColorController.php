@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Exception\ColorException;
 use Exception;
 use App\Entity\DTO\ColorDTO;
+use OpenApi\Annotations as OA;
 use App\Repository\ColorRepository;
 use App\Service\ColorManagement;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
@@ -23,6 +24,45 @@ class ColorController extends AbstractController
 {
     /**
      * @Route("", name="create_color", methods={"POST"})
+     *
+     * @OA\Post(
+     *     path="/colors",
+     *     summary="Create a new color",
+     *     tags={"Colors management"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="name"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="201",
+     *         description="HTTP_CREATED",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             description="Created"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="409",
+     *         description="HTTP_CONFLICT",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             description="Conflict"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="HTTP_BAD_REQUEST",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             description="Bad request"
+     *         )
+     *     )
+     * )
      */
     public function create(
         Request $request,
@@ -51,13 +91,28 @@ class ColorController extends AbstractController
                     'success' => false,
                     'message' => $e->getMessage(),
                 ],
-                Response::HTTP_BAD_REQUEST
+                Response::HTTP_CONFLICT
             );
         }
     }
 
     /**
      * @Route("", name="colors_list", methods={"GET"})
+     *
+     * @OA\Get(
+     *     path="/colors",
+     *     summary="Returns list of colors",
+     *     tags={"Colors management"},
+     *     @OA\Response(
+     *         response="200",
+     *         description="HTTP_OK",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/ColorDTO"),
+     *             description="Ok"
+     *         )
+     *     )
+     * )
      */
     public function list(ColorManagement $colorManagement): JsonResponse
     {
@@ -66,6 +121,36 @@ class ColorController extends AbstractController
 
     /**
      * @Route("/{id}", name="show_color", methods={"GET"}, requirements={"id"="\d+"})
+     *
+     * @OA\Get(
+     *     path="/colors/{id}",
+     *     summary="Returns color by id",
+     *     tags={"Colors management"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="color ID",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="HTTP_OK",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/ColorDTO"),
+     *             description="Ok"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="HTTP_NOT_FOUND",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             description="Not found"
+     *         )
+     *     )
+     * )
      */
     public function show(int $id, ColorRepository $colorRepository): JsonResponse
     {
@@ -85,6 +170,61 @@ class ColorController extends AbstractController
 
     /**
      * @Route("/{id}", name="update_color", methods={"PUT"}, requirements={"id"="\d+"})
+     *
+     * @OA\Put(
+     *     path="/colors/{id}",
+     *     summary="Updates a color by id",
+     *     tags={"Colors management"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="color ID",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="name"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="201",
+     *         description="HTTP_CREATED",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/ColorDTO"),
+     *             description="Created"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="409",
+     *         description="HTTP_CONFLICT",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             description="Conflict"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="HTTP_BAD_REQUEST",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             description="Bad request"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="HTTP_NOT_FOUND",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             description="Not found"
+     *         )
+     *     )
+     * )
      */
     public function update(
         int $id,
@@ -130,13 +270,41 @@ class ColorController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete_color", methods={"DELETE"}, requirements={"id"="\d+"})
+     *
+     * @OA\Delete(
+     *     path="/colors/{id}",
+     *     summary="Deletes a color by id",
+     *     tags={"Colors management"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="color ID",
+     *         required=true
+     *     ),
+     *     @OA\Response(
+     *         response="204",
+     *         description="HTTP_NO_CONTENT",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             description="No content"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="HTTP_NOT_FOUND",
+     *         @OA\JsonContent(
+     *             type="string",
+     *             description="Not found"
+     *         )
+     *     )
+     * )
      */
     public function delete(int $id, ColorRepository $colorRepository, ColorManagement $colorManagement): JsonResponse
     {
         try {
             $colorManagement->deleteColor($colorRepository->getColor($id));
 
-            return $this->json('La couleur a été supprimé avec succès', Response::HTTP_OK);
+            return $this->json('La couleur a été supprimé avec succès', Response::HTTP_NO_CONTENT);
 
         } catch (ColorException $e) {
             return $this->json(

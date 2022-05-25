@@ -131,7 +131,6 @@ Authorization: Bearer {{token}}
 
 {
   "company":"allo pièces",
-  "code": "2A2562",
   "enabled": 0
 }
 

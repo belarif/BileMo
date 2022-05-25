@@ -3,25 +3,42 @@
 namespace App\Entity\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Schema()
+ */
 class UserDTO
 {
+    /**
+     * @OA\Property(type="integer")
+     */
     public int $id;
 
     /**
      * @Assert\NotBlank(message="L'adresse email est obligatoire")
      * @Assert\Email(message="Veuillez fournir une adreese email valide")
      * @Assert\Length(max=50, maxMessage="Le nom ne doit pas dépasser {{ limit }} caractères")
+     *
+     * @OA\Property(type="string", nullable=false)
      */
     public string $email;
 
     /**
      * @Assert\NotBlank(message="Le mot de passe est obligatoire")
+     *
+     * @OA\Property(type="string", nullable=false)
      */
     public string $password;
 
+    /**
+     * @OA\Property(type="object", nullable=true)
+     */
     public CustomerDTO $customer;
 
+    /**
+     * @OA\Property(type="array", nullable=false)
+     */
     public array $roles = [];
 
     /**
