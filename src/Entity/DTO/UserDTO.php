@@ -32,7 +32,7 @@ class UserDTO
     public string $password;
 
     /**
-     * @OA\Property(type="array")
+     * @OA\Property(type="object", nullable=true)
      */
     public CustomerDTO $customer;
 

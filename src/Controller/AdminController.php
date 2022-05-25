@@ -40,8 +40,15 @@ class AdminController extends AbstractController
      *                 property="password"
      *             ),
      *             @OA\Property(
-     *                 property="roles"
-     *             )
+     *                 property="roles",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="integer",
+     *                      ),
+     *                 )
+     *             ),
      *         )
      *     ),
      *     @OA\Response(
@@ -205,8 +212,15 @@ class AdminController extends AbstractController
      *                 property="password"
      *             ),
      *             @OA\Property(
-     *                 property="roles"
-     *             )
+     *                 property="roles",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="integer",
+     *                      ),
+     *                 )
+     *             ),
      *         )
      *     ),
      *     @OA\Response(

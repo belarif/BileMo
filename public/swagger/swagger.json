@@ -50,7 +50,17 @@
                                 "properties": {
                                     "email": {},
                                     "password": {},
-                                    "roles": {}
+                                    "roles": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
                                 },
                                 "type": "object"
                             }
@@ -165,7 +175,17 @@
                                 "properties": {
                                     "email": {},
                                     "password": {},
-                                    "roles": {}
+                                    "roles": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
                                 },
                                 "type": "object"
                             }
@@ -1092,7 +1112,7 @@
                 "operationId": "3194ea66399f1cd3ad6548df7e1b3c51",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "customer_id",
                         "in": "path",
                         "description": "customer ID",
                         "required": true,
@@ -1218,7 +1238,7 @@
                 "operationId": "d9344752e61198b298352e36876b0034",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "customer_id",
                         "in": "path",
                         "description": "customer ID",
                         "required": true
@@ -1828,9 +1848,23 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "email": {},
-                                    "password": {},
-                                    "roles": {}
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "roles": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
                                 },
                                 "type": "object"
                             }
@@ -1961,9 +1995,23 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "email": {},
-                                    "password": {},
-                                    "roles": {}
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "roles": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
                                 },
                                 "type": "object"
                             }
@@ -2190,7 +2238,8 @@
                         "nullable": false
                     },
                     "customer": {
-                        "type": "array"
+                        "type": "object",
+                        "nullable": true
                     },
                     "roles": {
                         "type": "array",

@@ -42,13 +42,22 @@ class VisitorController extends AbstractController
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
-     *                 property="email"
+     *                 property="email",
+     *                 type="string"
      *             ),
      *             @OA\Property(
-     *                 property="password"
+     *                 property="password",
+     *                 type="string"
      *             ),
      *             @OA\Property(
-     *                 property="roles"
+     *                 property="roles",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="integer",
+     *                      ),
+     *                 )
      *             )
      *         )
      *     ),
@@ -250,13 +259,22 @@ class VisitorController extends AbstractController
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(
-     *                 property="email"
+     *                 property="email",
+     *                 type="string"
      *             ),
      *             @OA\Property(
-     *                 property="password"
+     *                 property="password",
+     *                 type="string"
      *             ),
      *             @OA\Property(
-     *                 property="roles"
+     *                 property="roles",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="integer",
+     *                      ),
+     *                 )
      *             )
      *         )
      *     ),
