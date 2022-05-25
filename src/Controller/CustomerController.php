@@ -132,7 +132,7 @@ class CustomerController extends AbstractController
      *     summary="Returns customer by id",
      *     tags={"Customers management"},
      *     @OA\Parameter(
-     *         name="id",
+     *         name="customer_id",
      *         in="path",
      *         description="customer ID",
      *         required=true,
@@ -290,7 +290,7 @@ class CustomerController extends AbstractController
      *     summary="Deletes a customer by id",
      *     tags={"Customers management"},
      *     @OA\Parameter(
-     *         name="id",
+     *         name="customer_id",
      *         in="path",
      *         description="customer ID",
      *         required=true
