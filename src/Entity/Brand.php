@@ -19,6 +19,10 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     href = "expr('/bile-mo-api/v1/brands/' ~ object.getId())"
  * )
  * @Hateoas\Relation(
+ *     "create",
+ *     href = "expr('/bile-mo-api/v1/brands')"
+ * )
+ * @Hateoas\Relation(
  *     "list",
  *     href = "expr('/bile-mo-api/v1/brands')"
  * )
