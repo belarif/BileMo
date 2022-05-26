@@ -13,59 +13,62 @@ use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- *
- * @Hateoas\Relation(
- *     "self",
- *     href = "expr('/bile-mo-api/v1/admins/' ~ object.getId())",
- *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null !== object.getCustomer())")
- * )
- * @Hateoas\Relation(
- *     "create",
- *     href = "expr('/bile-mo-api/v1/admins')",
- *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null !== object.getCustomer())")
- * )
- * @Hateoas\Relation(
- *     "list",
- *     href = "expr('/bile-mo-api/v1/admins')",
- *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null !== object.getCustomer())")
- * )
- * @Hateoas\Relation(
- *     "update",
- *     href = "expr('/bile-mo-api/v1/admins/' ~ object.getId())",
- *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null !== object.getCustomer())")
- * )
- * @Hateoas\Relation(
- *     "delete",
- *     href = "expr('/bile-mo-api/v1/admins/' ~ object.getId())",
- *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null !== object.getCustomer())")
- * )
- * @Hateoas\Relation(
- *     "self",
- *     href = "expr('/bile-mo-api/v1/customers/{customer_id}/visitors/' ~ object.getId())",
- *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
- * )
- * @Hateoas\Relation(
- *     "create",
- *     href = "expr('/bile-mo-api/v1/customers/{customer_id}/visitors')",
- *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
- * )
- * @Hateoas\Relation(
- *     "list",
- *     href = "expr('/bile-mo-api/v1/customers/{customer_id}/visitors')",
- *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
- * )
- * @Hateoas\Relation(
- *     "update",
- *     href = "expr('/bile-mo-api/v1/customers/{customer_id}/visitors/' ~ object.getId())",
- *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
- * )
- * @Hateoas\Relation(
- *     "delete",
- *     href = "expr('/bile-mo-api/v1/customers/{customer_id}/visitors/' ~ object.getId())",
- *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
- * )
- *
  * @Serializer\ExclusionPolicy("ALL")
+ *
+ ***************************************** Admins links ******************************************
+ * @Hateoas\Relation(
+ *     "self",
+ *     href = "expr('/bile-mo-api/v1/admins/' ~ object.getId())",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null !== object.getCustomer())")
+ * )
+ * @Hateoas\Relation(
+ *     "create",
+ *     href = "expr('/bile-mo-api/v1/admins')",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null !== object.getCustomer())")
+ * )
+ * @Hateoas\Relation(
+ *     "list",
+ *     href = "expr('/bile-mo-api/v1/admins')",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null !== object.getCustomer())")
+ * )
+ * @Hateoas\Relation(
+ *     "update",
+ *     href = "expr('/bile-mo-api/v1/admins/' ~ object.getId())",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null !== object.getCustomer())")
+ * )
+ * @Hateoas\Relation(
+ *     "delete",
+ *     href = "expr('/bile-mo-api/v1/admins/' ~ object.getId())",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null !== object.getCustomer())")
+ * )
+ *
+ *
+ ***************************************** Visitors links ******************************************
+ * @Hateoas\Relation(
+ *     "self",
+ *     href = "expr('/bile-mo-api/v1/customers/' ~ object.getCustomer().getId() ~ '/visitors/' ~ object.getId())",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
+ * )
+ * @Hateoas\Relation(
+ *     "create",
+ *     href = "expr('/bile-mo-api/v1/customers/' ~ object.getCustomer().getId() ~ '/visitors')",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
+ * )
+ * @Hateoas\Relation(
+ *     "list",
+ *     href = "expr('/bile-mo-api/v1/customers/' ~ object.getCustomer().getId() ~ '/visitors')",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
+ * )
+ * @Hateoas\Relation(
+ *     "update",
+ *     href = "expr('/bile-mo-api/v1/customers/' ~ object.getCustomer().getId() ~ '/visitors/' ~ object.getId())",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
+ * )
+ * @Hateoas\Relation(
+ *     "delete",
+ *     href = "expr('/bile-mo-api/v1/customers/' ~ object.getCustomer().getId() ~ '/visitors/' ~ object.getId())",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
+ * )
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
