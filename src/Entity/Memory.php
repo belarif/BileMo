@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\MemoryRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use JMS\Serializer\Annotation as Serializer;
 use Hateoas\Configuration\Annotation as Hateoas;
@@ -41,14 +40,14 @@ class Memory
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
-     * @Groups({"show_product"})
+     * @Serializer\Groups({"show_product"})
      */
     protected int $id;
 
     /**
      * @ORM\Column(type="string", length=10, unique=true)
      *
-     * @Groups({"show_product"})
+     * @Serializer\Groups({"show_product"})
      */
     private string $memoryCapacity;
 

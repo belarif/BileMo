@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\BrandRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use JMS\Serializer\Annotation as Serializer;
@@ -42,14 +41,14 @@ class Brand
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
-     * @Groups({"show_product"})
+     * @Serializer\Groups({"show_product"})
      */
     protected int $id;
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
      *
-     * @Groups({"show_product"})
+     * @Serializer\Groups({"show_product"})
      */
     private string $name;
 
