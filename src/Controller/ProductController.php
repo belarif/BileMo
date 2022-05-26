@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Exception\ProductException;
 use App\Repository\ProductRepository;
 use Exception;
+use Hateoas\HateoasBuilder;
 use OpenApi\Annotations as OA;
 use App\Entity\DTO\ProductDTO;
 use App\Service\ProductManagement;
@@ -134,8 +135,9 @@ class ProductController extends AbstractController
                 );
             }
 
-            return $this->json($productManagement->createProduct($productDTO), Response::HTTP_CREATED, [], ['groups' => 'show_product']);
+            $hateoas = HateoasBuilder::create()->build();
 
+            return new JsonResponse($hateoas->serialize($productManagement->createProduct($productDTO), 'json'),Response::HTTP_OK,[],'json');
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -167,7 +169,9 @@ class ProductController extends AbstractController
      */
     public function list(ProductManagement $productManagement): JsonResponse
     {
-        return $this->json($productManagement->productsList(), Response::HTTP_OK, [], ['groups' => 'show_product']);
+        $hateoas = HateoasBuilder::create()->build();
+
+        return new JsonResponse($hateoas->serialize($productManagement->productsList(), 'json'),Response::HTTP_OK,[],'json');
     }
 
     /**
@@ -206,8 +210,9 @@ class ProductController extends AbstractController
     public function show(int $id, ProductRepository $productRepository): JsonResponse
     {
         try {
-            return $this->json($productRepository->getProduct($id), Response::HTTP_OK, [], ['groups' => 'show_product']);
+            $hateoas = HateoasBuilder::create()->build();
 
+            return new JsonResponse($hateoas->serialize($productRepository->getProduct($id), 'json'),Response::HTTP_OK,[],'json');
         } catch (ProductException $e) {
             return $this->json(
                 [
@@ -346,8 +351,10 @@ class ProductController extends AbstractController
                 );
             }
 
-            return $this->json($productManagement->updateProduct($productRepository->getProduct($id),$productDTO), Response::HTTP_CREATED, [], ['groups' => 'show_product']);
+            $product = $productManagement->updateProduct($productRepository->getProduct($id),$productDTO);
+            $hateoas = HateoasBuilder::create()->build();
 
+            return new JsonResponse($hateoas->serialize($product, 'json'),Response::HTTP_OK,[],'json');
         } catch (ProductException $e) {
             return $this->json(
                 [
