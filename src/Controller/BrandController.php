@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Hateoas\HateoasBuilder;
 
 /**
- * @Route("/brands", "api_")
+ * @Route("/brands", name="api_")
  */
 class BrandController extends AbstractController
 {
