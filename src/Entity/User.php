@@ -64,6 +64,8 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     href = "expr('/bile-mo-api/v1/customers/{customer_id}/visitors/' ~ object.getId())",
  *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
  * )
+ *
+ * @Serializer\ExclusionPolicy("ALL")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -72,14 +74,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
-     * @Serializer\Groups({"show_visitor"})
+     * @Serializer\Expose()
      */
     protected int $id;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
      *
-     ** @Serializer\Groups({"show_visitor"})
+     * @Serializer\Expose()
      */
     private string $email;
 
@@ -87,21 +89,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      *
-     * @Serializer\Groups({"show_visitor"})
+     * @Serializer\Expose()
      */
     private string $password;
 
     /**
      * @ORM\ManyToMany(targetEntity=Role::class)
      *
-     * @Serializer\Groups({"show_visitor"})
+     * @Serializer\Expose()
      */
     private $roles;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="users")
-     *
-     * @Serializer\Groups({"show_visitor"})
      */
     private $customer;
 

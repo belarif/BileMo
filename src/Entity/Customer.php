@@ -41,29 +41,21 @@ class Customer
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     *
-     * @Serializer\Groups({"show_visitor"})
      */
     protected int $id;
 
     /**
      * @ORM\Column(type="string", length=30)
-     *
-     * @Serializer\Groups({"show_visitor"})
      */
     private string $code;
 
     /**
      * @ORM\Column(type="boolean")
-     *
-     * @Serializer\Groups({"show_visitor"})
      */
     private ?bool $enabled;
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
-     *
-     * @Serializer\Groups({"show_visitor"})
      */
     private $company;
 
