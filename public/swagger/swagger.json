@@ -1987,18 +1987,18 @@
                 "operationId": "86b1cabc4dfa666e8c5a1cc4fa2c80b3",
                 "parameters": [
                     {
-                        "name": "visitor_id",
+                        "name": "customer_id",
                         "in": "path",
-                        "description": "visitor ID",
+                        "description": "customer ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
                         }
                     },
                     {
-                        "name": "customer_id",
+                        "name": "visitor_id",
                         "in": "path",
-                        "description": "customer ID",
+                        "description": "visitor ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -2041,18 +2041,18 @@
                 "operationId": "39e4ddd322b5375d582e42e58a940bf0",
                 "parameters": [
                     {
-                        "name": "visitor_id",
+                        "name": "customer_id",
                         "in": "path",
-                        "description": "visitor ID",
+                        "description": "customer ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
                         }
                     },
                     {
-                        "name": "customer_id",
+                        "name": "visitor_id",
                         "in": "path",
-                        "description": "customer ID",
+                        "description": "visitor ID",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -2146,12 +2146,6 @@
                 "operationId": "ffafd3cd1db630f0495ab0cfeecde505",
                 "parameters": [
                     {
-                        "name": "visitor_id",
-                        "in": "path",
-                        "description": "visitor ID",
-                        "required": true
-                    },
-                    {
                         "name": "customer_id",
                         "in": "path",
                         "description": "customer ID",
@@ -2159,6 +2153,12 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "name": "visitor_id",
+                        "in": "path",
+                        "description": "visitor ID",
+                        "required": true
                     }
                 ],
                 "responses": {
