@@ -42,16 +42,13 @@ class Customer
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
-     * @Serializer\Groups({"show_customer"})
      * @Serializer\Groups({"show_visitor"})
-     * @Serializer\Groups({"show_product"})
      */
     protected int $id;
 
     /**
      * @ORM\Column(type="string", length=30)
      *
-     * @Serializer\Groups({"show_customer"})
      * @Serializer\Groups({"show_visitor"})
      */
     private string $code;
@@ -59,7 +56,6 @@ class Customer
     /**
      * @ORM\Column(type="boolean")
      *
-     * @Serializer\Groups({"show_customer"})
      * @Serializer\Groups({"show_visitor"})
      */
     private ?bool $enabled;
@@ -67,15 +63,12 @@ class Customer
     /**
      * @ORM\Column(type="string", length=60, unique=true)
      *
-     * @Serializer\Groups({"show_customer"})
      * @Serializer\Groups({"show_visitor"})
      */
     private $company;
 
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="customer", orphanRemoval=true)
-     *
-     * @Serializer\Groups({"show_customer"})
      */
     private $users;
 

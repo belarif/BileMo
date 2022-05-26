@@ -43,22 +43,16 @@ class Product
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     *
-     * @Serializer\Groups({"show_product"})
      */
     protected int $id;
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
-     *
-     * @Serializer\Groups({"show_product"})
      */
     private string $name;
 
     /**
      * @ORM\Column(type="text")
-     *
-     * @Serializer\Groups({"show_product"})
      */
     private string $description;
 
@@ -70,31 +64,23 @@ class Product
     /**
      * @ORM\ManyToOne(targetEntity=Country::class)
      * @ORM\JoinColumn(nullable=true)
-     *
-     * @Serializer\Groups({"show_product"})
      */
     private Country $country;
 
     /**
      * @ORM\ManyToOne(targetEntity=Memory::class)
      * @ORM\JoinColumn(nullable=true)
-     *
-     * @Serializer\Groups({"show_product"})
      */
     private Memory $memory;
 
     /**
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="product", orphanRemoval=true)
-     *
-     * @Serializer\Groups({"show_product"})
      */
     private $images;
 
     /**
      * @ORM\ManyToOne(targetEntity=Brand::class)
      * @ORM\JoinColumn(nullable=true)
-     *
-     * @Serializer\Groups({"show_product"})
      */
     private Brand $brand;
 
@@ -106,8 +92,6 @@ class Product
 
     /**
      * @ORM\ManyToMany(targetEntity=Color::class, inversedBy="products")
-     *
-     * @Serializer\Groups({"show_product"})
      */
     private $colors;
 

@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-
 use JMS\Serializer\Annotation as Serializer;
 use Hateoas\Configuration\Annotation as Hateoas;
 
@@ -42,27 +41,27 @@ use Hateoas\Configuration\Annotation as Hateoas;
  * )
  * @Hateoas\Relation(
  *     "self",
- *     href = "expr('/bile-mo-api/v1/visitors/' ~ object.getId())",
+ *     href = "expr('/bile-mo-api/v1/customers/{customer_id}/visitors/' ~ object.getId())",
  *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
  * )
  * @Hateoas\Relation(
  *     "create",
- *     href = "expr('/bile-mo-api/v1/visitors')",
+ *     href = "expr('/bile-mo-api/v1/customers/{customer_id}/visitors')",
  *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
  * )
  * @Hateoas\Relation(
  *     "list",
- *     href = "expr('/bile-mo-api/v1/visitors')",
+ *     href = "expr('/bile-mo-api/v1/customers/{customer_id}/visitors')",
  *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
  * )
  * @Hateoas\Relation(
  *     "update",
- *     href = "expr('/bile-mo-api/v1/visitors/' ~ object.getId())",
+ *     href = "expr('/bile-mo-api/v1/customers/{customer_id}/visitors/' ~ object.getId())",
  *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
  * )
  * @Hateoas\Relation(
  *     "delete",
- *     href = "expr('/bile-mo-api/v1/visitors/' ~ object.getId())",
+ *     href = "expr('/bile-mo-api/v1/customers/{customer_id}/visitors/' ~ object.getId())",
  *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
  * )
  */
@@ -74,17 +73,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="integer")
      *
      * @Serializer\Groups({"show_visitor"})
-     * @Serializer\Groups({"show_admin"})
-     * @Serializer\Groups({"show_customer"})
      */
     protected int $id;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
      *
-     * @Serializer\Groups({"show_visitor"})
-     * @Serializer\Groups({"show_admin"})
-     * @Serializer\Groups({"show_customer"})
+     ** @Serializer\Groups({"show_visitor"})
      */
     private string $email;
 
@@ -93,7 +88,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string")
      *
      * @Serializer\Groups({"show_visitor"})
-     * @Serializer\Groups({"show_admin"})
      */
     private string $password;
 
@@ -101,8 +95,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\ManyToMany(targetEntity=Role::class)
      *
      * @Serializer\Groups({"show_visitor"})
-     * @Serializer\Groups({"show_admin"})
-     * @Serializer\Groups({"show_customer"})
      */
     private $roles;
 
@@ -110,7 +102,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="users")
      *
      * @Serializer\Groups({"show_visitor"})
-     * @Serializer\Groups({"show_customer"})
      */
     private $customer;
 

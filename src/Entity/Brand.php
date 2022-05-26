@@ -40,15 +40,11 @@ class Brand
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     *
-     * @Serializer\Groups({"show_product"})
      */
     protected int $id;
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
-     *
-     * @Serializer\Groups({"show_product"})
      */
     private string $name;
 

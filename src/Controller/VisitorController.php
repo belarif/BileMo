@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use JMS\Serializer\SerializationContext;
 
 /**
  * @Route("/customers/{customer_id}/visitors", name="api_", requirements={"customer_id"="\d+"})
@@ -219,7 +220,8 @@ class VisitorController extends AbstractController
             $visitor = $userRepository->getVisitorOfCustomer($visitor_id, $customer);
             $hateoas = HateoasBuilder::create()->build();
 
-            return new JsonResponse($hateoas->serialize($visitor, 'json'),Response::HTTP_OK,[],'json');
+            return new JsonResponse($hateoas->serialize($visitor, 'json',
+                SerializationContext::create()->setGroups(array('show_visitor'))),Response::HTTP_OK,[],'json');
         } catch (UserException $e) {
             return $this->json(
                 [
