@@ -19,9 +19,7 @@ class CustomerManagement
     }
 
     /**
-     * @throws \Doctrine\ORM\OptimisticLockException
      * @throws CustomerException
-     * @throws \Doctrine\ORM\ORMException
      */
     public function createCustomer(CustomerDTO $customerDTO): Customer
     {
@@ -45,8 +43,6 @@ class CustomerManagement
     }
 
     /**
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\ORMException
      * @throws CustomerException
      */
     public function updateCustomer( $customer, CustomerDTO $customerDTO): Customer

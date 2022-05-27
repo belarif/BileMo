@@ -22,10 +22,6 @@ class ColorRepository extends ServiceEntityRepository
         parent::__construct($registry, Color::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(Color $entity, bool $flush = true): Color
     {
         $this->_em->persist($entity);
@@ -36,10 +32,6 @@ class ColorRepository extends ServiceEntityRepository
         return $entity;
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function remove(Color $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
@@ -66,3 +58,4 @@ class ColorRepository extends ServiceEntityRepository
         return $color[0];
     }
 }
+

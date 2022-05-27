@@ -28,7 +28,6 @@ class UserManagement
     }
 
     /**
-     * @throws \Doctrine\ORM\OptimisticLockException
      * @throws UserException
      */
     public function createUser(UserDTO $userDTO, $customer): User
@@ -64,7 +63,6 @@ class UserManagement
     }
 
     /**
-     * @throws \Doctrine\ORM\OptimisticLockException
      * @throws UserException
      */
     public function updateUser(UserDTO $userDTO,$user,$customer): User
@@ -88,3 +86,4 @@ class UserManagement
         $this->userRepository->remove($user);
     }
 }
+

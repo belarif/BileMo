@@ -17,8 +17,6 @@ class BrandManagement
     }
 
     /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      * @throws BrandException
      */
     public function createBrand($brandDTO): Brand
@@ -39,8 +37,6 @@ class BrandManagement
     }
 
     /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      * @throws BrandException
      */
     public function updateBrand($brand, BrandDTO $brandDTO): Brand
@@ -52,12 +48,9 @@ class BrandManagement
         return $this->brandRepository->add($brand->setName($brandDTO->name));
     }
 
-    /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
     public function deleteBrand($brand)
     {
         $this->brandRepository->remove($brand);
     }
 }
+

@@ -65,3 +65,4 @@ class Brand
         return $this;
     }
 }
+

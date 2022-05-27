@@ -15,7 +15,6 @@ use Hateoas\Configuration\Annotation as Hateoas;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @Serializer\ExclusionPolicy("ALL")
  *
- ***************************************** Admins links ******************************************
  * @Hateoas\Relation(
  *     "self",
  *     href = "expr('/bile-mo-api/v1/admins/' ~ object.getId())",
@@ -42,8 +41,6 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null !== object.getCustomer())")
  * )
  *
- *
- ***************************************** Visitors links ******************************************
  * @Hateoas\Relation(
  *     "self",
  *     href = "expr('/bile-mo-api/v1/customers/' ~ object.getCustomer().getId() ~ '/visitors/' ~ object.getId())",
@@ -238,3 +235,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 }
+

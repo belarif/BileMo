@@ -245,3 +245,4 @@ class Product
         return $this;
     }
 }
+

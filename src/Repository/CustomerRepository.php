@@ -22,10 +22,6 @@ class CustomerRepository extends ServiceEntityRepository
         parent::__construct($registry, Customer::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(Customer $entity, bool $flush = true): Customer
     {
         $this->_em->persist($entity);
@@ -36,10 +32,6 @@ class CustomerRepository extends ServiceEntityRepository
         return $entity;
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function remove(Customer $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
@@ -66,3 +58,4 @@ class CustomerRepository extends ServiceEntityRepository
         return $customer[0];
     }
 }
+

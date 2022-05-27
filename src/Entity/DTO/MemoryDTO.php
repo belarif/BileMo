@@ -23,3 +23,4 @@ class MemoryDTO
      */
     public string $memoryCapacity;
 }
+

@@ -16,9 +16,7 @@ class MemoryManagement
     }
 
     /**
-     * @throws \Doctrine\ORM\OptimisticLockException
      * @throws MemoryException
-     * @throws \Doctrine\ORM\ORMException
      */
     public function createMemory($memoryDTO): Memory
     {
@@ -51,3 +49,4 @@ class MemoryManagement
         $this->memoryRepository->remove($memory);
     }
 }
+

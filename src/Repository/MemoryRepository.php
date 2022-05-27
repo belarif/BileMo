@@ -22,10 +22,6 @@ class MemoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Memory::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(Memory $entity, bool $flush = true): Memory
     {
         $this->_em->persist($entity);
@@ -36,10 +32,6 @@ class MemoryRepository extends ServiceEntityRepository
         return $entity;
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function remove(Memory $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
@@ -66,3 +58,4 @@ class MemoryRepository extends ServiceEntityRepository
         return $memory[0];
     }
 }
+

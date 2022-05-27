@@ -44,9 +44,7 @@ class ProductManagement
     }
 
     /**
-     * @throws \Doctrine\ORM\OptimisticLockException
      * @throws ProductException
-     * @throws \Doctrine\ORM\ORMException
      */
     public function createProduct(ProductDTO $productDTO)
     {
@@ -86,9 +84,7 @@ class ProductManagement
     }
 
     /**
-     * @throws \Doctrine\ORM\OptimisticLockException
      * @throws ProductException
-     * @throws \Doctrine\ORM\ORMException
      */
     public function updateProduct($product, ProductDTO $productDTO): Product
     {
@@ -120,3 +116,4 @@ class ProductManagement
         $this->productRepository->remove($product);
     }
 }
+

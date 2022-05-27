@@ -22,10 +22,6 @@ class CountryRepository extends ServiceEntityRepository
         parent::__construct($registry, Country::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(Country $entity, bool $flush = true): Country
     {
         $this->_em->persist($entity);
@@ -36,10 +32,6 @@ class CountryRepository extends ServiceEntityRepository
         return $entity;
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function remove(Country $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
@@ -66,3 +58,4 @@ class CountryRepository extends ServiceEntityRepository
         return $country[0];
     }
 }
+

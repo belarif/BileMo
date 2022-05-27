@@ -8,7 +8,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use JMS\Serializer\Annotation as Serializer;
 use Hateoas\Configuration\Annotation as Hateoas;
 
-
 /**
  * @ORM\Entity(repositoryClass=ColorRepository::class)
  * @UniqueEntity("name")
@@ -65,3 +64,4 @@ class Color
         return $this;
     }
 }
+
