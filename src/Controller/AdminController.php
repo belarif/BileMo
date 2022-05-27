@@ -101,9 +101,7 @@ class AdminController extends AbstractController
                 );
             }
 
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($userManagement->createUser($userDTO, null), 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($userManagement->createUser($userDTO, null));
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -136,9 +134,7 @@ class AdminController extends AbstractController
      */
     public function list(UserManagement $userManagement): JsonResponse
     {
-        $hateoas = HateoasBuilder::create()->build();
-
-        return new JsonResponse($hateoas->serialize($admins = $userManagement->users(null), 'json'),Response::HTTP_OK,[],'json');
+        return $this->hateoasResponse($userManagement->users(null));
     }
 
     /**
@@ -177,9 +173,7 @@ class AdminController extends AbstractController
     public function show(int $admin_id, UserRepository $userRepository): JsonResponse
     {
         try {
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($userRepository->getUser($admin_id), 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($userRepository->getUser($admin_id));
         } catch (UserException $e) {
             return $this->json(
                 [
@@ -285,10 +279,7 @@ class AdminController extends AbstractController
                 );
             }
 
-            $admin = $userManagement->updateUser($userDTO,$userRepository->getUser($admin_id), null);
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($admin, 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($userManagement->updateUser($userDTO,$userRepository->getUser($admin_id), null));
         } catch (UserException $e) {
             return $this->json(
                 [
@@ -356,4 +347,11 @@ class AdminController extends AbstractController
 
         }
     }
+
+    private function hateoasResponse($data): JsonResponse {
+        $hateoas = HateoasBuilder::create()->build();
+
+        return new JsonResponse($hateoas->serialize($data, 'json'), Response::HTTP_OK, [], 'json');
+    }
 }
+
