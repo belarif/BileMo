@@ -85,9 +85,7 @@ class CountryController extends AbstractController
                 );
             }
 
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($countryManagement->createCountry($countryDTO), 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($countryManagement->createCountry($countryDTO));
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -119,9 +117,7 @@ class CountryController extends AbstractController
      */
     public function list(CountryManagement $countryManagement): JsonResponse
     {
-        $hateoas = HateoasBuilder::create()->build();
-
-        return new JsonResponse($hateoas->serialize($countryManagement->countriesList(), 'json'),Response::HTTP_OK,[],'json');
+        return $this->hateoasResponse($countryManagement->countriesList());
     }
 
     /**
@@ -160,9 +156,7 @@ class CountryController extends AbstractController
     public function show(int $id, CountryRepository $countryRepository): JsonResponse
     {
         try {
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($countryRepository->getCountry($id), 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($countryRepository->getCountry($id));
         } catch (CountryException $e) {
             return $this->json(
                 [
@@ -254,11 +248,7 @@ class CountryController extends AbstractController
                 );
             }
 
-            $country = $countryManagement->updateCountry($countryRepository->getCountry($id), $countryDTO);
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($country, 'json'),Response::HTTP_OK,[],'json');
-
+            return $this->hateoasResponse($countryManagement->updateCountry($countryRepository->getCountry($id), $countryDTO));
         } catch (CountryException $e) {
             return $this->json(
                 [
@@ -326,4 +316,11 @@ class CountryController extends AbstractController
             );
         }
     }
+
+    private function hateoasResponse($data): JsonResponse {
+        $hateoas = HateoasBuilder::create()->build();
+
+        return new JsonResponse($hateoas->serialize($data, 'json'), Response::HTTP_OK, [], 'json');
+    }
 }
+

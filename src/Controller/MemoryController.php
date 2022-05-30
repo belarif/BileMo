@@ -85,9 +85,7 @@ class MemoryController extends AbstractController
                 );
             }
 
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($memoryManagement->createMemory($memoryDTO), 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($memoryManagement->createMemory($memoryDTO));
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -120,9 +118,7 @@ class MemoryController extends AbstractController
      */
     public function list(MemoryManagement $memoryManagement): JsonResponse
     {
-        $hateoas = HateoasBuilder::create()->build();
-
-        return new JsonResponse($hateoas->serialize($memoryManagement->memoriesList(), 'json'),Response::HTTP_OK,[],'json');
+        return $this->hateoasResponse($memoryManagement->memoriesList());
     }
 
     /**
@@ -161,9 +157,7 @@ class MemoryController extends AbstractController
     public function show(int $id, MemoryRepository $memoryRepository): JsonResponse
     {
         try {
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($memoryRepository->getMemory($id), 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($memoryRepository->getMemory($id));
         } catch (MemoryException $e) {
             return $this->json(
                 [
@@ -256,10 +250,7 @@ class MemoryController extends AbstractController
                 );
             }
 
-            $memory = $memoryManagement->updateMemory($memoryRepository->getMemory($id), $memoryDTO);
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($memory, 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($memoryManagement->updateMemory($memoryRepository->getMemory($id), $memoryDTO));
         } catch (MemoryException $e) {
             return $this->json(
                 [
@@ -316,7 +307,6 @@ class MemoryController extends AbstractController
             $memoryManagement->deleteMemory($memoryRepository->getMemory($id));
 
             return $this->json('La memoire a été supprimé avec succès', Response::HTTP_NO_CONTENT);
-
         } catch (MemoryException $e) {
             return $this->json(
                 [
@@ -328,4 +318,11 @@ class MemoryController extends AbstractController
         }
 
     }
+
+    private function hateoasResponse($data): JsonResponse {
+        $hateoas = HateoasBuilder::create()->build();
+
+        return new JsonResponse($hateoas->serialize($data, 'json'), Response::HTTP_OK, [], 'json');
+    }
 }
+

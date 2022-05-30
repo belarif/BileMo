@@ -85,9 +85,7 @@ class ColorController extends AbstractController
                 );
             }
 
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($colorManagement->createColor($colorDTO), 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($colorManagement->createColor($colorDTO));
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -119,9 +117,7 @@ class ColorController extends AbstractController
      */
     public function list(ColorManagement $colorManagement): JsonResponse
     {
-        $hateoas = HateoasBuilder::create()->build();
-
-        return new JsonResponse($hateoas->serialize($colorManagement->colorsList(), 'json'),Response::HTTP_OK,[],'json');
+        return $this->hateoasResponse($colorManagement->colorsList());
     }
 
     /**
@@ -160,9 +156,7 @@ class ColorController extends AbstractController
     public function show(int $id, ColorRepository $colorRepository): JsonResponse
     {
         try {
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($colorRepository->getColor($id), 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($colorRepository->getColor($id));
         }
         catch (ColorException $e) {
             return $this->json(
@@ -255,10 +249,7 @@ class ColorController extends AbstractController
                 );
             }
 
-            $color = $colorManagement->updateColor($colorRepository->getColor($id), $colorDTO);
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($color, 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($colorManagement->updateColor($colorRepository->getColor($id), $colorDTO));
         } catch (ColorException $e) {
             return $this->json(
                 [
@@ -326,4 +317,11 @@ class ColorController extends AbstractController
             );
         }
     }
+
+    private function hateoasResponse($data): JsonResponse {
+        $hateoas = HateoasBuilder::create()->build();
+
+        return new JsonResponse($hateoas->serialize($data, 'json'), Response::HTTP_OK, [], 'json');
+    }
 }
+

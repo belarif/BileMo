@@ -95,9 +95,7 @@ class BrandController extends AbstractController
                 );
             }
 
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($brandManagement->createBrand($brandDTO), 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($brandManagement->createBrand($brandDTO));
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -130,9 +128,7 @@ class BrandController extends AbstractController
      */
     public function list(BrandManagement $brandManagement): JsonResponse
     {
-        $hateoas = HateoasBuilder::create()->build();
-
-        return new JsonResponse($hateoas->serialize($brandManagement->brandsList(), 'json'),Response::HTTP_OK,[],'json');
+        return $this->hateoasResponse($brandManagement->brandsList());
     }
 
     /**
@@ -171,9 +167,7 @@ class BrandController extends AbstractController
     public function show(int $id, BrandRepository $brandRepository): JsonResponse
     {
         try {
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($brandRepository->getBrand($id), 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($brandRepository->getBrand($id));
         } catch (BrandException $e) {
             return $this->json(
                 [
@@ -266,10 +260,7 @@ class BrandController extends AbstractController
                 );
             }
 
-            $brand = $brandManagement->updateBrand($brandRepository->getBrand($id), $brandDTO);
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($brand, 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($brandManagement->updateBrand($brandRepository->getBrand($id), $brandDTO));
         } catch (BrandException $e) {
             return $this->json(
                 [
@@ -337,4 +328,11 @@ class BrandController extends AbstractController
 
         }
     }
+
+    private function hateoasResponse($data): JsonResponse {
+        $hateoas = HateoasBuilder::create()->build();
+
+        return new JsonResponse($hateoas->serialize($data, 'json'), Response::HTTP_OK, [], 'json');
+    }
 }
+
