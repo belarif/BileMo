@@ -54,7 +54,7 @@ class ProductManagement
         $country = $this->countryRepository->findOneBy(['id' => $productDTO->country->id]);
         $user = $this->userRepository->findOneBy(['id' => $productDTO->user->id]);
 
-        if($this->productRepository->findBy(['name' => $productDTO->name])) {
+        if ($this->productRepository->findBy(['name' => $productDTO->name])) {
             throw ProductException::ProductExists($productDTO->name);
         }
 
@@ -101,7 +101,7 @@ class ProductManagement
         $country = $this->countryRepository->findOneBy(['id' => $productDTO->country->id]);
         $user = $this->userRepository->findOneBy(['id' => $productDTO->user->id]);
 
-        if($this->productRepository->findBy(['name' => $productDTO->name])) {
+        if ($this->productRepository->findBy(['name' => $productDTO->name])) {
             throw ProductException::ProductExists($productDTO->name);
         }
 
@@ -124,4 +124,3 @@ class ProductManagement
         $this->productRepository->remove($product);
     }
 }
-

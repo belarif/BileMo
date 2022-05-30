@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use App\Exception\ColorException;
-use Exception;
 use App\Entity\DTO\ColorDTO;
-use OpenApi\Annotations as OA;
+use App\Exception\ColorException;
 use App\Repository\ColorRepository;
 use App\Service\ColorManagement;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Exception;
+use Hateoas\HateoasBuilder;
+use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Hateoas\HateoasBuilder;
 
 /**
  * @Route("/colors", name="api_")
@@ -79,7 +78,7 @@ class ColorController extends AbstractController
                 return $this->json(
                     [
                         'success' => false,
-                        'message' => $errors[0]->getMessage()
+                        'message' => $errors[0]->getMessage(),
                     ],
                     Response::HTTP_BAD_REQUEST
                 );
@@ -157,12 +156,11 @@ class ColorController extends AbstractController
     {
         try {
             return $this->hateoasResponse($colorRepository->getColor($id));
-        }
-        catch (ColorException $e) {
+        } catch (ColorException $e) {
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_NOT_FOUND
             );
@@ -243,7 +241,7 @@ class ColorController extends AbstractController
                 return $this->json(
                     [
                         'success' => false,
-                        'message' => $errors[0]->getMessage()
+                        'message' => $errors[0]->getMessage(),
                     ],
                     Response::HTTP_BAD_REQUEST
                 );
@@ -306,22 +304,21 @@ class ColorController extends AbstractController
             $colorManagement->deleteColor($colorRepository->getColor($id));
 
             return $this->json('La couleur a été supprimé avec succès', Response::HTTP_NO_CONTENT);
-
         } catch (ColorException $e) {
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_NOT_FOUND
             );
         }
     }
 
-    private function hateoasResponse($data): JsonResponse {
+    private function hateoasResponse($data): JsonResponse
+    {
         $hateoas = HateoasBuilder::create()->build();
 
         return new JsonResponse($hateoas->serialize($data, 'json'), Response::HTTP_OK, [], 'json');
     }
 }
-

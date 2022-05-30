@@ -2,14 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\DTO\ProductDTO;
 use App\Exception\ProductException;
 use App\Repository\ProductRepository;
+use App\Service\ProductManagement;
 use Exception;
 use Hateoas\HateoasBuilder;
 use OpenApi\Annotations as OA;
-use App\Entity\DTO\ProductDTO;
-use App\Service\ProductManagement;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -129,7 +128,7 @@ class ProductController extends AbstractController
                 return $this->json(
                     [
                         'success' => false,
-                        'message' => $errors[0]->getMessage()
+                        'message' => $errors[0]->getMessage(),
                     ],
                     Response::HTTP_BAD_REQUEST
                 );
@@ -140,7 +139,7 @@ class ProductController extends AbstractController
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_CONFLICT
             );
@@ -211,7 +210,7 @@ class ProductController extends AbstractController
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_CONFLICT
             );
@@ -339,18 +338,18 @@ class ProductController extends AbstractController
                 return $this->json(
                     [
                         'success' => false,
-                        'message' => $errors[0]->getMessage()
+                        'message' => $errors[0]->getMessage(),
                     ],
                     Response::HTTP_BAD_REQUEST
                 );
             }
 
-            return $this->hateoasResponse($productManagement->updateProduct($productRepository->getProduct($id),$productDTO));
+            return $this->hateoasResponse($productManagement->updateProduct($productRepository->getProduct($id), $productDTO));
         } catch (ProductException $e) {
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_NOT_FOUND
             );
@@ -358,7 +357,7 @@ class ProductController extends AbstractController
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_CONFLICT
             );
@@ -402,22 +401,21 @@ class ProductController extends AbstractController
             $productManagement->deleteProduct($productRepository->getProduct($id));
 
             return $this->json('Le produit est supprimé avec succès', Response::HTTP_NO_CONTENT);
-
         } catch (ProductException $e) {
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_NOT_FOUND
             );
         }
     }
 
-    private function hateoasResponse($data): JsonResponse {
+    private function hateoasResponse($data): JsonResponse
+    {
         $hateoas = HateoasBuilder::create()->build();
 
         return new JsonResponse($hateoas->serialize($data, 'json'), Response::HTTP_OK, [], 'json');
     }
 }
-

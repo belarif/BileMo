@@ -5,8 +5,6 @@ namespace App\Repository;
 use App\Entity\Product;
 use App\Exception\ProductException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**

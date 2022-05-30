@@ -20,7 +20,7 @@ class MemoryManagement
      */
     public function createMemory($memoryDTO): Memory
     {
-        if($this->memoryRepository->findBy(['memoryCapacity' => $memoryDTO->memoryCapacity])) {
+        if ($this->memoryRepository->findBy(['memoryCapacity' => $memoryDTO->memoryCapacity])) {
             throw MemoryException::memoryExists($memoryDTO->memoryCapacity);
         }
 
@@ -37,7 +37,7 @@ class MemoryManagement
 
     public function updateMemory($memory, $memoryDTO): Memory
     {
-        if($this->memoryRepository->findBy(['memoryCapacity' => $memoryDTO->memoryCapacity])) {
+        if ($this->memoryRepository->findBy(['memoryCapacity' => $memoryDTO->memoryCapacity])) {
             throw MemoryException::memoryExists($memoryDTO->memoryCapacity);
         }
 
@@ -49,4 +49,3 @@ class MemoryManagement
         $this->memoryRepository->remove($memory);
     }
 }
-

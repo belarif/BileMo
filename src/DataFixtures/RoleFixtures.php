@@ -20,7 +20,7 @@ class RoleFixtures extends Fixture
         $roles = [
             ['roleName' => self::ROLE_ADMIN],
             ['roleName' => self::ROLE_CUSTOMER_ADMIN],
-            ['roleName' => self::ROLE_VISITOR]
+            ['roleName' => self::ROLE_VISITOR],
         ];
 
         foreach ($roles as $addRole) {
@@ -32,5 +32,4 @@ class RoleFixtures extends Fixture
             $manager->flush();
         }
     }
-
 }

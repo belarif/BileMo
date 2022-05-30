@@ -16,7 +16,7 @@ class SecurityController extends AbstractController
     {
         return $this->json(
             [
-                'message' => 'Vous vous êtes authentifié avec succès'
+                'message' => 'Vous vous êtes authentifié avec succès',
             ], Response::HTTP_OK
         );
     }

@@ -2,16 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\DTO\UserDTO;
 use App\Exception\CustomerException;
 use App\Exception\UserException;
-use Exception;
-use Hateoas\HateoasBuilder;
-use OpenApi\Annotations as OA;
-use App\Entity\DTO\UserDTO;
 use App\Repository\CustomerRepository;
 use App\Repository\UserRepository;
 use App\Service\UserManagement;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Exception;
+use Hateoas\HateoasBuilder;
+use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -108,7 +107,7 @@ class VisitorController extends AbstractController
                 return $this->json(
                     [
                         'success' => false,
-                        'message' => $errors[0]->getMessage()
+                        'message' => $errors[0]->getMessage(),
                     ],
                     Response::HTTP_BAD_REQUEST
                 );
@@ -119,10 +118,9 @@ class VisitorController extends AbstractController
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_CONFLICT
-
             );
         }
     }
@@ -160,7 +158,7 @@ class VisitorController extends AbstractController
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_CONFLICT
             );
@@ -206,6 +204,7 @@ class VisitorController extends AbstractController
      *         )
      *     )
      * )
+     *
      * @throws CustomerException
      */
     public function show(int $customer_id, int $visitor_id, CustomerRepository $customerRepository, UserRepository $userRepository): JsonResponse
@@ -216,7 +215,7 @@ class VisitorController extends AbstractController
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_NOT_FOUND
             );
@@ -321,7 +320,7 @@ class VisitorController extends AbstractController
                 return $this->json(
                     [
                         'success' => false,
-                        'message' => $errors[0]->getMessage()
+                        'message' => $errors[0]->getMessage(),
                     ],
                     Response::HTTP_BAD_REQUEST
                 );
@@ -334,7 +333,7 @@ class VisitorController extends AbstractController
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_NOT_FOUND
             );
@@ -342,7 +341,7 @@ class VisitorController extends AbstractController
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_CONFLICT
             );
@@ -386,34 +385,33 @@ class VisitorController extends AbstractController
      *         )
      *     )
      * )
+     *
      * @throws CustomerException
      */
     public function delete(
         int $visitor_id,
         int $customer_id,
         UserRepository $userRepository,
-        CustomerRepository  $customerRepository,
+        CustomerRepository $customerRepository,
         UserManagement $userManagement
-    ): JsonResponse
-    {
+    ): JsonResponse {
         try {
             $userManagement->deleteUser($this->visitorUser($userRepository, $visitor_id, $customerRepository->getCustomer($customer_id)));
-
 
             return $this->json('Le visiteur a été supprimé avec succès', Response::HTTP_NO_CONTENT);
         } catch (UserException $e) {
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_NOT_FOUND
             );
-
         }
     }
 
-    private function hateoasResponse($data): JsonResponse {
+    private function hateoasResponse($data): JsonResponse
+    {
         $hateoas = HateoasBuilder::create()->build();
 
         return new JsonResponse($hateoas->serialize($data, 'json'), Response::HTTP_OK, [], 'json');

@@ -2,8 +2,8 @@
 
 namespace App\Entity\DTO;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use OpenApi\Annotations as OA;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @OA\Schema()
@@ -11,8 +11,6 @@ use OpenApi\Annotations as OA;
 class BrandDTO
 {
     /**
-     * @var int
-     *
      * @OA\Property(type="integer")
      */
     public int $id;
@@ -25,4 +23,3 @@ class BrandDTO
      */
     public string $name;
 }
-

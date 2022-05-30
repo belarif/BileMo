@@ -2,14 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\DTO\UserDTO;
 use App\Exception\UserException;
 use App\Repository\UserRepository;
+use App\Service\UserManagement;
+use Exception;
 use Hateoas\HateoasBuilder;
 use OpenApi\Annotations as OA;
-use Exception;
-use App\Entity\DTO\UserDTO;
-use App\Service\UserManagement;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -95,7 +94,7 @@ class AdminController extends AbstractController
                 return $this->json(
                     [
                         'success' => false,
-                        'message' => $errors[0]->getMessage()
+                        'message' => $errors[0]->getMessage(),
                     ],
                     Response::HTTP_BAD_REQUEST
                 );
@@ -106,11 +105,10 @@ class AdminController extends AbstractController
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_CONFLICT
             );
-
         }
     }
 
@@ -178,11 +176,10 @@ class AdminController extends AbstractController
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_NOT_FOUND
             );
-
         }
     }
 
@@ -273,18 +270,18 @@ class AdminController extends AbstractController
                 return $this->json(
                     [
                         'success' => false,
-                        'message' => $errors[0]->getMessage()
+                        'message' => $errors[0]->getMessage(),
                     ],
                     Response::HTTP_BAD_REQUEST
                 );
             }
 
-            return $this->hateoasResponse($userManagement->updateUser($userDTO,$this->adminUser($userRepository, $admin_id),null));
+            return $this->hateoasResponse($userManagement->updateUser($userDTO, $this->adminUser($userRepository, $admin_id), null));
         } catch (UserException $e) {
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_NOT_FOUND
             );
@@ -292,7 +289,7 @@ class AdminController extends AbstractController
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_CONFLICT
             );
@@ -340,15 +337,15 @@ class AdminController extends AbstractController
             return $this->json(
                 [
                     'success' => false,
-                    'message' =>$e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_NOT_FOUND
             );
-
         }
     }
 
-    private function hateoasResponse($data): JsonResponse {
+    private function hateoasResponse($data): JsonResponse
+    {
         $hateoas = HateoasBuilder::create()->build();
 
         return new JsonResponse($hateoas->serialize($data, 'json'), Response::HTTP_OK, [], 'json');
@@ -359,4 +356,3 @@ class AdminController extends AbstractController
         return $userRepository->getAdmin($admin_id, 1);
     }
 }
-

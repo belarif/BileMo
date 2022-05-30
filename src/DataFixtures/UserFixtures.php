@@ -3,20 +3,18 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
-use App\DataFixtures\RoleFixtures;
 use App\Repository\RoleRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-
 
 class UserFixtures extends Fixture implements DependentFixtureInterface
 {
     private $hasher;
     private RoleRepository $roleRepository;
 
-    public function __construct(UserPasswordHasherInterface $hasher, RoleRepository  $roleRepository)
+    public function __construct(UserPasswordHasherInterface $hasher, RoleRepository $roleRepository)
     {
         $this->hasher = $hasher;
         $this->roleRepository = $roleRepository;
@@ -28,7 +26,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $users = [
-            ['email' => 'example@gmail.com', 'password' => 'admin']
+            ['email' => 'example@gmail.com', 'password' => 'admin'],
         ];
 
         foreach ($users as $addUser) {

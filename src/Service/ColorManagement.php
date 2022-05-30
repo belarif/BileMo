@@ -4,8 +4,8 @@ namespace App\Service;
 
 use App\Entity\Color;
 use App\Entity\DTO\ColorDTO;
-use App\Repository\ColorRepository;
 use App\Exception\ColorException;
+use App\Repository\ColorRepository;
 
 class ColorManagement
 {
@@ -21,7 +21,7 @@ class ColorManagement
      */
     public function createColor(ColorDTO $colorDTO): Color
     {
-        if($this->colorRepository->findBy(['name' => $colorDTO->name])) {
+        if ($this->colorRepository->findBy(['name' => $colorDTO->name])) {
             throw ColorException::colorExists($colorDTO->name);
         }
 
@@ -41,7 +41,7 @@ class ColorManagement
      */
     public function updateColor($color, ColorDTO $colorDTO): Color
     {
-        if($this->colorRepository->findBy(['name' => $colorDTO->name])) {
+        if ($this->colorRepository->findBy(['name' => $colorDTO->name])) {
             throw ColorException::colorExists($colorDTO->name);
         }
 
@@ -58,4 +58,3 @@ class ColorManagement
         $this->colorRepository->remove($color);
     }
 }
-

@@ -5,8 +5,6 @@ namespace App\Repository;
 use App\Entity\Memory;
 use App\Exception\MemoryException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -58,4 +56,3 @@ class MemoryRepository extends ServiceEntityRepository
         return $memory[0];
     }
 }
-

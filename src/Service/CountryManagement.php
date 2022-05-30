@@ -21,7 +21,7 @@ class CountryManagement
      */
     public function createCountry(CountryDTO $countryDTO): Country
     {
-        if($this->countryRepository->findBy(['name' => $countryDTO->name])) {
+        if ($this->countryRepository->findBy(['name' => $countryDTO->name])) {
             throw CountryException::countryExists($countryDTO->name);
         }
 
@@ -41,7 +41,7 @@ class CountryManagement
      */
     public function updateCountry($country, CountryDTO $countryDTO): Country
     {
-        if($this->countryRepository->findBy(['name' => $countryDTO->name])) {
+        if ($this->countryRepository->findBy(['name' => $countryDTO->name])) {
             throw CountryException::countryExists($countryDTO->name);
         }
 
@@ -53,4 +53,3 @@ class CountryManagement
         $this->countryRepository->remove($country);
     }
 }
-

@@ -2,8 +2,8 @@
 
 namespace App\Entity\DTO;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use OpenApi\Annotations as OA;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @OA\Schema()
@@ -23,4 +23,3 @@ class MemoryDTO
      */
     public string $memoryCapacity;
 }
-

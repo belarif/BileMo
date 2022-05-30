@@ -5,8 +5,6 @@ namespace App\Repository;
 use App\Entity\Color;
 use App\Exception\ColorException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -58,4 +56,3 @@ class ColorRepository extends ServiceEntityRepository
         return $color[0];
     }
 }
-

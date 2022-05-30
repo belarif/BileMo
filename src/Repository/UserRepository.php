@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\User;
 use App\Exception\UserException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -56,7 +55,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
-
     /**
      * @throws UserException
      */
@@ -81,7 +79,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function getVisitorOfCustomer($visitor_id, $roleVisitor, $customer): User
     {
         $visitor = $this->createQueryBuilder('u')
-            ->innerJoin('u.roles','r','WITH','r.id='.$roleVisitor)
+            ->innerJoin('u.roles', 'r', 'WITH', 'r.id='.$roleVisitor)
             ->andWhere('u.id = :id')
             ->setParameter('id', $visitor_id)
             ->andWhere('u.customer = :customer')
@@ -89,9 +87,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getQuery()
             ->getResult();
 
-            if(!$visitor) {
-                throw UserException::notUserExists();
-            }
+        if (!$visitor) {
+            throw UserException::notUserExists();
+        }
 
         return $visitor[0];
     }
@@ -102,9 +100,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function getAdmin($admin_id, $roleAdmin): User
     {
         $admin = $this->createQueryBuilder('u')
-            ->innerJoin('u.roles','r','WITH','r.id='.$roleAdmin)
+            ->innerJoin('u.roles', 'r', 'WITH', 'r.id='.$roleAdmin)
             ->andWhere('u.id = :id')
-            ->setParameter('id',$admin_id)
+            ->setParameter('id', $admin_id)
             ->getQuery()
             ->getResult();
 
@@ -115,4 +113,3 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $admin[0];
     }
 }
-

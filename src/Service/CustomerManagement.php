@@ -23,7 +23,7 @@ class CustomerManagement
      */
     public function createCustomer(CustomerDTO $customerDTO): Customer
     {
-        if($this->customerRepository->findBy(['company' => $customerDTO->company])) {
+        if ($this->customerRepository->findBy(['company' => $customerDTO->company])) {
             throw CustomerException::customerExists($customerDTO->company);
         }
 
@@ -45,9 +45,9 @@ class CustomerManagement
     /**
      * @throws CustomerException
      */
-    public function updateCustomer( $customer, CustomerDTO $customerDTO): Customer
+    public function updateCustomer($customer, CustomerDTO $customerDTO): Customer
     {
-        if($this->customerRepository->findBy(['company' => $customerDTO->company])) {
+        if ($this->customerRepository->findBy(['company' => $customerDTO->company])) {
             throw CustomerException::customerExists($customerDTO->company);
         }
 

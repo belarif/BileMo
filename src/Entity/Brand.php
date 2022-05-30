@@ -4,10 +4,8 @@ namespace App\Entity;
 
 use App\Repository\BrandRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use JMS\Serializer\Annotation as Serializer;
 use Hateoas\Configuration\Annotation as Hateoas;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=BrandRepository::class)
@@ -65,4 +63,3 @@ class Brand
         return $this;
     }
 }
-

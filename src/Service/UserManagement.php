@@ -32,7 +32,7 @@ class UserManagement
      */
     public function createUser(UserDTO $userDTO, $customer): User
     {
-        if($this->userRepository->findBy(['email' => $userDTO->email])) {
+        if ($this->userRepository->findBy(['email' => $userDTO->email])) {
             throw UserException::userExists($userDTO->email);
         }
 
@@ -65,7 +65,7 @@ class UserManagement
     /**
      * @throws UserException
      */
-    public function updateUser(UserDTO $userDTO,$user,$customer): User
+    public function updateUser(UserDTO $userDTO, $user, $customer): User
     {
         if (!$customer) {
             $user->setCustomer(null);
@@ -86,4 +86,3 @@ class UserManagement
         $this->userRepository->remove($user);
     }
 }
-

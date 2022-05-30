@@ -2,14 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\DTO\MemoryDTO;
 use App\Exception\MemoryException;
+use App\Repository\MemoryRepository;
+use App\Service\MemoryManagement;
 use Exception;
 use Hateoas\HateoasBuilder;
 use OpenApi\Annotations as OA;
-use App\Repository\MemoryRepository;
-use App\Entity\DTO\MemoryDTO;
-use App\Service\MemoryManagement;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,7 +78,7 @@ class MemoryController extends AbstractController
                 return $this->json(
                     [
                         'success' => false,
-                        'message' => $errors[0]->getMessage()
+                        'message' => $errors[0]->getMessage(),
                     ],
                     Response::HTTP_BAD_REQUEST
                 );
@@ -90,11 +89,10 @@ class MemoryController extends AbstractController
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_CONFLICT
             );
-
         }
     }
 
@@ -166,7 +164,6 @@ class MemoryController extends AbstractController
                 ],
                 Response::HTTP_NOT_FOUND
             );
-
         }
     }
 
@@ -244,7 +241,7 @@ class MemoryController extends AbstractController
                 return $this->json(
                     [
                         'success' => false,
-                        'message' => $errors[0]->getMessage()
+                        'message' => $errors[0]->getMessage(),
                     ],
                     Response::HTTP_BAD_REQUEST
                 );
@@ -255,7 +252,7 @@ class MemoryController extends AbstractController
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_NOT_FOUND
             );
@@ -263,7 +260,7 @@ class MemoryController extends AbstractController
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_CONFLICT
             );
@@ -311,18 +308,17 @@ class MemoryController extends AbstractController
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_NOT_FOUND
             );
         }
-
     }
 
-    private function hateoasResponse($data): JsonResponse {
+    private function hateoasResponse($data): JsonResponse
+    {
         $hateoas = HateoasBuilder::create()->build();
 
         return new JsonResponse($hateoas->serialize($data, 'json'), Response::HTTP_OK, [], 'json');
     }
 }
-

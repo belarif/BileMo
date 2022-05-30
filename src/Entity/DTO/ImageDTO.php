@@ -10,4 +10,3 @@ class ImageDTO
 
     public ProductDTO $product;
 }
-
