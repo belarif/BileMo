@@ -116,6 +116,13 @@ class ProductManagement
             $product->addColor($this->colorRepository->findOneBy(['id' => $color->id]));
         }
 
+        foreach ($productDTO->getImages() as $productImage) {
+            $image = new Image();
+
+            $image->setSrc($productImage->src);
+            $product->addImage($image);
+        }
+
         return $this->productRepository->add($product);
     }
 
