@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\DTO\ProductDTO;
+use App\Entity\Image;
 use App\Entity\Product;
 use App\Exception\ProductException;
 use App\Repository\BrandRepository;
@@ -67,6 +68,13 @@ class ProductManagement
 
         foreach ($productDTO->getColors() as $color) {
             $product->addColor($this->colorRepository->findOneBy(['id' => $color->id]));
+        }
+
+        foreach ($productDTO->getImages() as $productImage) {
+            $image = new Image();
+
+            $image->setSrc($productImage->src);
+            $product->addImage($image);
         }
 
         return $this->productRepository->add($product);

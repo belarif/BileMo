@@ -74,7 +74,7 @@ class Product
     private Memory $memory;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="product", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="product", orphanRemoval=true, cascade={"persist"})
      */
     private $images;
 
