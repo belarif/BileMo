@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Exception\CustomerException;
 use App\Exception\UserException;
 use Exception;
 use Hateoas\HateoasBuilder;
@@ -113,10 +114,7 @@ class VisitorController extends AbstractController
                 );
             }
 
-            $user = $userManagement->createUser($userDTO, $customerRepository->getCustomer($customer_id));
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($user, 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($userManagement->createUser($userDTO, $customerRepository->getCustomer($customer_id)));
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -157,10 +155,7 @@ class VisitorController extends AbstractController
     public function list(int $customer_id, UserManagement $userManagement, CustomerRepository $customerRepository): JsonResponse
     {
         try {
-            $visitors = $userManagement->users($customerRepository->getCustomer($customer_id));
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($visitors, 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($userManagement->users($customerRepository->getCustomer($customer_id)));
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -211,15 +206,12 @@ class VisitorController extends AbstractController
      *         )
      *     )
      * )
+     * @throws CustomerException
      */
     public function show(int $customer_id, int $visitor_id, CustomerRepository $customerRepository, UserRepository $userRepository): JsonResponse
     {
         try {
-            $customer = $customerRepository->getCustomer($customer_id);
-            $visitor = $userRepository->getVisitorOfCustomer($visitor_id, $customer);
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($visitor,'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($this->visitorUser($userRepository, $visitor_id, $customerRepository->getCustomer($customer_id)));
         } catch (UserException $e) {
             return $this->json(
                 [
@@ -335,10 +327,9 @@ class VisitorController extends AbstractController
                 );
             }
 
-            $hateoas = HateoasBuilder::create()->build();
-            $user = $userManagement->updateUser($userDTO, $userRepository->getUser($visitor_id), $customerRepository->getCustomer($customer_id));
+            $customer = $customerRepository->getCustomer($customer_id);
 
-            return new JsonResponse($hateoas->serialize($user,'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($userManagement->updateUser($userDTO, $this->visitorUser($userRepository, $visitor_id, $customer), $customer));
         } catch (UserException $e) {
             return $this->json(
                 [
@@ -395,6 +386,7 @@ class VisitorController extends AbstractController
      *         )
      *     )
      * )
+     * @throws CustomerException
      */
     public function delete(
         int $visitor_id,
@@ -405,7 +397,8 @@ class VisitorController extends AbstractController
     ): JsonResponse
     {
         try {
-            $userManagement->deleteUser($userRepository->getVisitorOfCustomer($visitor_id, $customerRepository->getCustomer($customer_id)));
+            $userManagement->deleteUser($this->visitorUser($userRepository, $visitor_id, $customerRepository->getCustomer($customer_id)));
+
 
             return $this->json('Le visiteur a été supprimé avec succès', Response::HTTP_NO_CONTENT);
         } catch (UserException $e) {
@@ -418,5 +411,16 @@ class VisitorController extends AbstractController
             );
 
         }
+    }
+
+    private function hateoasResponse($data): JsonResponse {
+        $hateoas = HateoasBuilder::create()->build();
+
+        return new JsonResponse($hateoas->serialize($data, 'json'), Response::HTTP_OK, [], 'json');
+    }
+
+    private function visitorUser($userRepository, $visitor_id, $customer)
+    {
+        return $userRepository->getVisitorOfCustomer($visitor_id, 3, $customer);
     }
 }
