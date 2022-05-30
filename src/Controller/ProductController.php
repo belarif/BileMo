@@ -135,9 +135,7 @@ class ProductController extends AbstractController
                 );
             }
 
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($productManagement->createProduct($productDTO), 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($productManagement->createProduct($productDTO));
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -169,9 +167,7 @@ class ProductController extends AbstractController
      */
     public function list(ProductManagement $productManagement): JsonResponse
     {
-        $hateoas = HateoasBuilder::create()->build();
-
-        return new JsonResponse($hateoas->serialize($productManagement->productsList(), 'json'),Response::HTTP_OK,[],'json');
+        return $this->hateoasResponse($productManagement->productsList());
     }
 
     /**
@@ -210,9 +206,7 @@ class ProductController extends AbstractController
     public function show(int $id, ProductRepository $productRepository): JsonResponse
     {
         try {
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($productRepository->getProduct($id), 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($productRepository->getProduct($id));
         } catch (ProductException $e) {
             return $this->json(
                 [
@@ -351,10 +345,7 @@ class ProductController extends AbstractController
                 );
             }
 
-            $product = $productManagement->updateProduct($productRepository->getProduct($id),$productDTO);
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($product, 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($productManagement->updateProduct($productRepository->getProduct($id),$productDTO));
         } catch (ProductException $e) {
             return $this->json(
                 [
@@ -422,4 +413,11 @@ class ProductController extends AbstractController
             );
         }
     }
+
+    private function hateoasResponse($data): JsonResponse {
+        $hateoas = HateoasBuilder::create()->build();
+
+        return new JsonResponse($hateoas->serialize($data, 'json'), Response::HTTP_OK, [], 'json');
+    }
 }
+

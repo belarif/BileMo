@@ -78,9 +78,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * @throws UserException
      */
-    public function getVisitorOfCustomer($visitor_id, $customer): User
+    public function getVisitorOfCustomer($visitor_id, $roleVisitor, $customer): User
     {
         $visitor = $this->createQueryBuilder('u')
+            ->innerJoin('u.roles','r','WITH','r.id='.$roleVisitor)
             ->andWhere('u.id = :id')
             ->setParameter('id', $visitor_id)
             ->andWhere('u.customer = :customer')
@@ -94,4 +95,24 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         return $visitor[0];
     }
+
+    /**
+     * @throws UserException
+     */
+    public function getAdmin($admin_id, $roleAdmin): User
+    {
+        $admin = $this->createQueryBuilder('u')
+            ->innerJoin('u.roles','r','WITH','r.id='.$roleAdmin)
+            ->andWhere('u.id = :id')
+            ->setParameter('id',$admin_id)
+            ->getQuery()
+            ->getResult();
+
+        if (!$admin) {
+            throw UserException::notUserExists();
+        }
+
+        return $admin[0];
+    }
 }
+

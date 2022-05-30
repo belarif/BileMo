@@ -90,9 +90,7 @@ class CustomerController extends AbstractController
                 );
             }
 
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($customerManagement->createCustomer($customerDTO), 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($customerManagement->createCustomer($customerDTO));
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -124,9 +122,7 @@ class CustomerController extends AbstractController
      */
     public function list(CustomerManagement $customerManagement): JsonResponse
     {
-        $hateoas = HateoasBuilder::create()->build();
-
-        return new JsonResponse($hateoas->serialize($customerManagement->customersList(), 'json'),Response::HTTP_OK,[],'json');
+        return $this->hateoasResponse($customerManagement->customersList());
     }
 
     /**
@@ -165,9 +161,7 @@ class CustomerController extends AbstractController
     public function show(int $customer_id, CustomerRepository $customerRepository): JsonResponse
     {
         try {
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($customerRepository->getCustomer($customer_id), 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($customerRepository->getCustomer($customer_id));
         } catch (CustomerException $e) {
             return $this->json(
                 [
@@ -263,10 +257,7 @@ class CustomerController extends AbstractController
                 );
             }
 
-            $customer = $customerManagement->updateCustomer($customerRepository->getCustomer($customer_id),$customerDTO);
-            $hateoas = HateoasBuilder::create()->build();
-
-            return new JsonResponse($hateoas->serialize($customer, 'json'),Response::HTTP_OK,[],'json');
+            return $this->hateoasResponse($customerManagement->updateCustomer($customerRepository->getCustomer($customer_id),$customerDTO));
         } catch (CustomerException $e) {
             return $this->json(
                 [
@@ -333,5 +324,11 @@ class CustomerController extends AbstractController
                 Response::HTTP_NOT_FOUND
             );
         }
+    }
+
+    private function hateoasResponse($data): JsonResponse {
+        $hateoas = HateoasBuilder::create()->build();
+
+        return new JsonResponse($hateoas->serialize($data, 'json'), Response::HTTP_OK, [], 'json');
     }
 }
