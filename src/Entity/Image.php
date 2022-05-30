@@ -22,7 +22,7 @@ class Image
     private string $src;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="images")
+     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="images", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private Product $product;

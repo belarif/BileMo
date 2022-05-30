@@ -68,6 +68,8 @@ class ProductDTO
      */
     private array $colors = [];
 
+    private array $images = [];
+
     /**
      * @return ColorDTO[]
      */
@@ -86,6 +88,27 @@ class ProductDTO
                 return $colorDTO;
             },
             $colors
+        );
+    }
+
+    /**
+     * @return ImageDTO[]
+     */
+    public function getImages(): array
+    {
+        return $this->images;
+    }
+
+    public function setImages(array $images): void
+    {
+        $this->images = array_map(
+            function ($image) {
+                $imageDTO = new ImageDTO();
+                $imageDTO->src = $image['src'];
+
+                return $imageDTO;
+            },
+            $images
         );
     }
 }
