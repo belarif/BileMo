@@ -16,9 +16,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Hateoas\HateoasBuilder;
 
 /**
- * @Route("/brands", "api_")
+ * @Route("/brands", name="api_")
  */
 class BrandController extends AbstractController
 {
@@ -94,7 +95,9 @@ class BrandController extends AbstractController
                 );
             }
 
-            return $this->json($brandManagement->createBrand($brandDTO), Response::HTTP_CREATED);
+            $hateoas = HateoasBuilder::create()->build();
+
+            return new JsonResponse($hateoas->serialize($brandManagement->createBrand($brandDTO), 'json'),Response::HTTP_OK,[],'json');
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -127,7 +130,9 @@ class BrandController extends AbstractController
      */
     public function list(BrandManagement $brandManagement): JsonResponse
     {
-        return $this->json($brandManagement->brandsList(), Response::HTTP_OK);
+        $hateoas = HateoasBuilder::create()->build();
+
+        return new JsonResponse($hateoas->serialize($brandManagement->brandsList(), 'json'),Response::HTTP_OK,[],'json');
     }
 
     /**
@@ -166,8 +171,9 @@ class BrandController extends AbstractController
     public function show(int $id, BrandRepository $brandRepository): JsonResponse
     {
         try {
-            return $this->json($brandRepository->getBrand($id), Response::HTTP_OK);
+            $hateoas = HateoasBuilder::create()->build();
 
+            return new JsonResponse($hateoas->serialize($brandRepository->getBrand($id), 'json'),Response::HTTP_OK,[],'json');
         } catch (BrandException $e) {
             return $this->json(
                 [
@@ -260,8 +266,10 @@ class BrandController extends AbstractController
                 );
             }
 
-            return $this->json($brandManagement->updateBrand($brandRepository->getBrand($id), $brandDTO), Response::HTTP_CREATED);
+            $brand = $brandManagement->updateBrand($brandRepository->getBrand($id), $brandDTO);
+            $hateoas = HateoasBuilder::create()->build();
 
+            return new JsonResponse($hateoas->serialize($brand, 'json'),Response::HTTP_OK,[],'json');
         } catch (BrandException $e) {
             return $this->json(
                 [

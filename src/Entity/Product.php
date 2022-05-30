@@ -8,12 +8,34 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
  * @UniqueEntity("name")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *     href = "expr('/bile-mo-api/v1/products/' ~ object.getId())"
+ * )
+ * @Hateoas\Relation(
+ *     "create",
+ *     href = "expr('/bile-mo-api/v1/products')"
+ * )
+ * @Hateoas\Relation(
+ *     "list",
+ *     href = "expr('/bile-mo-api/v1/products')"
+ * )
+ * @Hateoas\Relation(
+ *     "update",
+ *     href = "expr('/bile-mo-api/v1/products/' ~ object.getId())"
+ * )
+ * @Hateoas\Relation(
+ *     "delete",
+ *     href = "expr('/bile-mo-api/v1/products/' ~ object.getId())"
+ * )
  */
 class Product
 {
@@ -21,21 +43,16 @@ class Product
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     *
-     * @Groups({"show_product"})
      */
     protected int $id;
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
-     *
-     * @Groups({"show_product"})
      */
     private string $name;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"show_product"})
      */
     private string $description;
 
@@ -47,31 +64,23 @@ class Product
     /**
      * @ORM\ManyToOne(targetEntity=Country::class)
      * @ORM\JoinColumn(nullable=true)
-     *
-     * @Groups({"show_product"})
      */
     private Country $country;
 
     /**
      * @ORM\ManyToOne(targetEntity=Memory::class)
      * @ORM\JoinColumn(nullable=true)
-     *
-     * @Groups({"show_product"})
      */
     private Memory $memory;
 
     /**
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="product", orphanRemoval=true)
-     *
-     * @Groups({"show_product"})
      */
     private $images;
 
     /**
      * @ORM\ManyToOne(targetEntity=Brand::class)
      * @ORM\JoinColumn(nullable=true)
-     *
-     * @Groups({"show_product"})
      */
     private Brand $brand;
 
@@ -83,8 +92,6 @@ class Product
 
     /**
      * @ORM\ManyToMany(targetEntity=Color::class, inversedBy="products")
-     *
-     * @Groups({"show_product"})
      */
     private $colors;
 
@@ -238,3 +245,4 @@ class Product
         return $this;
     }
 }
+

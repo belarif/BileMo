@@ -6,12 +6,34 @@ use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
  * @UniqueEntity("company")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *     href = "expr('/bile-mo-api/v1/customers/' ~ object.getId())"
+ * )
+ * @Hateoas\Relation(
+ *     "create",
+ *     href = "expr('/bile-mo-api/v1/customers')"
+ * )
+ * @Hateoas\Relation(
+ *     "list",
+ *     href = "expr('/bile-mo-api/v1/customers')"
+ * )
+ * @Hateoas\Relation(
+ *     "update",
+ *     href = "expr('/bile-mo-api/v1/customers/' ~ object.getId())"
+ * )
+ * @Hateoas\Relation(
+ *     "delete",
+ *     href = "expr('/bile-mo-api/v1/customers/' ~ object.getId())"
+ * )
  */
 class Customer
 {
@@ -19,41 +41,26 @@ class Customer
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     *
-     * @Groups({"show_customer"})
-     * @Groups({"show_visitor"})
-     * @Groups({"show_product"})
      */
     protected int $id;
 
     /**
      * @ORM\Column(type="string", length=30)
-     *
-     * @Groups({"show_customer"})
-     * @Groups({"show_visitor"})
      */
     private string $code;
 
     /**
      * @ORM\Column(type="boolean")
-     *
-     * @Groups({"show_customer"})
-     * @Groups({"show_visitor"})
      */
     private ?bool $enabled;
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
-     *
-     * @Groups({"show_customer"})
-     * @Groups({"show_visitor"})
      */
     private $company;
 
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="customer", orphanRemoval=true)
-     *
-     * @Groups({"show_customer"})
      */
     private $users;
 
@@ -133,3 +140,4 @@ class Customer
         return $this;
     }
 }
+

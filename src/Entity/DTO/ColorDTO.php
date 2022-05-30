@@ -25,3 +25,4 @@ class ColorDTO
      */
     public string $name;
 }
+

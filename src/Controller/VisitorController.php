@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Exception\UserException;
 use Exception;
+use Hateoas\HateoasBuilder;
 use OpenApi\Annotations as OA;
 use App\Entity\DTO\UserDTO;
 use App\Repository\CustomerRepository;
@@ -112,13 +113,10 @@ class VisitorController extends AbstractController
                 );
             }
 
-            return $this->json(
-                $userManagement->createUser($userDTO, $customerRepository->getCustomer($customer_id)),
-                Response::HTTP_CREATED,
-                [],
-                ['groups' => ['show_visitor']]
-            );
+            $user = $userManagement->createUser($userDTO, $customerRepository->getCustomer($customer_id));
+            $hateoas = HateoasBuilder::create()->build();
 
+            return new JsonResponse($hateoas->serialize($user, 'json'),Response::HTTP_OK,[],'json');
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -160,9 +158,9 @@ class VisitorController extends AbstractController
     {
         try {
             $visitors = $userManagement->users($customerRepository->getCustomer($customer_id));
+            $hateoas = HateoasBuilder::create()->build();
 
-            return $this->json($visitors, Response::HTTP_OK, [], ['groups' => ['show_visitor']]);
-
+            return new JsonResponse($hateoas->serialize($visitors, 'json'),Response::HTTP_OK,[],'json');
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -182,16 +180,16 @@ class VisitorController extends AbstractController
      *     summary="Returns visitor by id",
      *     tags={"Visitors management"},
      *     @OA\Parameter(
-     *         name="visitor_id",
+     *         name="customer_id",
      *         in="path",
-     *         description="visitor ID",
+     *         description="customer ID",
      *         required=true,
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
-     *         name="customer_id",
+     *         name="visitor_id",
      *         in="path",
-     *         description="customer ID",
+     *         description="visitor ID",
      *         required=true,
      *         @OA\Schema(type="integer")
      *     ),
@@ -219,9 +217,9 @@ class VisitorController extends AbstractController
         try {
             $customer = $customerRepository->getCustomer($customer_id);
             $visitor = $userRepository->getVisitorOfCustomer($visitor_id, $customer);
+            $hateoas = HateoasBuilder::create()->build();
 
-            return $this->json($visitor, Response::HTTP_OK, [], ['groups' => ['show_visitor']]);
-
+            return new JsonResponse($hateoas->serialize($visitor,'json'),Response::HTTP_OK,[],'json');
         } catch (UserException $e) {
             return $this->json(
                 [
@@ -241,16 +239,16 @@ class VisitorController extends AbstractController
      *     summary="Updates a visitor by id",
      *     tags={"Visitors management"},
      *     @OA\Parameter(
-     *         name="visitor_id",
+     *         name="customer_id",
      *         in="path",
-     *         description="visitor ID",
+     *         description="customer ID",
      *         required=true,
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
-     *         name="customer_id",
+     *         name="visitor_id",
      *         in="path",
-     *         description="customer ID",
+     *         description="visitor ID",
      *         required=true,
      *         @OA\Schema(type="integer")
      *     ),
@@ -337,13 +335,10 @@ class VisitorController extends AbstractController
                 );
             }
 
-            return $this->json(
-                $userManagement->updateUser($userDTO, $userRepository->getUser($visitor_id), $customerRepository->getCustomer($customer_id)),
-                Response::HTTP_CREATED,
-                [],
-                ['groups' => ['show_visitor']]
-            );
+            $hateoas = HateoasBuilder::create()->build();
+            $user = $userManagement->updateUser($userDTO, $userRepository->getUser($visitor_id), $customerRepository->getCustomer($customer_id));
 
+            return new JsonResponse($hateoas->serialize($user,'json'),Response::HTTP_OK,[],'json');
         } catch (UserException $e) {
             return $this->json(
                 [
@@ -371,17 +366,17 @@ class VisitorController extends AbstractController
      *     summary="Deletes a visitor by id",
      *     tags={"Visitors management"},
      *     @OA\Parameter(
-     *         name="visitor_id",
-     *         in="path",
-     *         description="visitor ID",
-     *         required=true
-     *     ),
-     *     @OA\Parameter(
      *         name="customer_id",
      *         in="path",
      *         description="customer ID",
      *         required=true,
      *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="visitor_id",
+     *         in="path",
+     *         description="visitor ID",
+     *         required=true
      *     ),
      *     @OA\Response(
      *         response="204",
@@ -413,7 +408,6 @@ class VisitorController extends AbstractController
             $userManagement->deleteUser($userRepository->getVisitorOfCustomer($visitor_id, $customerRepository->getCustomer($customer_id)));
 
             return $this->json('Le visiteur a été supprimé avec succès', Response::HTTP_NO_CONTENT);
-
         } catch (UserException $e) {
             return $this->json(
                 [

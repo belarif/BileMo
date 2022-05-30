@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Hateoas\HateoasBuilder;
+
 
 /**
  * @Route("/customers", name="api_", requirements={"customer_id"="\d+"})
@@ -88,8 +90,9 @@ class CustomerController extends AbstractController
                 );
             }
 
-            return $this->json($customerManagement->createCustomer($customerDTO), Response::HTTP_CREATED);
+            $hateoas = HateoasBuilder::create()->build();
 
+            return new JsonResponse($hateoas->serialize($customerManagement->createCustomer($customerDTO), 'json'),Response::HTTP_OK,[],'json');
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -121,7 +124,9 @@ class CustomerController extends AbstractController
      */
     public function list(CustomerManagement $customerManagement): JsonResponse
     {
-        return $this->json($customerManagement->customersList(), Response::HTTP_OK, [], ['groups' => ['show_customer']]);
+        $hateoas = HateoasBuilder::create()->build();
+
+        return new JsonResponse($hateoas->serialize($customerManagement->customersList(), 'json'),Response::HTTP_OK,[],'json');
     }
 
     /**
@@ -160,8 +165,9 @@ class CustomerController extends AbstractController
     public function show(int $customer_id, CustomerRepository $customerRepository): JsonResponse
     {
         try {
-            return $this->json($customerRepository->getCustomer($customer_id), Response::HTTP_OK, [], ['groups' => ['show_customer']]);
+            $hateoas = HateoasBuilder::create()->build();
 
+            return new JsonResponse($hateoas->serialize($customerRepository->getCustomer($customer_id), 'json'),Response::HTTP_OK,[],'json');
         } catch (CustomerException $e) {
             return $this->json(
                 [
@@ -181,7 +187,7 @@ class CustomerController extends AbstractController
      *     summary="Updates a customer by id",
      *     tags={"Customers management"},
      *     @OA\Parameter(
-     *         name="id",
+     *         name="customer_id",
      *         in="path",
      *         description="customer ID",
      *         required=true,
@@ -195,7 +201,8 @@ class CustomerController extends AbstractController
      *                 property="company"
      *             ),
      *             @OA\Property(
-     *                 property="enabled"
+     *                 property="enabled",
+     *                 type="boolean"
      *             )
      *         )
      *     ),
@@ -256,13 +263,10 @@ class CustomerController extends AbstractController
                 );
             }
 
-            return $this->json(
-                $customerManagement->updateCustomer($customerRepository->getCustomer($customer_id) ,$customerDTO),
-                Response::HTTP_CREATED,
-                [],
-                ['groups' => ['show_customer']]
-            );
+            $customer = $customerManagement->updateCustomer($customerRepository->getCustomer($customer_id),$customerDTO);
+            $hateoas = HateoasBuilder::create()->build();
 
+            return new JsonResponse($hateoas->serialize($customer, 'json'),Response::HTTP_OK,[],'json');
         } catch (CustomerException $e) {
             return $this->json(
                 [

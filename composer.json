@@ -26,6 +26,7 @@
         "symfony/uid": "5.4.*",
         "symfony/validator": "5.4.*",
         "symfony/yaml": "5.4.*",
+        "willdurand/hateoas-bundle": "^2.4",
         "zircote/swagger-php": "^4.4"
     },
     "config": {

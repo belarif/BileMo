@@ -22,10 +22,6 @@ class BrandRepository extends ServiceEntityRepository
         parent::__construct($registry, Brand::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(Brand $entity, bool $flush = true): Brand
     {
         $this->_em->persist($entity);
@@ -36,10 +32,6 @@ class BrandRepository extends ServiceEntityRepository
         return $entity;
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function remove(Brand $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
@@ -66,3 +58,4 @@ class BrandRepository extends ServiceEntityRepository
         return $brand[0];
     }
 }
+

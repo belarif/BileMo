@@ -17,8 +17,6 @@ class CountryManagement
     }
 
     /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      * @throws CountryException
      */
     public function createCountry(CountryDTO $countryDTO): Country
@@ -39,8 +37,6 @@ class CountryManagement
     }
 
     /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      * @throws CountryException
      */
     public function updateCountry($country, CountryDTO $countryDTO): Country
@@ -52,12 +48,9 @@ class CountryManagement
         return $this->countryRepository->add($country->setName($countryDTO->name));
     }
 
-    /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
     public function deleteCountry($country)
     {
         $this->countryRepository->remove($country);
     }
 }
+

@@ -25,3 +25,4 @@ class CountryDTO
      */
     public string $name;
 }
+

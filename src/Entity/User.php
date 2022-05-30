@@ -8,10 +8,64 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @Serializer\ExclusionPolicy("ALL")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *     href = "expr('/bile-mo-api/v1/admins/' ~ object.getId())",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null !== object.getCustomer())")
+ * )
+ * @Hateoas\Relation(
+ *     "create",
+ *     href = "expr('/bile-mo-api/v1/admins')",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null !== object.getCustomer())")
+ * )
+ * @Hateoas\Relation(
+ *     "list",
+ *     href = "expr('/bile-mo-api/v1/admins')",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null !== object.getCustomer())")
+ * )
+ * @Hateoas\Relation(
+ *     "update",
+ *     href = "expr('/bile-mo-api/v1/admins/' ~ object.getId())",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null !== object.getCustomer())")
+ * )
+ * @Hateoas\Relation(
+ *     "delete",
+ *     href = "expr('/bile-mo-api/v1/admins/' ~ object.getId())",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null !== object.getCustomer())")
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *     href = "expr('/bile-mo-api/v1/customers/' ~ object.getCustomer().getId() ~ '/visitors/' ~ object.getId())",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
+ * )
+ * @Hateoas\Relation(
+ *     "create",
+ *     href = "expr('/bile-mo-api/v1/customers/' ~ object.getCustomer().getId() ~ '/visitors')",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
+ * )
+ * @Hateoas\Relation(
+ *     "list",
+ *     href = "expr('/bile-mo-api/v1/customers/' ~ object.getCustomer().getId() ~ '/visitors')",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
+ * )
+ * @Hateoas\Relation(
+ *     "update",
+ *     href = "expr('/bile-mo-api/v1/customers/' ~ object.getCustomer().getId() ~ '/visitors/' ~ object.getId())",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
+ * )
+ * @Hateoas\Relation(
+ *     "delete",
+ *     href = "expr('/bile-mo-api/v1/customers/' ~ object.getCustomer().getId() ~ '/visitors/' ~ object.getId())",
+ *     exclusion = @Hateoas\Exclusion(excludeIf = "expr(null === object.getCustomer())")
+ * )
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -20,18 +74,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
-     * @Groups({"show_visitor"})
-     * @Groups({"show_admin"})
-     * @Groups({"show_customer"})
+     * @Serializer\Expose()
      */
     protected int $id;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
      *
-     * @Groups({"show_visitor"})
-     * @Groups({"show_admin"})
-     * @Groups({"show_customer"})
+     * @Serializer\Expose()
      */
     private string $email;
 
@@ -39,24 +89,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      * @ORM\Column(type="string")
      *
-     * @Groups({"show_admin"})
-     * @Groups({"show_visitor"})
+     * @Serializer\Expose()
      */
     private string $password;
 
     /**
      * @ORM\ManyToMany(targetEntity=Role::class)
      *
-     * @Groups({"show_visitor"})
-     * @Groups({"show_admin"})
-     * @Groups({"show_customer"})
+     * @Serializer\Expose()
      */
     private $roles;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="users")
-     *
-     * @Groups({"show_visitor"})
      */
     private $customer;
 
@@ -190,3 +235,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 }
+

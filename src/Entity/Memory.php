@@ -4,12 +4,34 @@ namespace App\Entity;
 
 use App\Repository\MemoryRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * @ORM\Entity(repositoryClass=MemoryRepository::class)
  * @UniqueEntity("memoryCapacity")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *     href = "expr('/bile-mo-api/v1/memories/' ~ object.getId())"
+ * )
+ * @Hateoas\Relation(
+ *     "create",
+ *     href = "expr('/bile-mo-api/v1/memories')"
+ * )
+ * @Hateoas\Relation(
+ *     "list",
+ *     href = "expr('/bile-mo-api/v1/memories')"
+ * )
+ * @Hateoas\Relation(
+ *     "update",
+ *     href = "expr('/bile-mo-api/v1/memories/' ~ object.getId())"
+ * )
+ * @Hateoas\Relation(
+ *     "delete",
+ *     href = "expr('/bile-mo-api/v1/memories/' ~ object.getId())"
+ * )
  */
 class Memory
 {
@@ -17,15 +39,11 @@ class Memory
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     *
-     * @Groups({"show_product"})
      */
     protected int $id;
 
     /**
      * @ORM\Column(type="string", length=10, unique=true)
-     *
-     * @Groups({"show_product"})
      */
     private string $memoryCapacity;
 
@@ -46,3 +64,4 @@ class Memory
         return $this;
     }
 }
+

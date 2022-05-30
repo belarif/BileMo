@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Hateoas\HateoasBuilder;
 
 /**
  * @Route("/colors", name="api_")
@@ -84,7 +85,9 @@ class ColorController extends AbstractController
                 );
             }
 
-            return $this->json($colorManagement->createColor($colorDTO), Response::HTTP_CREATED);
+            $hateoas = HateoasBuilder::create()->build();
+
+            return new JsonResponse($hateoas->serialize($colorManagement->createColor($colorDTO), 'json'),Response::HTTP_OK,[],'json');
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -116,7 +119,9 @@ class ColorController extends AbstractController
      */
     public function list(ColorManagement $colorManagement): JsonResponse
     {
-        return $this->json($colorManagement->colorsList(), Response::HTTP_OK);
+        $hateoas = HateoasBuilder::create()->build();
+
+        return new JsonResponse($hateoas->serialize($colorManagement->colorsList(), 'json'),Response::HTTP_OK,[],'json');
     }
 
     /**
@@ -155,7 +160,9 @@ class ColorController extends AbstractController
     public function show(int $id, ColorRepository $colorRepository): JsonResponse
     {
         try {
-            return $this->json($colorRepository->getColor($id), Response::HTTP_OK);
+            $hateoas = HateoasBuilder::create()->build();
+
+            return new JsonResponse($hateoas->serialize($colorRepository->getColor($id), 'json'),Response::HTTP_OK,[],'json');
         }
         catch (ColorException $e) {
             return $this->json(
@@ -248,7 +255,10 @@ class ColorController extends AbstractController
                 );
             }
 
-            return $this->json($colorManagement->updateColor($colorRepository->getColor($id), $colorDTO), Response::HTTP_CREATED);
+            $color = $colorManagement->updateColor($colorRepository->getColor($id), $colorDTO);
+            $hateoas = HateoasBuilder::create()->build();
+
+            return new JsonResponse($hateoas->serialize($color, 'json'),Response::HTTP_OK,[],'json');
         } catch (ColorException $e) {
             return $this->json(
                 [

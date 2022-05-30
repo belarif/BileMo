@@ -17,8 +17,6 @@ class ColorManagement
     }
 
     /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      * @throws ColorException
      */
     public function createColor(ColorDTO $colorDTO): Color
@@ -39,8 +37,6 @@ class ColorManagement
     }
 
     /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      * @throws ColorException
      */
     public function updateColor($color, ColorDTO $colorDTO): Color
@@ -56,12 +52,10 @@ class ColorManagement
      * @param $color
      *
      * @return void
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function deleteColor($color)
     {
         $this->colorRepository->remove($color);
     }
 }
+

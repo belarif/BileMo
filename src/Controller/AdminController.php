@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Exception\UserException;
 use App\Repository\UserRepository;
+use Hateoas\HateoasBuilder;
 use OpenApi\Annotations as OA;
 use Exception;
 use App\Entity\DTO\UserDTO;
@@ -100,8 +101,7 @@ class AdminController extends AbstractController
                 );
             }
 
-            return $this->json($userManagement->createUser($userDTO, null), Response::HTTP_CREATED, [], ['groups' => 'show_admin']);
-
+            return $this->hateoasResponse($userManagement->createUser($userDTO, null));
         } catch (Exception $e) {
             return $this->json(
                 [
@@ -134,7 +134,7 @@ class AdminController extends AbstractController
      */
     public function list(UserManagement $userManagement): JsonResponse
     {
-        return $this->json($admins = $userManagement->users(null), Response::HTTP_OK, [], ['groups' => 'show_admin']);
+        return $this->hateoasResponse($userManagement->users(null));
     }
 
     /**
@@ -173,8 +173,7 @@ class AdminController extends AbstractController
     public function show(int $admin_id, UserRepository $userRepository): JsonResponse
     {
         try {
-            return $this->json($userRepository->getUser($admin_id), Response::HTTP_OK, [], ['groups' => 'show_admin']);
-
+            return $this->hateoasResponse($userRepository->getUser($admin_id));
         } catch (UserException $e) {
             return $this->json(
                 [
@@ -280,13 +279,7 @@ class AdminController extends AbstractController
                 );
             }
 
-            return $this->json(
-                $userManagement->updateUser($userDTO,$userRepository->getUser($admin_id), null),
-                Response::HTTP_CREATED,
-                [],
-                ['groups' => 'show_admin']
-            );
-
+            return $this->hateoasResponse($userManagement->updateUser($userDTO,$userRepository->getUser($admin_id), null));
         } catch (UserException $e) {
             return $this->json(
                 [
@@ -343,7 +336,6 @@ class AdminController extends AbstractController
             $userManagement->deleteUser($userRepository->getUser($admin_id));
 
             return $this->json('L\'administrateur a été supprimé avec succès', Response::HTTP_NO_CONTENT);
-
         } catch (UserException $e) {
             return $this->json(
                 [
@@ -355,4 +347,11 @@ class AdminController extends AbstractController
 
         }
     }
+
+    private function hateoasResponse($data): JsonResponse {
+        $hateoas = HateoasBuilder::create()->build();
+
+        return new JsonResponse($hateoas->serialize($data, 'json'), Response::HTTP_OK, [], 'json');
+    }
 }
+
