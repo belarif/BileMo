@@ -4,18 +4,31 @@ namespace App\Service;
 
 use App\Entity\Customer;
 use App\Entity\DTO\CustomerDTO;
+use App\Entity\User;
 use App\Exception\CustomerException;
 use App\Repository\CustomerRepository;
+use App\Repository\RoleRepository;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Uid\Ulid;
 
 class CustomerManagement
 {
+    public const ROLE_CUSTOMER = 'ROLE_CUSTOMER';
+
     private CustomerRepository $customerRepository;
 
+    private RoleRepository $roleRepository;
+
+    private UserPasswordHasherInterface $passwordHasher;
+
     public function __construct(
-        CustomerRepository $customerRepository
+        CustomerRepository $customerRepository,
+        RoleRepository $roleRepository,
+        UserPasswordHasherInterface $passwordHasher
     ) {
         $this->customerRepository = $customerRepository;
+        $this->roleRepository = $roleRepository;
+        $this->passwordHasher = $passwordHasher;
     }
 
     /**
@@ -34,6 +47,13 @@ class CustomerManagement
         $customer->setEnabled($customerDTO->enabled);
         $customer->setCompany($customerDTO->company);
 
+        $user = new User();
+
+        $user->setEmail($customerDTO->email);
+        $user->setPassword($this->passwordHasher->hashPassword($user, $customerDTO->password));
+        $user->addRole($this->roleRepository->findOneBy(['roleName' => self::ROLE_CUSTOMER]));
+        $customer->addUser($user);
+
         return $this->customerRepository->add($customer);
     }
 
@@ -50,11 +70,18 @@ class CustomerManagement
         if ($this->customerRepository->findBy(['company' => $customerDTO->company])) {
             throw CustomerException::customerExists($customerDTO->company);
         }
-
-        $customer->setCompany($customerDTO->company);
+        //$customer->setCompany($customerDTO->company);
         $customer->setEnabled($customerDTO->enabled);
 
-        return $this->customerRepository->add($customer);
+        $user = new User();
+
+        //$user->setEmail($customerDTO->email);
+        $user->setPassword($this->passwordHasher->hashPassword($user, $customerDTO->password));
+        //$user->addRole($this->roleRepository->findOneBy(['roleName' => self::ROLE_CUSTOMER]));
+        $customer->addUser($user);
+
+        return $this->customerRepository->add($customer,true);
+
     }
 
     public function deletecCustomer($customer)

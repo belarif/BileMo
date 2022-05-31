@@ -9,7 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 class RoleFixtures extends Fixture
 {
     public const ROLE_ADMIN = 'ROLE_ADMIN';
-    public const ROLE_CUSTOMER_ADMIN = 'ROLE_CUSTOMER_ADMIN';
+    public const ROLE_CUSTOMER = 'ROLE_CUSTOMER';
     public const ROLE_VISITOR = 'ROLE_VISITOR';
 
     /**
@@ -19,7 +19,7 @@ class RoleFixtures extends Fixture
     {
         $roles = [
             ['roleName' => self::ROLE_ADMIN],
-            ['roleName' => self::ROLE_CUSTOMER_ADMIN],
+            ['roleName' => self::ROLE_CUSTOMER],
             ['roleName' => self::ROLE_VISITOR],
         ];
 
