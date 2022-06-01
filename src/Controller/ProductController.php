@@ -327,22 +327,10 @@ class ProductController extends AbstractController
         Request $request,
         SerializerInterface $serializer,
         ProductRepository $productRepository,
-        ProductManagement $productManagement,
-        ValidatorInterface $validator
+        ProductManagement $productManagement
     ): JsonResponse {
         try {
             $productDTO = $serializer->deserialize($request->getContent(), ProductDTO::class, 'json');
-
-            $errors = $validator->validate($productDTO);
-            if ($errors->count()) {
-                return $this->json(
-                    [
-                        'success' => false,
-                        'message' => $errors[0]->getMessage(),
-                    ],
-                    Response::HTTP_BAD_REQUEST
-                );
-            }
 
             return $this->hateoasResponse($productManagement->updateProduct($productRepository->getProduct($id), $productDTO));
         } catch (ProductException $e) {

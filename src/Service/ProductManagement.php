@@ -47,7 +47,7 @@ class ProductManagement
     /**
      * @throws ProductException
      */
-    public function createProduct(ProductDTO $productDTO)
+    public function createProduct(ProductDTO $productDTO): Product
     {
         $brand = $this->brandRepository->findOneBy(['id' => $productDTO->brand->id]);
         $memory = $this->memoryRepository->findOneBy(['id' => $productDTO->memory->id]);
@@ -101,11 +101,6 @@ class ProductManagement
         $country = $this->countryRepository->findOneBy(['id' => $productDTO->country->id]);
         $user = $this->userRepository->findOneBy(['id' => $productDTO->user->id]);
 
-        if ($this->productRepository->findBy(['name' => $productDTO->name])) {
-            throw ProductException::ProductExists($productDTO->name);
-        }
-
-        $product->setName($productDTO->name);
         $product->setDescription($productDTO->description);
         $product->setBrand($brand);
         $product->setMemory($memory);
