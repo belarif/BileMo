@@ -31,9 +31,18 @@ class CountryManagement
         return $this->countryRepository->add($country);
     }
 
+    /**
+     * @throws CountryException
+     */
     public function countriesList(): array
     {
-        return $this->countryRepository->findAll();
+        $countries = $this->countryRepository->findAll();
+
+        if (!$countries) {
+            throw CountryException::notCountryExists();
+        }
+
+        return $countries;
     }
 
     /**
