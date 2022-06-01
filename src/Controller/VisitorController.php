@@ -319,22 +319,10 @@ class VisitorController extends AbstractController
         SerializerInterface $serializer,
         UserManagement $userManagement,
         UserRepository $userRepository,
-        CustomerRepository $customerRepository,
-        ValidatorInterface $validator
+        CustomerRepository $customerRepository
     ): JsonResponse {
         try {
             $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
-
-            $errors = $validator->validate($userDTO);
-            if ($errors->count()) {
-                return $this->json(
-                    [
-                        'success' => false,
-                        'message' => $errors[0]->getMessage(),
-                    ],
-                    Response::HTTP_BAD_REQUEST
-                );
-            }
 
             $customer = $customerRepository->getCustomer($customer_id);
 
