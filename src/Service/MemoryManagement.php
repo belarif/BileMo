@@ -30,9 +30,18 @@ class MemoryManagement
         return $this->memoryRepository->add($memory);
     }
 
+    /**
+     * @throws MemoryException
+     */
     public function memoriesList()
     {
-        return $this->memoryRepository->findAll();
+        $memories = $this->memoryRepository->findAll();
+
+        if (!$memories) {
+            throw MemoryException::notMemoryExists();
+        }
+
+        return $memories;
     }
 
     public function updateMemory($memory, $memoryDTO): Memory

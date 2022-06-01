@@ -116,7 +116,17 @@ class MemoryController extends AbstractController
      */
     public function list(MemoryManagement $memoryManagement): JsonResponse
     {
-        return $this->hateoasResponse($memoryManagement->memoriesList());
+        try {
+            return $this->hateoasResponse($memoryManagement->memoriesList());
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
     }
 
     /**
