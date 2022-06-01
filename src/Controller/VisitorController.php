@@ -158,9 +158,9 @@ class VisitorController extends AbstractController
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage(),
+                    'message' => $e->getMessage()
                 ],
-                Response::HTTP_CONFLICT
+                Response::HTTP_NOT_FOUND
             );
         }
     }
