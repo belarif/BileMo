@@ -126,7 +126,17 @@ class BrandController extends AbstractController
      */
     public function list(BrandManagement $brandManagement): JsonResponse
     {
-        return $this->hateoasResponse($brandManagement->brandsList());
+        try {
+            return $this->hateoasResponse($brandManagement->brandsList());
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
     }
 
     /**

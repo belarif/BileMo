@@ -31,9 +31,18 @@ class BrandManagement
         return $this->brandRepository->add($brand);
     }
 
+    /**
+     * @throws BrandException
+     */
     public function brandsList(): array
     {
-        return $this->brandRepository->findAll();
+        $brands = $this->brandRepository->findAll();
+
+        if (!$brands) {
+            throw BrandException::notBrandExists();
+        }
+
+        return $brands;
     }
 
     /**

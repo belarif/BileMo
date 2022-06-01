@@ -12,7 +12,6 @@ use App\Repository\CountryRepository;
 use App\Repository\MemoryRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
-use Doctrine\ORM\Exception\ORMException;
 
 class ProductManagement
 {
@@ -80,6 +79,9 @@ class ProductManagement
         return $this->productRepository->add($product);
     }
 
+    /**
+     * @throws ProductException
+     */
     public function productsList(): array
     {
         $products = $this->productRepository->findAll();
