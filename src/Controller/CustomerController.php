@@ -120,7 +120,17 @@ class CustomerController extends AbstractController
      */
     public function list(CustomerManagement $customerManagement): JsonResponse
     {
-        return $this->hateoasResponse($customerManagement->customersList());
+        try {
+            return $this->hateoasResponse($customerManagement->customersList());
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
     }
 
     /**

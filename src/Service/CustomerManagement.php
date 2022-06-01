@@ -57,9 +57,18 @@ class CustomerManagement
         return $this->customerRepository->add($customer);
     }
 
+    /**
+     * @throws CustomerException
+     */
     public function customersList(): array
     {
-        return $this->customerRepository->findAll();
+        $customers = $this->customerRepository->findAll();
+
+        if (!$customers) {
+            throw CustomerException::notCustomerExists();
+        }
+
+        return $customers;
     }
 
     /**

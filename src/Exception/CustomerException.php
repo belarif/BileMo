@@ -13,6 +13,6 @@ class CustomerException extends Exception
 
     public static function notCustomerExists(): CustomerException
     {
-        return new self("Le client demandé n'existe pas !");
+        return new self("Aucun client trouvé");
     }
 }
