@@ -166,7 +166,17 @@ class ProductController extends AbstractController
      */
     public function list(ProductManagement $productManagement): JsonResponse
     {
-        return $this->hateoasResponse($productManagement->productsList());
+        try {
+            return $this->hateoasResponse($productManagement->productsList());
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
     }
 
     /**

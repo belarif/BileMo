@@ -85,7 +85,7 @@ class ProductManagement
         $products = $this->productRepository->findAll();
 
         if (!$products) {
-            throw new ORMException('aucun produit existant !');
+            throw ProductException::notProductExists();
         }
 
         return $products;
