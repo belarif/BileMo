@@ -79,7 +79,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function getVisitorOfCustomer($visitor_id, $customer): User
     {
         $visitor = $this->createQueryBuilder('u')
-            /*->innerJoin('u.roles', 'r', 'WITH', 'r.id='.$roleVisitor)*/
             ->andWhere('u.id = :id')
             ->setParameter('id', $visitor_id)
             ->andWhere('u.customer = :customer')
