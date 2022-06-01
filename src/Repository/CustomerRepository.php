@@ -20,12 +20,12 @@ class CustomerRepository extends ServiceEntityRepository
         parent::__construct($registry, Customer::class);
     }
 
-    public function add(Customer $entity, bool $isUpdate = false): Customer
+    public function add(Customer $entity, bool $flush = true): Customer
     {
-        if (!$isUpdate) {
-            $this->_em->persist($entity);
+        $this->_em->persist($entity);
+        if ($flush) {
+            $this->_em->flush();
         }
-        $this->_em->flush();
 
         return $entity;
     }

@@ -238,22 +238,10 @@ class CustomerController extends AbstractController
         Request $request,
         SerializerInterface $serializer,
         CustomerManagement $customerManagement,
-        CustomerRepository $customerRepository,
-        ValidatorInterface $validator
+        CustomerRepository $customerRepository
     ): JsonResponse {
         try {
             $customerDTO = $serializer->deserialize($request->getContent(), CustomerDTO::class, 'json');
-
-            $errors = $validator->validate($customerDTO);
-            if ($errors->count()) {
-                return $this->json(
-                    [
-                        'success' => false,
-                        'message' => $errors[0]->getMessage(),
-                    ],
-                    Response::HTTP_BAD_REQUEST
-                );
-            }
 
             return $this->hateoasResponse($customerManagement->updateCustomer($customerRepository->getCustomer($customer_id), $customerDTO));
         } catch (CustomerException $e) {

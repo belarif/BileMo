@@ -67,21 +67,9 @@ class CustomerManagement
      */
     public function updateCustomer($customer, CustomerDTO $customerDTO): Customer
     {
-        if ($this->customerRepository->findBy(['company' => $customerDTO->company])) {
-            throw CustomerException::customerExists($customerDTO->company);
-        }
-        //$customer->setCompany($customerDTO->company);
         $customer->setEnabled($customerDTO->enabled);
 
-        $user = new User();
-
-        //$user->setEmail($customerDTO->email);
-        $user->setPassword($this->passwordHasher->hashPassword($user, $customerDTO->password));
-        //$user->addRole($this->roleRepository->findOneBy(['roleName' => self::ROLE_CUSTOMER]));
-        $customer->addUser($user);
-
-        return $this->customerRepository->add($customer,true);
-
+        return $this->customerRepository->add($customer);
     }
 
     public function deletecCustomer($customer)

@@ -204,13 +204,23 @@ class VisitorController extends AbstractController
      *         )
      *     )
      * )
-     *
-     * @throws CustomerException
      */
     public function show(int $customer_id, int $visitor_id, CustomerRepository $customerRepository, UserRepository $userRepository): JsonResponse
     {
         try {
-            return $this->hateoasResponse($this->visitorUser($userRepository, $visitor_id, $customerRepository->getCustomer($customer_id)));
+            try {
+                $customer = $customerRepository->getCustomer($customer_id);
+            } catch (CustomerException $e) {
+                return $this->json(
+                    [
+                        'success' => false,
+                        'message' => $e->getMessage(),
+                    ],
+                    Response::HTTP_NOT_FOUND
+                );
+            }
+
+            return $this->hateoasResponse($this->visitorUser($userRepository, $visitor_id, $customer));
         } catch (UserException $e) {
             return $this->json(
                 [
@@ -419,6 +429,6 @@ class VisitorController extends AbstractController
 
     private function visitorUser($userRepository, $visitor_id, $customer)
     {
-        return $userRepository->getVisitorOfCustomer($visitor_id, 3, $customer);
+        return $userRepository->getVisitorOfCustomer($visitor_id, $customer);
     }
 }
