@@ -29,6 +29,7 @@ security:
             pattern: ^/bile-mo-api
             stateless: true
             jwt: ~
+            access_denied_handler: App\Security\AccessDeniedHandler
 
         main:
             lazy: true
