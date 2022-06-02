@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/products", name="api_")
@@ -24,6 +25,8 @@ class ProductController extends AbstractController
 {
     /**
      * @Route("", name="create_product", methods={"POST"})
+     *
+     * @IsGranted("ROLE_ADMIN")
      *
      * @OA\Post(
      *     path="/products",
@@ -149,6 +152,8 @@ class ProductController extends AbstractController
     /**
      * @Route("", name="products_list", methods={"GET"})
      *
+     * @IsGranted("PUBLIC_ACCESS")
+     *
      * @OA\Get(
      *     path="/products",
      *     summary="Returns list of products",
@@ -181,6 +186,8 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/{id}", name="show_product", methods={"GET"}, requirements={"id"="\d+"})
+     *
+     * @IsGranted("PUBLIC_ACCESS")
      *
      * @OA\Get(
      *     path="/products/{id}",
@@ -229,6 +236,8 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/{id}", name="update_product", methods={"PUT"}, requirements={"id"="\d+"})
+     *
+     * @IsGranted("ROLE_ADMIN")
      *
      * @OA\Put(
      *     path="/products/{id}",
@@ -364,6 +373,8 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete_product", methods={"DELETE"}, requirements={"id"="\d+"})
+     *
+     * @IsGranted("ROLE_ADMIN")
      *
      * @OA\Delete(
      *     path="/products/{id}",

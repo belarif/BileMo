@@ -18,9 +18,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/customers/{customer_id}/visitors", name="api_", requirements={"customer_id"="\d+"})
+ *
+ * @IsGranted("ROLE_CUSTOMER")
  */
 class VisitorController extends AbstractController
 {

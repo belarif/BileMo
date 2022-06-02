@@ -18,15 +18,15 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         login:
-            pattern: ^/api/login
+            pattern: ^/bile-mo-api/v1/login
             stateless: true
             json_login:
-                check_path: /api/login
+                check_path: /bile-mo-api/v1/login
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
-        api:
-            pattern: ^/api
+        bile-mo-api:
+            pattern: ^/bile-mo-api
             stateless: true
             jwt: ~
 
@@ -42,9 +42,14 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
+
     access_control:
-        - { path: ^/api/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/bile-mo-api/v1/login, roles: PUBLIC_ACCESS }
+        - { path: ^/bile-mo-api/v1/admins, roles: ROLE_ADMIN }
+        - { path: ^/bile-mo-api/v1/brands, roles: ROLE_ADMIN }
+        - { path: ^/bile-mo-api/v1/colors, roles: ROLE_ADMIN }
+        - { path: ^/bile-mo-api/v1/countries, roles: ROLE_ADMIN }
+        - { path: ^/bile-mo-api/v1/memories, roles: ROLE_ADMIN }
 
 when@test:
     security:
