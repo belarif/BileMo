@@ -8,9 +8,10 @@
 /var/
 /vendor/
 /.idea/
-/http-request/
 /symfony.lock
 ###< symfony/framework-bundle ###
+
+/http-request/
 
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem

@@ -31,9 +31,18 @@ class ColorManagement
         return $this->colorRepository->add($color);
     }
 
+    /**
+     * @throws ColorException
+     */
     public function colorsList(): array
     {
-        return $this->colorRepository->findAll();
+        $colors = $this->colorRepository->findAll();
+
+        if (!$colors) {
+            throw ColorException::notColorExists();
+        }
+
+        return $colors;
     }
 
     /**

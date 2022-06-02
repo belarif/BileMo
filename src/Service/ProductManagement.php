@@ -12,7 +12,6 @@ use App\Repository\CountryRepository;
 use App\Repository\MemoryRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
-use Doctrine\ORM\Exception\ORMException;
 
 class ProductManagement
 {
@@ -47,7 +46,7 @@ class ProductManagement
     /**
      * @throws ProductException
      */
-    public function createProduct(ProductDTO $productDTO)
+    public function createProduct(ProductDTO $productDTO): Product
     {
         $brand = $this->brandRepository->findOneBy(['id' => $productDTO->brand->id]);
         $memory = $this->memoryRepository->findOneBy(['id' => $productDTO->memory->id]);
@@ -80,12 +79,15 @@ class ProductManagement
         return $this->productRepository->add($product);
     }
 
+    /**
+     * @throws ProductException
+     */
     public function productsList(): array
     {
         $products = $this->productRepository->findAll();
 
         if (!$products) {
-            throw new ORMException('aucun produit existant !');
+            throw ProductException::notProductExists();
         }
 
         return $products;
@@ -101,11 +103,6 @@ class ProductManagement
         $country = $this->countryRepository->findOneBy(['id' => $productDTO->country->id]);
         $user = $this->userRepository->findOneBy(['id' => $productDTO->user->id]);
 
-        if ($this->productRepository->findBy(['name' => $productDTO->name])) {
-            throw ProductException::ProductExists($productDTO->name);
-        }
-
-        $product->setName($productDTO->name);
         $product->setDescription($productDTO->description);
         $product->setBrand($brand);
         $product->setMemory($memory);
@@ -114,6 +111,13 @@ class ProductManagement
 
         foreach ($productDTO->getColors() as $color) {
             $product->addColor($this->colorRepository->findOneBy(['id' => $color->id]));
+        }
+
+        foreach ($productDTO->getImages() as $productImage) {
+            $image = new Image();
+
+            $image->setSrc($productImage->src);
+            $product->addImage($image);
         }
 
         return $this->productRepository->add($product);

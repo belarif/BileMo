@@ -26,7 +26,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $users = [
-            ['email' => 'example@gmail.com', 'password' => 'admin'],
+            ['email' => 'admin1@gmail.com', 'password' => 'admin1', 'role' => $this->roleRepository->findBy(['roleName' => RoleFixtures::ROLE_ADMIN])],
+            ['email' => 'visitor1@gmail.com', 'password' => 'visitor1', 'role' => $this->roleRepository->findBy(['roleName' => RoleFixtures::ROLE_VISITOR])]
         ];
 
         foreach ($users as $addUser) {
@@ -34,9 +35,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
             $user->setEmail($addUser['email']);
             $user->setPassword($this->hasher->hashPassword($user, $addUser['password']));
-
-            $role = $this->roleRepository->findBy(['roleName' => RoleFixtures::ROLE_ADMIN]);
-            $user->setRoles($role);
+            $user->setRoles($addUser['role']);
 
             $manager->persist($user);
             $manager->flush();

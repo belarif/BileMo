@@ -13,6 +13,6 @@ class UserException extends Exception
 
     public static function notUserExists(): UserException
     {
-        return new self("L'utilisateur demandé n'existe pas");
+        return new self("Aucun utilisateur trouvé");
     }
 }

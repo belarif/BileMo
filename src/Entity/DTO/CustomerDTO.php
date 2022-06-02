@@ -38,4 +38,8 @@ class CustomerDTO
      * @OA\Property(type="array")
      */
     public user $users;
+
+    public string $email;
+
+    public string $password;
 }

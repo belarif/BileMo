@@ -18,9 +18,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/customers/{customer_id}/visitors", name="api_", requirements={"customer_id"="\d+"})
+ *
+ * @IsGranted("ROLE_CUSTOMER")
  */
 class VisitorController extends AbstractController
 {
@@ -158,9 +161,9 @@ class VisitorController extends AbstractController
             return $this->json(
                 [
                     'success' => false,
-                    'message' => $e->getMessage(),
+                    'message' => $e->getMessage()
                 ],
-                Response::HTTP_CONFLICT
+                Response::HTTP_NOT_FOUND
             );
         }
     }
@@ -204,13 +207,23 @@ class VisitorController extends AbstractController
      *         )
      *     )
      * )
-     *
-     * @throws CustomerException
      */
     public function show(int $customer_id, int $visitor_id, CustomerRepository $customerRepository, UserRepository $userRepository): JsonResponse
     {
         try {
-            return $this->hateoasResponse($this->visitorUser($userRepository, $visitor_id, $customerRepository->getCustomer($customer_id)));
+            try {
+                $customer = $customerRepository->getCustomer($customer_id);
+            } catch (CustomerException $e) {
+                return $this->json(
+                    [
+                        'success' => false,
+                        'message' => $e->getMessage(),
+                    ],
+                    Response::HTTP_NOT_FOUND
+                );
+            }
+
+            return $this->hateoasResponse($this->visitorUser($userRepository, $visitor_id, $customer));
         } catch (UserException $e) {
             return $this->json(
                 [
@@ -309,22 +322,10 @@ class VisitorController extends AbstractController
         SerializerInterface $serializer,
         UserManagement $userManagement,
         UserRepository $userRepository,
-        CustomerRepository $customerRepository,
-        ValidatorInterface $validator
+        CustomerRepository $customerRepository
     ): JsonResponse {
         try {
             $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
-
-            $errors = $validator->validate($userDTO);
-            if ($errors->count()) {
-                return $this->json(
-                    [
-                        'success' => false,
-                        'message' => $errors[0]->getMessage(),
-                    ],
-                    Response::HTTP_BAD_REQUEST
-                );
-            }
 
             $customer = $customerRepository->getCustomer($customer_id);
 
@@ -419,6 +420,6 @@ class VisitorController extends AbstractController
 
     private function visitorUser($userRepository, $visitor_id, $customer)
     {
-        return $userRepository->getVisitorOfCustomer($visitor_id, 3, $customer);
+        return $userRepository->getVisitorOfCustomer($visitor_id, $customer);
     }
 }

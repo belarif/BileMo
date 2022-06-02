@@ -116,7 +116,17 @@ class CountryController extends AbstractController
      */
     public function list(CountryManagement $countryManagement): JsonResponse
     {
-        return $this->hateoasResponse($countryManagement->countriesList());
+        try {
+            return $this->hateoasResponse($countryManagement->countriesList());
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
     }
 
     /**

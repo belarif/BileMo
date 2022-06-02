@@ -116,7 +116,17 @@ class ColorController extends AbstractController
      */
     public function list(ColorManagement $colorManagement): JsonResponse
     {
-        return $this->hateoasResponse($colorManagement->colorsList());
+        try {
+            return $this->hateoasResponse($colorManagement->colorsList());
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
     }
 
     /**

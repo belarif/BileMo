@@ -53,13 +53,22 @@ class UserManagement
         return $this->userRepository->add($user);
     }
 
+    /**
+     * @throws UserException
+     */
     public function users($customer): array
     {
         if (!$customer) {
             return $this->userRepository->findBy(['customer' => null]);
         }
 
-        return $this->userRepository->findBy(['customer' => $customer->getId()]);
+        $users = $this->userRepository->findBy(['customer' => $customer->getId()]);
+
+        if (!$users) {
+            throw UserException::notUserExists();
+        }
+
+        return $users;
     }
 
     /**

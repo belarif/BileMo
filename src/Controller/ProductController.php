@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/products", name="api_")
@@ -24,6 +25,8 @@ class ProductController extends AbstractController
 {
     /**
      * @Route("", name="create_product", methods={"POST"})
+     *
+     * @IsGranted("ROLE_ADMIN")
      *
      * @OA\Post(
      *     path="/products",
@@ -149,6 +152,8 @@ class ProductController extends AbstractController
     /**
      * @Route("", name="products_list", methods={"GET"})
      *
+     * @IsGranted("PUBLIC_ACCESS")
+     *
      * @OA\Get(
      *     path="/products",
      *     summary="Returns list of products",
@@ -166,11 +171,23 @@ class ProductController extends AbstractController
      */
     public function list(ProductManagement $productManagement): JsonResponse
     {
-        return $this->hateoasResponse($productManagement->productsList());
+        try {
+            return $this->hateoasResponse($productManagement->productsList());
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
     }
 
     /**
      * @Route("/{id}", name="show_product", methods={"GET"}, requirements={"id"="\d+"})
+     *
+     * @IsGranted("PUBLIC_ACCESS")
      *
      * @OA\Get(
      *     path="/products/{id}",
@@ -219,6 +236,8 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/{id}", name="update_product", methods={"PUT"}, requirements={"id"="\d+"})
+     *
+     * @IsGranted("ROLE_ADMIN")
      *
      * @OA\Put(
      *     path="/products/{id}",
@@ -327,22 +346,10 @@ class ProductController extends AbstractController
         Request $request,
         SerializerInterface $serializer,
         ProductRepository $productRepository,
-        ProductManagement $productManagement,
-        ValidatorInterface $validator
+        ProductManagement $productManagement
     ): JsonResponse {
         try {
             $productDTO = $serializer->deserialize($request->getContent(), ProductDTO::class, 'json');
-
-            $errors = $validator->validate($productDTO);
-            if ($errors->count()) {
-                return $this->json(
-                    [
-                        'success' => false,
-                        'message' => $errors[0]->getMessage(),
-                    ],
-                    Response::HTTP_BAD_REQUEST
-                );
-            }
 
             return $this->hateoasResponse($productManagement->updateProduct($productRepository->getProduct($id), $productDTO));
         } catch (ProductException $e) {
@@ -366,6 +373,8 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete_product", methods={"DELETE"}, requirements={"id"="\d+"})
+     *
+     * @IsGranted("ROLE_ADMIN")
      *
      * @OA\Delete(
      *     path="/products/{id}",

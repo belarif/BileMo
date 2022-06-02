@@ -132,7 +132,17 @@ class AdminController extends AbstractController
      */
     public function list(UserManagement $userManagement): JsonResponse
     {
-        return $this->hateoasResponse($userManagement->users(null));
+        try {
+            return $this->hateoasResponse($userManagement->users(null));
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
     }
 
     /**

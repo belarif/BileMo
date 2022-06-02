@@ -16,9 +16,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/customers", name="api_", requirements={"customer_id"="\d+"})
+ *
+ * @IsGranted("ROLE_ADMIN")
  */
 class CustomerController extends AbstractController
 {
@@ -120,7 +123,17 @@ class CustomerController extends AbstractController
      */
     public function list(CustomerManagement $customerManagement): JsonResponse
     {
-        return $this->hateoasResponse($customerManagement->customersList());
+        try {
+            return $this->hateoasResponse($customerManagement->customersList());
+        } catch (Exception $e) {
+            return $this->json(
+                [
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
     }
 
     /**
@@ -238,22 +251,10 @@ class CustomerController extends AbstractController
         Request $request,
         SerializerInterface $serializer,
         CustomerManagement $customerManagement,
-        CustomerRepository $customerRepository,
-        ValidatorInterface $validator
+        CustomerRepository $customerRepository
     ): JsonResponse {
         try {
             $customerDTO = $serializer->deserialize($request->getContent(), CustomerDTO::class, 'json');
-
-            $errors = $validator->validate($customerDTO);
-            if ($errors->count()) {
-                return $this->json(
-                    [
-                        'success' => false,
-                        'message' => $errors[0]->getMessage(),
-                    ],
-                    Response::HTTP_BAD_REQUEST
-                );
-            }
 
             return $this->hateoasResponse($customerManagement->updateCustomer($customerRepository->getCustomer($customer_id), $customerDTO));
         } catch (CustomerException $e) {

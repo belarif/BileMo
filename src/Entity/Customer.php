@@ -59,7 +59,7 @@ class Customer
     private $company;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="customer", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="customer", orphanRemoval=true, cascade={"persist","remove"})
      */
     private $users;
 
