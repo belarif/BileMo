@@ -13,6 +13,6 @@ class ProductException extends Exception
 
     public static function notProductExists(): ProductException
     {
-        return new self("Aucun produit trouvé");
+        return new self('Aucun produit trouvé');
     }
 }

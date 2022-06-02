@@ -27,7 +27,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     {
         $users = [
             ['email' => 'admin1@gmail.com', 'password' => 'admin1', 'role' => $this->roleRepository->findBy(['roleName' => RoleFixtures::ROLE_ADMIN])],
-            ['email' => 'visitor1@gmail.com', 'password' => 'visitor1', 'role' => $this->roleRepository->findBy(['roleName' => RoleFixtures::ROLE_VISITOR])]
+            ['email' => 'visitor1@gmail.com', 'password' => 'visitor1', 'role' => $this->roleRepository->findBy(['roleName' => RoleFixtures::ROLE_VISITOR])],
         ];
 
         foreach ($users as $addUser) {

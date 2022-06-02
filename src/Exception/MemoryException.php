@@ -13,6 +13,6 @@ class MemoryException extends Exception
 
     public static function notMemoryExists(): MemoryException
     {
-        return new self("Aucune capacité mémoire trouvée");
+        return new self('Aucune capacité mémoire trouvée');
     }
 }

@@ -13,6 +13,6 @@ class ColorException extends Exception
 
     public static function notColorExists(): ColorException
     {
-        return new self("Aucune couleur trouvée");
+        return new self('Aucune couleur trouvée');
     }
 }

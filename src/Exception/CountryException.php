@@ -13,6 +13,6 @@ class CountryException extends Exception
 
     public static function notCountryExists(): CountryException
     {
-        return new self("Aucun pays trouvé");
+        return new self('Aucun pays trouvé');
     }
 }

@@ -15,10 +15,9 @@ class AccessDeniedHandler extends AbstractController implements AccessDeniedHand
     {
         return $this->json(
             [
-                "success" => "false",
-                "message" => "Vous n'etes pas autorisé à accéder à cette page"
-            ]
-            ,Response::HTTP_FORBIDDEN
+                'success' => 'false',
+                'message' => "Vous n'etes pas autorisé à accéder à cette page",
+            ], Response::HTTP_FORBIDDEN
         );
     }
 }
