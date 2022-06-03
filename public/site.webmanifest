@@ -1,0 +1,9 @@
+{
+  "lang": "en-FR",
+  "name": "BileMo API",
+  "short_name": "BileMo",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
+  "start_url": "http://localhost:8000/swagger/index.html#/",
+  "orientation": "landscape",
+  "display": "fullscreen"
+}

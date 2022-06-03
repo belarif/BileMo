@@ -32,6 +32,8 @@ class CustomerManagement
     }
 
     /**
+     * @param CustomerDTO $customerDTO
+     * @return Customer
      * @throws CustomerException
      */
     public function createCustomer(CustomerDTO $customerDTO): Customer
@@ -72,7 +74,9 @@ class CustomerManagement
     }
 
     /**
-     * @throws CustomerException
+     * @param $customer
+     * @param CustomerDTO $customerDTO
+     * @return Customer
      */
     public function updateCustomer($customer, CustomerDTO $customerDTO): Customer
     {

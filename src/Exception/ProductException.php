@@ -6,7 +6,7 @@ use Exception;
 
 class ProductException extends Exception
 {
-    public static function ProductExists(string $name): ProductException
+    public static function productExists(string $name): ProductException
     {
         return new self("Le produit $name est déjà existant !");
     }

@@ -16,6 +16,8 @@ class MemoryManagement
     }
 
     /**
+     * @param $memoryDTO
+     * @return Memory
      * @throws MemoryException
      */
     public function createMemory($memoryDTO): Memory
@@ -44,6 +46,12 @@ class MemoryManagement
         return $memories;
     }
 
+    /**
+     * @param $memory
+     * @param $memoryDTO
+     * @return Memory
+     * @throws MemoryException
+     */
     public function updateMemory($memory, $memoryDTO): Memory
     {
         if ($this->memoryRepository->findBy(['memoryCapacity' => $memoryDTO->memoryCapacity])) {
