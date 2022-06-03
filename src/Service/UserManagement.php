@@ -59,7 +59,7 @@ class UserManagement
     /**
      * @throws UserException
      */
-    public function users(Customer $customer): array
+    public function users($customer): array
     {
         if (!$customer) {
             return $this->userRepository->findBy(['customer' => null]);
