@@ -35,6 +35,19 @@ class BrandController extends AbstractController
      *     description="bile-mo API main server"
      * )
      *
+     * @OA\SecurityScheme(
+     *     name="bearerAuth",
+     *     type="http",
+     *     securityScheme="bearerAuth",
+     *     description="Entrer le token JWT",
+     *     bearerFormat="JWT",
+     *     scheme="bearer"
+     * )
+     *
+     * @OA\OpenApi(
+     *     security={{"bearerAuth":{}}},
+     * )
+     *
      * @OA\Post(
      *     path="/brands",
      *     summary="Create a new brand",
