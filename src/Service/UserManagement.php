@@ -28,9 +28,8 @@ class UserManagement
     }
 
     /**
-     * @param UserDTO $userDTO
      * @param $customer
-     * @return User
+     *
      * @throws UserException
      */
     public function createUser(UserDTO $userDTO, $customer): User
@@ -75,12 +74,9 @@ class UserManagement
     }
 
     /**
-     * @param UserDTO $userDTO
-     * @param $user
      * @param $customer
-     * @return User
      */
-    public function updateUser(UserDTO $userDTO, $user, $customer): User
+    public function updateUser(UserDTO $userDTO, User $user, $customer): User
     {
         if (!$customer) {
             $user->setCustomer(null);

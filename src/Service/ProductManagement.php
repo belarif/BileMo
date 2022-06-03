@@ -44,8 +44,6 @@ class ProductManagement
     }
 
     /**
-     * @param ProductDTO $productDTO
-     * @return Product
      * @throws ProductException
      */
     public function createProduct(ProductDTO $productDTO): Product
@@ -95,12 +93,7 @@ class ProductManagement
         return $products;
     }
 
-    /**
-     * @param $product
-     * @param ProductDTO $productDTO
-     * @return Product
-     */
-    public function updateProduct($product, ProductDTO $productDTO): Product
+    public function updateProduct(Product $product, ProductDTO $productDTO): Product
     {
         $brand = $this->brandRepository->findOneBy(['id' => $productDTO->brand->id]);
         $memory = $this->memoryRepository->findOneBy(['id' => $productDTO->memory->id]);

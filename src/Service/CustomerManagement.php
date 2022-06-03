@@ -32,8 +32,6 @@ class CustomerManagement
     }
 
     /**
-     * @param CustomerDTO $customerDTO
-     * @return Customer
      * @throws CustomerException
      */
     public function createCustomer(CustomerDTO $customerDTO): Customer
@@ -73,12 +71,7 @@ class CustomerManagement
         return $customers;
     }
 
-    /**
-     * @param $customer
-     * @param CustomerDTO $customerDTO
-     * @return Customer
-     */
-    public function updateCustomer($customer, CustomerDTO $customerDTO): Customer
+    public function updateCustomer(Customer $customer, CustomerDTO $customerDTO): Customer
     {
         $customer->setEnabled($customerDTO->enabled);
 

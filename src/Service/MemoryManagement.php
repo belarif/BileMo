@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\DTO\MemoryDTO;
 use App\Entity\Memory;
 use App\Exception\MemoryException;
 use App\Repository\MemoryRepository;
@@ -16,11 +17,9 @@ class MemoryManagement
     }
 
     /**
-     * @param $memoryDTO
-     * @return Memory
      * @throws MemoryException
      */
-    public function createMemory($memoryDTO): Memory
+    public function createMemory(MemoryDTO $memoryDTO): Memory
     {
         if ($this->memoryRepository->findBy(['memoryCapacity' => $memoryDTO->memoryCapacity])) {
             throw MemoryException::memoryExists($memoryDTO->memoryCapacity);
@@ -47,12 +46,9 @@ class MemoryManagement
     }
 
     /**
-     * @param $memory
-     * @param $memoryDTO
-     * @return Memory
      * @throws MemoryException
      */
-    public function updateMemory($memory, $memoryDTO): Memory
+    public function updateMemory(Memory $memory, MemoryDTO $memoryDTO): Memory
     {
         if ($this->memoryRepository->findBy(['memoryCapacity' => $memoryDTO->memoryCapacity])) {
             throw MemoryException::memoryExists($memoryDTO->memoryCapacity);

@@ -275,17 +275,6 @@ class AdminController extends AbstractController
         try {
             $userDTO = $serializer->deserialize($request->getContent(), UserDTO::class, 'json');
 
-            $errors = $validator->validate($userDTO);
-            if ($errors->count()) {
-                return $this->json(
-                    [
-                        'success' => false,
-                        'message' => $errors[0]->getMessage(),
-                    ],
-                    Response::HTTP_BAD_REQUEST
-                );
-            }
-
             return $this->hateoasResponse($userManagement->updateUser($userDTO, $this->adminUser($userRepository, $admin_id), null));
         } catch (UserException $e) {
             return $this->json(

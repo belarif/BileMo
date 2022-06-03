@@ -17,11 +17,9 @@ class BrandManagement
     }
 
     /**
-     * @param $brandDTO
-     * @return Brand
      * @throws BrandException
      */
-    public function createBrand($brandDTO): Brand
+    public function createBrand(BrandDTO $brandDTO): Brand
     {
         if ($this->brandRepository->findBy(['name' => $brandDTO->name])) {
             throw BrandException::brandExists($brandDTO->name);
@@ -48,12 +46,9 @@ class BrandManagement
     }
 
     /**
-     * @param $brand
-     * @param BrandDTO $brandDTO
-     * @return Brand
      * @throws BrandException
      */
-    public function updateBrand($brand, BrandDTO $brandDTO): Brand
+    public function updateBrand(Brand $brand, BrandDTO $brandDTO): Brand
     {
         if ($this->brandRepository->findBy(['name' => $brandDTO->name])) {
             throw BrandException::brandExists($brandDTO->name);
