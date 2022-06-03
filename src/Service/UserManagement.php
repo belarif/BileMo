@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\Customer;
 use App\Entity\DTO\UserDTO;
 use App\Entity\User;
 use App\Exception\UserException;
