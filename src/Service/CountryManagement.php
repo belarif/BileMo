@@ -48,12 +48,12 @@ class CountryManagement
     }
 
     /**
-     * @param $country
+     * @param Country $country
      * @param CountryDTO $countryDTO
      * @return Country
      * @throws CountryException
      */
-    public function updateCountry($country, CountryDTO $countryDTO): Country
+    public function updateCountry(Country $country, CountryDTO $countryDTO): Country
     {
         if ($this->countryRepository->findBy(['name' => $countryDTO->name])) {
             throw CountryException::countryExists($countryDTO->name);

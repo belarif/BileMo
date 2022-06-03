@@ -96,11 +96,11 @@ class ProductManagement
     }
 
     /**
-     * @param $product
+     * @param Product $product
      * @param ProductDTO $productDTO
      * @return Product
      */
-    public function updateProduct($product, ProductDTO $productDTO): Product
+    public function updateProduct(Product $product, ProductDTO $productDTO): Product
     {
         $brand = $this->brandRepository->findOneBy(['id' => $productDTO->brand->id]);
         $memory = $this->memoryRepository->findOneBy(['id' => $productDTO->memory->id]);

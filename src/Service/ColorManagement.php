@@ -48,12 +48,12 @@ class ColorManagement
     }
 
     /**
-     * @param $color
+     * @param Color $color
      * @param ColorDTO $colorDTO
      * @return Color
      * @throws ColorException
      */
-    public function updateColor($color, ColorDTO $colorDTO): Color
+    public function updateColor(Color $color, ColorDTO $colorDTO): Color
     {
         if ($this->colorRepository->findBy(['name' => $colorDTO->name])) {
             throw ColorException::colorExists($colorDTO->name);

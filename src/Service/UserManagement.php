@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Customer;
 use App\Entity\DTO\UserDTO;
 use App\Entity\User;
 use App\Exception\UserException;
@@ -57,9 +58,11 @@ class UserManagement
     }
 
     /**
+     * @param Customer $customer
+     * @return array
      * @throws UserException
      */
-    public function users($customer): array
+    public function users(Customer $customer): array
     {
         if (!$customer) {
             return $this->userRepository->findBy(['customer' => null]);
@@ -76,11 +79,11 @@ class UserManagement
 
     /**
      * @param UserDTO $userDTO
-     * @param $user
+     * @param User $user
      * @param $customer
      * @return User
      */
-    public function updateUser(UserDTO $userDTO, $user, $customer): User
+    public function updateUser(UserDTO $userDTO, User $user, $customer): User
     {
         if (!$customer) {
             $user->setCustomer(null);
