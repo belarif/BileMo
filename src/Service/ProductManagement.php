@@ -44,6 +44,8 @@ class ProductManagement
     }
 
     /**
+     * @param ProductDTO $productDTO
+     * @return Product
      * @throws ProductException
      */
     public function createProduct(ProductDTO $productDTO): Product
@@ -94,7 +96,9 @@ class ProductManagement
     }
 
     /**
-     * @throws ProductException
+     * @param $product
+     * @param ProductDTO $productDTO
+     * @return Product
      */
     public function updateProduct($product, ProductDTO $productDTO): Product
     {

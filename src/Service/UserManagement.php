@@ -28,6 +28,9 @@ class UserManagement
     }
 
     /**
+     * @param UserDTO $userDTO
+     * @param $customer
+     * @return User
      * @throws UserException
      */
     public function createUser(UserDTO $userDTO, $customer): User
@@ -72,7 +75,10 @@ class UserManagement
     }
 
     /**
-     * @throws UserException
+     * @param UserDTO $userDTO
+     * @param $user
+     * @param $customer
+     * @return User
      */
     public function updateUser(UserDTO $userDTO, $user, $customer): User
     {
