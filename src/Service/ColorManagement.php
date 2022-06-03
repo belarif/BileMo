@@ -17,8 +17,6 @@ class ColorManagement
     }
 
     /**
-     * @param ColorDTO $colorDTO
-     * @return Color
      * @throws ColorException
      */
     public function createColor(ColorDTO $colorDTO): Color
@@ -48,9 +46,6 @@ class ColorManagement
     }
 
     /**
-     * @param Color $color
-     * @param ColorDTO $colorDTO
-     * @return Color
      * @throws ColorException
      */
     public function updateColor(Color $color, ColorDTO $colorDTO): Color

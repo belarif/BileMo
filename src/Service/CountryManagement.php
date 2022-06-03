@@ -17,8 +17,6 @@ class CountryManagement
     }
 
     /**
-     * @param CountryDTO $countryDTO
-     * @return Country
      * @throws CountryException
      */
     public function createCountry(CountryDTO $countryDTO): Country
@@ -48,9 +46,6 @@ class CountryManagement
     }
 
     /**
-     * @param Country $country
-     * @param CountryDTO $countryDTO
-     * @return Country
      * @throws CountryException
      */
     public function updateCountry(Country $country, CountryDTO $countryDTO): Country

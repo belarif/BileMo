@@ -17,8 +17,6 @@ class BrandManagement
     }
 
     /**
-     * @param BrandDTO $brandDTO
-     * @return Brand
      * @throws BrandException
      */
     public function createBrand(BrandDTO $brandDTO): Brand
@@ -48,9 +46,6 @@ class BrandManagement
     }
 
     /**
-     * @param Brand $brand
-     * @param BrandDTO $brandDTO
-     * @return Brand
      * @throws BrandException
      */
     public function updateBrand(Brand $brand, BrandDTO $brandDTO): Brand

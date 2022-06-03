@@ -2,7 +2,7 @@
 
 use OpenApi\Annotations as OA;
 
-/**
+/*
  * @OA\Info(
  *     title="BileMo API",
  *     description="BileMo est un service web proposant une sélection de téléphones mobiles",

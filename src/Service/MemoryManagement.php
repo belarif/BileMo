@@ -17,8 +17,6 @@ class MemoryManagement
     }
 
     /**
-     * @param MemoryDTO $memoryDTO
-     * @return Memory
      * @throws MemoryException
      */
     public function createMemory(MemoryDTO $memoryDTO): Memory
@@ -48,9 +46,6 @@ class MemoryManagement
     }
 
     /**
-     * @param Memory $memory
-     * @param MemoryDTO $memoryDTO
-     * @return Memory
      * @throws MemoryException
      */
     public function updateMemory(Memory $memory, MemoryDTO $memoryDTO): Memory

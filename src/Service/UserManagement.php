@@ -29,9 +29,8 @@ class UserManagement
     }
 
     /**
-     * @param UserDTO $userDTO
      * @param $customer
-     * @return User
+     *
      * @throws UserException
      */
     public function createUser(UserDTO $userDTO, $customer): User
@@ -58,8 +57,6 @@ class UserManagement
     }
 
     /**
-     * @param Customer $customer
-     * @return array
      * @throws UserException
      */
     public function users(Customer $customer): array
@@ -78,10 +75,7 @@ class UserManagement
     }
 
     /**
-     * @param UserDTO $userDTO
-     * @param User $user
      * @param $customer
-     * @return User
      */
     public function updateUser(UserDTO $userDTO, User $user, $customer): User
     {
