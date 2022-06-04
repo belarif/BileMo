@@ -21,6 +21,9 @@ si vous utilisez un server autre que WampServer64, positionnez vous sur le chemi
 ### Installation des dépendances
                 composer install
 
+### Génération de SSL keys privé et public pour JWT
+                php bin/console lexik:jwt:generate-keypair
+
 ### Création de la base de données
 1. Créer votre base de données en local
 2. Modifier le fichier .env pour adapater les accès à votre SGBD
