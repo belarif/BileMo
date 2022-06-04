@@ -32,3 +32,10 @@ si vous utilisez un server autre que WampServer64, positionnez vous sur le chemi
                 php bin/console doctrine:fixtures:load
 ### Lancement de l'API
                 php -S localhost:8000 -t public/
+
+### Lancement de la documentation de l'API
+1. génération du fichier swagger.json
+####
+
+                ./vendor/bin/openapi --format json --output ./public/swagger/swagger.json ./src/swagger/swagger.php src
+
