@@ -42,6 +42,14 @@ class CustomerController extends AbstractController
      *             @OA\Property(
      *                 property="enabled",
      *                 type="boolean"
+     *             ),
+     *             @OA\Property(
+     *                 property="email",
+     *                 type="string"
+     *             ),
+     *             @OA\Property(
+     *                 property="password",
+     *                 type="string"
      *             )
      *         )
      *     ),
