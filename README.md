@@ -41,4 +41,7 @@ si vous utilisez un server autre que WampServer64, positionnez vous sur le chemi
 ####
 
                 ./vendor/bin/openapi --format json --output ./public/swagger/swagger.json ./src/swagger/swagger.php src
+2. consultation de  la documentation
+####
+                http://localhost:8000/swagger/index.html#/
 
