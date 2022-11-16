@@ -36,6 +36,10 @@ si vous utilisez un server autre que WampServer64, positionnez vous sur le chemi
 ### Lancement de l'API
                 php -S localhost:8000 -t public/
 
+### Génération du token depuis Postman :
+                - username : admin1@gmail.com
+                - password : admin1
+
 ### Lancement de la documentation de l'API
 1. génération du fichier swagger.json
 ####
